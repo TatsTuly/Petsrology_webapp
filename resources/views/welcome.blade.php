@@ -17,12 +17,12 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 300px; /* Increased width */
+            width: 420px;
             height: 100%;
             background: #fff;
             box-shadow: 2px 0 8px rgba(0,0,0,0.08);
             z-index: 1000;
-            padding-top: 60px;
+            padding-top: 0;
             transform: translateX(-100%);
             transition: transform 0.3s;
         }
@@ -30,19 +30,16 @@
             transform: translateX(0);
         }
         .drawer-header {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 300px; /* Increased width */
+            width: 100%;
             height: 60px;
             background: #ff6f61;
             color: #fff;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            letter-spacing: 2px;
+            justify-content: flex-start;
+            padding-left: 28px;
+            gap: 14px;
+            box-sizing: border-box;
         }
         .drawer ul {
             list-style: none;
@@ -88,7 +85,7 @@
             transition: margin-left 0.3s;
         }
         .drawer.open ~ .main-content {
-            margin-left: 300px;
+            margin-left: 420px;
         }
         header {
             padding: 40px 20px;
@@ -210,33 +207,45 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transition: background 0.2s, color 0.2s, border 0.2s, transform 0.15s;
         }
         .login-btn {
-            background: linear-gradient(90deg, #ff6f61 60%, #ff9472 100%);
-            color: #fff !important;
+            background: #ff6f61;
+            color: #fff;
+            text-align: center;
+            padding: 12px 32px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
             border: none;
-            box-shadow: 0 2px 12px rgba(255,111,97,0.13);
+            margin-right: 8px;
+            display: inline-block;
         }
         .login-btn:hover, .login-btn:focus {
-            background: linear-gradient(90deg, #e65c50 60%, #ff9472 100%);
-            color: #fff !important;
-            box-shadow: 0 6px 24px rgba(255,111,97,0.20);
-            transform: translateY(-2px) scale(1.07);
-            letter-spacing: 2px;
+            background: #e65c50;
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px rgba(255,111,97,0.13);
         }
         .signup-btn {
             background: #fff;
-            color: #ff6f61 !important;
+            color: #ff6f61;
+            text-align: center;
+            padding: 12px 32px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
             border: 2px solid #ff6f61;
-            box-shadow: 0 2px 12px rgba(255,111,97,0.07);
+            display: inline-block;
         }
         .signup-btn:hover, .signup-btn:focus {
             background: #ff6f61;
-            color: #fff !important;
-            box-shadow: 0 6px 24px rgba(255,111,97,0.20);
-            transform: translateY(-2px) scale(1.07);
-            letter-spacing: 2px;
-            border: 2px solid #ff6f61;
+            color: #fff;
+            border-color: #e65c50;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px rgba(255,111,97,0.13);
         }
         @media (max-width: 900px) {
             .features {
@@ -247,7 +256,7 @@
         }
         @media (max-width: 700px) {
             .drawer, .drawer-header {
-                width: 220px; /* Also increase for mobile */
+                width: 220px; 
             }
             .drawer.open ~ .main-content {
                 margin-left: 220px;
@@ -262,7 +271,20 @@
 <body>
     <button class="drawer-toggle" id="drawerToggle">&#9776;</button>
     <nav class="drawer" id="drawer">
-        <div class="drawer-header">PETSROLOGY</div>
+        <div class="drawer-header">
+            <span style="display:flex;align-items:center;">
+                <span style="width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ff6f61 70%,#ff9472 100%);border-radius:50%;box-shadow:0 2px 8px rgba(255,111,97,0.13);margin-right:10px;">
+                    <svg width="24" height="24" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    </svg>
+                </span>
+                <span style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;color:#fff;">PETSROLOGY</span>
+            </span>
+        </div>
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">Adopt a Pet</a></li>
@@ -273,11 +295,25 @@
     </nav>
     <div class="main-content">
         <header>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
+                <div style="width:70px;height:70px;background:linear-gradient(135deg,#ff6f61 70%,#ff9472 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
+                    
+                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    </svg>
+                </div>
+            </div>
+            
             <h1>Welcome to PETSROLOGY</h1>
             <p>Your one-stop platform for all pet needs</p>
             <div style="margin-top: 25px; display: flex; justify-content: center; gap: 16px;">
-                <a href="#" style="background:#ff6f61;color:#fff;text-align:center;padding:12px 32px;border-radius:5px;text-decoration:none;font-weight:600;transition:background 0.2s;font-size:1.1rem;">Login</a>
-                <a href="#" style="background:#fff;color:#ff6f61;text-align:center;padding:12px 32px;border-radius:5px;text-decoration:none;font-weight:600;border:2px solid #ff6f61;transition:background 0.2s;font-size:1.1rem;">Sign Up</a>
+                <a href="{{ url('/login') }}" class="btn login-btn">Login</a>
+                <a href="{{ url('/signup') }}" class="btn signup-btn">Sign Up</a>
             </div>
         </header>
 
