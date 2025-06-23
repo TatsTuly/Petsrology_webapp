@@ -247,6 +247,22 @@
             transform: translateY(-2px) scale(1.04);
             box-shadow: 0 4px 16px rgba(255,111,97,0.13);
         }
+        .fade-in-title {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            animation: fadeInUp 1s 0.2s forwards;
+        }
+        .fade-in-subtitle {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            animation: fadeInUp 1s 0.7s forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
         @media (max-width: 900px) {
             .features {
                 flex-direction: column;
@@ -291,6 +307,7 @@
             <li><a href="#">Veterinary Support</a></li>
             <li><a href="#">Pet Supplies</a></li>
             <li><a href="#">Contact</a></li>
+            <li><a href="#">About Us</a></li>
         </ul>
     </nav>
     <div class="main-content">
@@ -309,8 +326,8 @@
                 </div>
             </div>
             
-            <h1>Welcome to PETSROLOGY</h1>
-            <p>Your one-stop platform for all pet needs</p>
+            <h1 class="fade-in-title">Welcome to PETSROLOGY</h1>
+            <p class="fade-in-subtitle">Your one-stop platform for all pet needs</p>
             <div style="margin-top: 25px; display: flex; justify-content: center; gap: 16px;">
                 <a href="{{ url('/login') }}" class="btn login-btn">Login</a>
                 <a href="{{ url('/signup') }}" class="btn signup-btn">Sign Up</a>

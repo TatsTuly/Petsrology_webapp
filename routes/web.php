@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('splash_screen');
+});
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -24,3 +28,4 @@ Route::get('/signup', function () {
 Route::get('/login', function () {
     return view('login');
 });
+

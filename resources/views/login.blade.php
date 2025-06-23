@@ -127,8 +127,7 @@
             <h2>Login to PETSROLOGY</h2>
         </div>
         <form class="login-form" method="POST" action="#">
-            <!-- CSRF Token (if using Laravel backend) -->
-            <!-- @csrf -->
+            
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required placeholder="you@email.com">
 
