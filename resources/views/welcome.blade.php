@@ -272,7 +272,7 @@
         }
         @media (max-width: 700px) {
             .drawer, .drawer-header {
-                width: 220px; 
+                width: 220px;
             }
             .drawer.open ~ .main-content {
                 margin-left: 220px;
@@ -302,9 +302,9 @@
             </span>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="{{ url('/welcome') }}">Home</a></li>
             <li><a href="#">Adopt a Pet</a></li>
-            <li><a href="#">Veterinary Support</a></li>
+            <li><a href="{{ url('/vet-home') }}">Veterinary Support</a></li>
             <li><a href="#">Pet Supplies</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#">About Us</a></li>
@@ -312,10 +312,10 @@
     </nav>
     <div class="main-content">
         <header>
-            
+
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
                 <div style="width:70px;height:70px;background:linear-gradient(135deg,#ff6f61 70%,#ff9472 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                    
+
                     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
                         <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
                         <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
@@ -325,7 +325,7 @@
                     </svg>
                 </div>
             </div>
-            
+
             <h1 class="fade-in-title">Welcome to PETSROLOGY</h1>
             <p class="fade-in-subtitle">Your one-stop platform for all pet needs</p>
             <div style="margin-top: 25px; display: flex; justify-content: center; gap: 16px;">
@@ -340,7 +340,7 @@
                 <h3>Adopt a Pet</h3>
                 <p>Find your perfect furry friend and give them a loving home.</p>
             </div>
-            <div class="feature">
+            <div class="feature" onclick="window.location.href='{{ url('/vet-home') }}'" style="cursor: pointer;">
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f43e.png" alt="Veterinary Support" />
                 <h3>Veterinary Support</h3>
                 <p>Get expert veterinary advice and support for your pets.</p>

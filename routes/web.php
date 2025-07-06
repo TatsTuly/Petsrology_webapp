@@ -29,3 +29,7 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/vet-home', function () {
+    return view('vet_home');
+});
+
