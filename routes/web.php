@@ -33,3 +33,7 @@ Route::get('/vet-home', function () {
     return view('vet_home');
 });
 
+Route::get('/adopt-home', function () {
+    return view('adopt_home');
+});
+

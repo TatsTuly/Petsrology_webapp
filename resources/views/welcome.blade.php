@@ -247,6 +247,27 @@
             transform: translateY(-2px) scale(1.04);
             box-shadow: 0 4px 16px rgba(255,111,97,0.13);
         }
+        .feature-btn {
+            background: #ff6f61;
+            color: white;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s, letter-spacing 0.18s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(255,111,97,0.10);
+            letter-spacing: 1px;
+            margin-top: 55px;
+        }
+        .feature-btn:hover {
+            background: #e65c50;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px rgba(255,111,97,0.13);
+        }
         .fade-in-title {
             opacity: 0;
             transform: translateY(30px) scale(0.98);
@@ -303,7 +324,7 @@
         </div>
         <ul>
             <li><a href="{{ url('/welcome') }}">Home</a></li>
-            <li><a href="#">Adopt a Pet</a></li>
+            <li><a href="{{ url('/adopt-home') }}">Adopt a Pet</a></li>
             <li><a href="{{ url('/vet-home') }}">Veterinary Support</a></li>
             <li><a href="#">Pet Supplies</a></li>
             <li><a href="#">Contact</a></li>
@@ -339,16 +360,19 @@
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f415.png" alt="Adopt a Pet" />
                 <h3>Adopt a Pet</h3>
                 <p>Find your perfect furry friend and give them a loving home.</p>
+                <a href="{{ url('/adopt-home') }}" class="feature-btn">Browse Pets</a>
             </div>
             <div class="feature" onclick="window.location.href='{{ url('/vet-home') }}'" style="cursor: pointer;">
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f43e.png" alt="Veterinary Support" />
                 <h3>Veterinary Support</h3>
                 <p>Get expert veterinary advice and support for your pets.</p>
+                <a href="{{ url('/vet-home') }}" class="feature-btn" onclick="event.stopPropagation();">Find a Vet</a>
             </div>
             <div class="feature">
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6d2.png" alt="Pet Supplies" />
                 <h3>Pet Supplies</h3>
                 <p>Shop for high-quality pet food, toys, and accessories.</p>
+                <a href="#" class="feature-btn">Shop Now</a>
             </div>
         </section>
 

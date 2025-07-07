@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veterinary Support - PETSROLOGY</title>
+    <title>Adopt a Pet - PETSROLOGY</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -125,150 +125,164 @@
         .back-btn:hover {
             background: rgba(255,255,255,0.3);
         }
-        .services {
-            padding: 40px 20px;
-            max-width: 1200px;
+        .greeting-section {
+            padding: 30px 20px 20px;
+            background: #fff;
+        }
+        .greeting-content {
+            max-width: 800px;
             margin: 0 auto;
         }
-        .services h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #ff6f61;
-            font-weight: 700;
-            letter-spacing: 1px;
+        .greeting-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
         }
-        .services-subtitle {
-            text-align: center;
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 1.2rem;
+            font-weight: 700;
+            overflow: hidden;
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .greeting-text h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 700;
+        }
+        .greeting-text p {
+            margin: 5px 0 0;
             color: #666;
-            margin-bottom: 40px;
-            font-weight: 400;
+            font-size: 1.1rem;
         }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            margin-bottom: 40px;
+        .categories {
+            padding: 20px 20px 40px;
+            background: #fff;
+        }
+        .categories-content {
             max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
         }
-        .service-card {
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .category-card {
             background: #fff;
             border-radius: 18px;
             box-shadow: 0 4px 18px rgba(255,111,97,0.10), 0 1.5px 6px rgba(0,0,0,0.04);
-            padding: 28px 24px 24px 24px;
+            padding: 20px;
             text-align: center;
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
             transition: box-shadow 0.25s, transform 0.25s, border 0.25s;
             border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
         }
-        .service-card:hover {
+        .category-card:hover {
             box-shadow: 0 8px 32px rgba(255,111,97,0.18), 0 3px 12px rgba(0,0,0,0.08);
             border: 2px solid #ff6f61;
-            transform: translateY(-8px) scale(1.03);
+            transform: translateY(-5px) scale(1.02);
         }
-        .service-card::after {
-            content: "";
-            position: absolute;
-            left: -60px;
-            top: -60px;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, #ff6f6130 60%, transparent 100%);
-            z-index: 0;
-            opacity: 0.7;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }
-        .service-card:hover::after {
-            opacity: 1;
-        }
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 18px;
-            display: block;
-            transition: transform 0.2s;
-        }
-        .service-card:hover .service-icon {
-            transform: scale(1.12) rotate(-6deg);
-        }
-        .service-card h3 {
-            font-size: 1.45rem;
-            margin: 10px 0 8px 0;
-            color: #ff6f61;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .service-card p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-        }
-        .service-btn {
-            background: #ff6f61;
+        .category-card.active {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
-            border: none;
-            padding: 9px 22px;
-            border-radius: 24px;
-            cursor: pointer;
-            font-weight: 700;
+            border: 2px solid #ff6f61;
+        }
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .category-card h4 {
+            margin: 0;
             font-size: 1rem;
-            transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s, letter-spacing 0.18s;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 2px 8px rgba(255,111,97,0.10);
-            letter-spacing: 1px;
+            font-weight: 600;
         }
-        .service-btn:hover {
-            background: #e65c50;
-            transform: translateY(-2px) scale(1.04);
-            box-shadow: 0 4px 16px rgba(255,111,97,0.13);
+        .pets-section {
+            padding: 0 20px 40px;
+            background: #fff;
         }
-        }
-        .emergency-section {
-            background: #fff3f2;
-            padding: 40px 20px;
-            margin: 20px 0;
-        }
-        .emergency-content {
+        .pets-content {
             max-width: 800px;
             margin: 0 auto;
-            text-align: center;
         }
-        .emergency-content h2 {
-            color: #d32f2f;
+        .pets-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .pet-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(255,111,97,0.10), 0 1.5px 6px rgba(0,0,0,0.04);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: box-shadow 0.25s, transform 0.25s, border 0.25s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .pet-card:hover {
+            box-shadow: 0 8px 32px rgba(255,111,97,0.18), 0 3px 12px rgba(0,0,0,0.08);
+            border: 2px solid #ff6f61;
+            transform: translateY(-3px) scale(1.01);
+        }
+        .pet-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 2rem;
-            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .pet-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .pet-info {
+            flex: 1;
+        }
+        .pet-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.3rem;
+            color: #333;
             font-weight: 700;
         }
-        .emergency-content p {
-            font-size: 1.1rem;
+        .pet-breed {
             color: #666;
-            margin-bottom: 25px;
+            margin: 0 0 5px 0;
+            font-size: 1rem;
         }
-        .emergency-btn {
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: background 0.2s, transform 0.15s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .emergency-btn:hover {
-            background: #b71c1c;
-            transform: translateY(-2px) scale(1.04);
+        .pet-details {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0;
         }
         .contact-section {
             background: white;
@@ -318,22 +332,6 @@
             border: 2px solid #ff6f61;
             transform: translateY(-5px) scale(1.02);
         }
-        .contact-item::after {
-            content: "";
-            position: absolute;
-            left: -40px;
-            top: -40px;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ff6f6120 60%, transparent 100%);
-            z-index: 0;
-            opacity: 0.7;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }
-        .contact-item:hover::after {
-            opacity: 1;
-        }
         .contact-icon {
             font-size: 2rem;
             margin-bottom: 12px;
@@ -368,27 +366,12 @@
             font-size: 0.9rem;
         }
         @media (max-width: 900px) {
-            .services {
-                padding: 30px 20px;
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .services h2 {
-                font-size: 2rem;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            .emergency-section {
-                padding: 30px 20px;
-            }
-            .emergency-content h2 {
-                font-size: 1.8rem;
-            }
-            .contact-section {
-                padding: 50px 20px;
-            }
-            .contact-content h2 {
-                font-size: 2rem;
+            .pet-card {
+                flex-direction: column;
+                text-align: center;
             }
             .contact-info {
                 flex-direction: column;
@@ -414,19 +397,20 @@
             header h1 {
                 font-size: 2rem;
             }
-            .service-card {
-                width: 90vw;
-                min-width: 0;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
             .back-btn {
                 top: 15px;
                 right: 15px;
                 padding: 6px 12px;
                 font-size: 0.8rem;
+            }
+            .greeting-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
@@ -462,76 +446,151 @@
             <a href="{{ url('/welcome') }}" class="back-btn">← Back to Home</a>
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
                 <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                    <span style="font-size:2.5rem;">🏥</span>
+                    <span style="font-size:2.5rem;">🐾</span>
                 </div>
             </div>
-            <h1>Veterinary Support</h1>
-            <p>Professional care for your beloved pets</p>
+            <h1>Adopt a Pet</h1>
+            <p>Find your perfect companion and give them a loving home</p>
         </header>
 
-        <section class="services">
-            <h2>Our Pet Care Services</h2>
-            <p class="services-subtitle">Comprehensive healthcare solutions for your beloved companions</p>
-            <div class="services-grid">
-                <div class="service-card">
-                    <span class="service-icon">🩺</span>
-                    <h3>General Checkup</h3>
-                    <p>Comprehensive health examinations to keep your pet healthy and detect any issues early. Regular checkups are essential for your pet's wellbeing.</p>
-                    <a href="#" class="service-btn">Book Appointment</a>
+        <section class="greeting-section">
+            <div class="greeting-content">
+                <div class="greeting-header">
+                    <div class="user-avatar">
+                        <img src="{{ asset('assets/user_image/pic1.png') }}" alt="User Avatar" />
+                    </div>
+                    <div class="greeting-text">
+                        <h2>Hi, Shaf</h2>
+                    </div>
                 </div>
-                <div class="service-card">
-                    <span class="service-icon">💉</span>
-                    <h3>Vaccinations</h3>
-                    <p>Essential vaccination services to protect your pet from diseases and infections. Keep your furry friend safe with up-to-date immunizations.</p>
-                    <a href="#" class="service-btn">Schedule Vaccination</a>
-                </div>
-                <div class="service-card">
-                    <span class="service-icon">🏥</span>
-                    <h3>Surgery</h3>
-                    <p>Advanced surgical procedures performed by experienced veterinary surgeons. From routine spaying to complex operations, we provide expert care.</p>
-                    <a href="#" class="service-btn">Surgical Consultation</a>
-                </div>
-                <div class="service-card">
-                    <span class="service-icon">✂️</span>
-                    <h3>Pet Grooming</h3>
-                    <p>Professional grooming services including bathing, nail trimming, hair cutting, and overall hygiene care for your beloved pet.</p>
-                    <a href="#" class="service-btn">Book Grooming</a>
+                <h3 style="margin: 0; font-size: 1.5rem; color: #333; font-weight: 700;">Adopt your pet's here!</h3>
+            </div>
+        </section>
+
+        <section class="categories">
+            <div class="categories-content">
+                <div class="categories-grid">
+                    <div class="category-card active" onclick="filterPets('cats')">
+                        <div class="category-icon">🐱</div>
+                        <h4>Cats</h4>
+                    </div>
+                    <div class="category-card" onclick="filterPets('dogs')">
+                        <div class="category-icon">🐶</div>
+                        <h4>Dogs</h4>
+                    </div>
+                    <div class="category-card" onclick="filterPets('birds')">
+                        <div class="category-icon">🐦</div>
+                        <h4>Birds</h4>
+                    </div>
+                    <div class="category-card" onclick="filterPets('other')">
+                        <div class="category-icon">🐰</div>
+                        <h4>Other</h4>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="emergency-section">
-            <div class="emergency-content">
-                <h2>🚨 Pet Emergency Services</h2>
-                <p>We provide 24/7 emergency veterinary care for your pets in urgent situations. Our experienced veterinary team is always ready to help your furry friends during critical moments.</p>
-                <a href="#" class="emergency-btn">Call Pet Emergency: +880 1777-987654</a>
+        <section class="pets-section">
+            <div class="pets-content">
+                <div class="pets-grid" id="petsGrid">
+                    <div class="pet-card" data-category="cats">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=160&h=160&fit=crop&auto=format" alt="Milo" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Milo</h3>
+                            <p class="pet-breed">Mixed</p>
+                            <p class="pet-details">Female, 1 year old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="cats">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=160&h=160&fit=crop&auto=format" alt="Sir Whiskerlot" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Sir Whiskerlot</h3>
+                            <p class="pet-breed">Maine Coon</p>
+                            <p class="pet-details">Female, 2 year old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="cats">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=160&h=160&fit=crop&auto=format" alt="Mochi" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Mochi</h3>
+                            <p class="pet-breed">Persian cat</p>
+                            <p class="pet-details">Female, 3 years year old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="dogs" style="display: none;">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=160&h=160&fit=crop&auto=format" alt="Buddy" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Buddy</h3>
+                            <p class="pet-breed">Golden Retriever</p>
+                            <p class="pet-details">Male, 2 years old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="dogs" style="display: none;">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=160&h=160&fit=crop&auto=format" alt="Luna" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Luna</h3>
+                            <p class="pet-breed">Labrador</p>
+                            <p class="pet-details">Female, 1.5 years old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="birds" style="display: none;">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=160&h=160&fit=crop&auto=format" alt="Charlie" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Charlie</h3>
+                            <p class="pet-breed">Parakeet</p>
+                            <p class="pet-details">Male, 6 months old</p>
+                        </div>
+                    </div>
+                    <div class="pet-card" data-category="other" style="display: none;">
+                        <div class="pet-image">
+                            <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=160&h=160&fit=crop&auto=format" alt="Snowball" />
+                        </div>
+                        <div class="pet-info">
+                            <h3>Snowball</h3>
+                            <p class="pet-breed">Holland Lop Rabbit</p>
+                            <p class="pet-details">Female, 8 months old</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="contact-section">
             <div class="contact-content">
-                <h2>Contact Our Pet Care Team</h2>
-                <p class="contact-subtitle">Professional veterinary services for your beloved companions</p>
+                <h2>Contact Our Adoption Team</h2>
+                <p class="contact-subtitle">We're here to help you find your perfect companion</p>
                 <div class="contact-info">
                     <div class="contact-item">
                         <span class="contact-icon">📍</span>
-                        <h4>Our Location</h4>
+                        <h4>Visit Us</h4>
                         <p>House 15, Road 27, Block K<br>Banani, Dhaka-1213<br>Bangladesh</p>
                     </div>
                     <div class="contact-item">
                         <span class="contact-icon">📞</span>
                         <h4>Call Us</h4>
-                        <p>Pet Care: +880 1711-234567<br>Emergency: +880 1777-987654</p>
+                        <p>+880 1777-123456<br>+880 1888-654321</p>
                     </div>
                     <div class="contact-item">
                         <span class="contact-icon">📧</span>
                         <h4>Email Us</h4>
-                        <p>petcare@petsrology.com.bd<br>emergency@petsrology.com.bd</p>
+                        <p>adopt@petsrology.com<br>info@petsrology.com</p>
                     </div>
                     <div class="contact-item">
-                        <span class="contact-icon">🕒</span>
-                        <h4>Visit Hours</h4>
-                        <p>Sun-Thu: 9:00 AM - 9:00 PM<br>Fri-Sat: 10:00 AM - 7:00 PM<br>Emergency: 24/7</p>
+                        <span class="contact-icon">🕐</span>
+                        <h4>Open Hours</h4>
+                        <p>Mon-Sat: 9AM-7PM<br>Sunday: 10AM-5PM</p>
                     </div>
                 </div>
             </div>
@@ -558,6 +617,23 @@
                 document.querySelector('.main-content').classList.remove('drawer-open');
             }
         });
+
+        function filterPets(category) {
+    
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            event.target.closest('.category-card').classList.add('active');
+            
+            document.querySelectorAll('.pet-card').forEach(pet => {
+                if (pet.dataset.category === category) {
+                    pet.style.display = 'flex';
+                } else {
+                    pet.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
