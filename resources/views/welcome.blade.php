@@ -326,7 +326,7 @@
             <li><a href="{{ url('/welcome') }}">Home</a></li>
             <li><a href="{{ url('/adopt-home') }}">Adopt a Pet</a></li>
             <li><a href="{{ url('/vet-home') }}">Veterinary Support</a></li>
-            <li><a href="#">Pet Supplies</a></li>
+            <li><a href="{{ route('pet.supplies') }}">Pet Supplies</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#">About Us</a></li>
         </ul>
@@ -372,9 +372,14 @@
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6d2.png" alt="Pet Supplies" />
                 <h3>Pet Supplies</h3>
                 <p>Shop for high-quality pet food, toys, and accessories.</p>
-                <a href="#" class="feature-btn">Shop Now</a>
+                <a href="{{ route('pet.supplies') }}" class="feature-btn">Shop Now</a>
             </div>
         </section>
+
+        {{-- Pet Supply Support link --}}
+        <a href="{{ route('pet.supplies') }}" class="btn btn-outline-success" style="margin: 12px 0; display: inline-block;">
+            Pet Supply Support
+        </a>
 
         <footer>
             <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>

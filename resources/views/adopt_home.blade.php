@@ -436,7 +436,7 @@
             <li><a href="{{ url('/welcome') }}">Home</a></li>
             <li><a href="{{ url('/adopt-home') }}">Adopt a Pet</a></li>
             <li><a href="{{ url('/vet-home') }}">Veterinary Support</a></li>
-            <li><a href="#">Pet Supplies</a></li>
+            <li><a href="{{ route('pet.supplies') }}">Pet Supplies</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#">About Us</a></li>
         </ul>

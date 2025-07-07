@@ -37,3 +37,11 @@ Route::get('/adopt-home', function () {
     return view('adopt_home');
 });
 
+Route::get('/pet-supplies', function () {
+    return view('pet_supplies');
+})->name('pet.supplies');
+
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
+
