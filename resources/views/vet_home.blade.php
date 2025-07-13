@@ -14,78 +14,104 @@
             color: #333;
             line-height: 1.6;
         }
-        .drawer {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 420px;
-            height: 100%;
+        .navbar {
             background: #fff;
-            box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 0;
+            position: sticky;
+            top: 0;
             z-index: 1000;
-            padding-top: 0;
-            transform: translateX(-100%);
-            transition: transform 0.3s;
         }
-        .drawer.open {
-            transform: translateX(0);
-        }
-        .drawer-header {
+        .navbar-container {
             width: 100%;
-            height: 60px;
-            background: #ff6f61;
-            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 70px;
+        }
+        .navbar-brand {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            padding-left: 28px;
-            gap: 14px;
-            box-sizing: border-box;
+            text-decoration: none;
+            color: #333;
+            margin-left: 0;
         }
-        .drawer ul {
+        .navbar-brand:hover {
+            color: #333;
+            text-decoration: none;
+        }
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
+            margin-right: 12px;
+        }
+        .brand-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #ff6f61;
+        }
+        .navbar-nav {
+            display: flex;
             list-style: none;
-            padding: 0;
             margin: 0;
+            padding: 0;
+            gap: 8px;
+            margin-right: 20px;
         }
-        .drawer ul li {
-            padding: 18px 30px;
-            border-bottom: 1px solid #f0f0f0;
+        .nav-item {
+            position: relative;
         }
-        .drawer ul li a {
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
             color: #333;
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.2s;
+            font-size: 1rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .drawer ul li a:hover {
-            color: #ff6f61;
-        }
-        .drawer-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1100;
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
             background: #ff6f61;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.3s;
+            transition: left 0.3s ease;
+            z-index: -1;
         }
-        .drawer-toggle:hover {
-            background: #ff5a4d;
+        .nav-link:hover {
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        .nav-link:hover::before {
+            left: 0;
+        }
+        .nav-link.active {
+            background: #ff6f61;
+            color: #fff;
+        }
+        .nav-link.active::before {
+            left: 0;
         }
         .main-content {
-            margin-left: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: margin-left 0.3s;
-        }
-        .main-content.drawer-open {
-            margin-left: 420px;
         }
         header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
@@ -400,13 +426,34 @@
                 min-width: 0;
                 max-width: 280px;
             }
+            .navbar-nav {
+                gap: 4px;
+            }
+            .nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
         }
         @media (max-width: 700px) {
-            .drawer, .drawer-header {
-                width: 220px;
+            .navbar-container {
+                padding: 0 15px;
+                height: 60px;
             }
-            .drawer.open ~ .main-content {
-                margin-left: 220px;
+            .brand-logo {
+                width: 35px;
+                height: 35px;
+                margin-right: 8px;
+            }
+            .brand-text {
+                font-size: 1.2rem;
+            }
+            .navbar-nav {
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.85rem;
             }
             header {
                 padding: 40px 20px 30px;
@@ -432,30 +479,41 @@
     </style>
 </head>
 <body>
-    <button class="drawer-toggle" id="drawerToggle">&#9776;</button>
-    <nav class="drawer" id="drawer">
-        <div class="drawer-header">
-            <span style="display:flex;align-items:center;">
-                <span style="width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ff6f61 70%,#ff9472 100%);border-radius:50%;box-shadow:0 2px 8px rgba(255,111,97,0.13);margin-right:10px;">
-                    <svg width="24" height="24" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url('/welcome') }}" class="navbar-brand">
+                <div class="brand-logo">
+                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
                         <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
                         <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
                         <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
                         <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
                     </svg>
-                </span>
-                <span style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;color:#fff;">PETSROLOGY</span>
-            </span>
+                </div>
+                <span class="brand-text">PETSROLOGY</span>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{{ url('/welcome') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/vet-home') }}" class="nav-link active">Veterinary Support</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pet.supplies') }}" class="nav-link">Pet Supplies</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/welcome') }}" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li><a href="{{ url('/welcome') }}">Home</a></li>
-            <li><a href="{{ url('/adopt-home') }}">Adopt a Pet</a></li>
-            <li><a href="{{ url('/vet-home') }}">Veterinary Support</a></li>
-            <li><a href="#">Pet Supplies</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">About Us</a></li>
-        </ul>
     </nav>
     <div class="main-content">
         <header>
@@ -542,22 +600,7 @@
         </footer>
     </div>
     <script>
-        const drawer = document.getElementById('drawer');
-        const toggle = document.getElementById('drawerToggle');
-        toggle.addEventListener('click', () => {
-            drawer.classList.toggle('open');
-            document.querySelector('.main-content').classList.toggle('drawer-open');
-        });
-        document.addEventListener('click', function(e) {
-            if (
-                drawer.classList.contains('open') &&
-                !drawer.contains(e.target) &&
-                e.target !== toggle
-            ) {
-                drawer.classList.remove('open');
-                document.querySelector('.main-content').classList.remove('drawer-open');
-            }
-        });
+        // Add any additional JavaScript functionality here if needed
     </script>
 </body>
 </html>

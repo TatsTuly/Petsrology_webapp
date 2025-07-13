@@ -13,6 +13,100 @@
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
         }
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 70px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            margin-left: 0;
+        }
+        .navbar-brand:hover {
+            color: #333;
+            text-decoration: none;
+        }
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
+            margin-right: 12px;
+        }
+        .brand-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #ff6f61;
+        }
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 8px;
+            margin-right: 20px;
+        }
+        .nav-item {
+            position: relative;
+        }
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #ff6f61;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        .nav-link:hover {
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        .nav-link:hover::before {
+            left: 0;
+        }
+        .nav-link.active {
+            background: #ff6f61;
+            color: #fff;
+        }
+        .nav-link.active::before {
+            left: 0;
+        }
         .header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: #fff;
@@ -135,8 +229,35 @@
             .supplies-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .navbar-nav {
+                gap: 4px;
+            }
+            .nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
         }
         @media (max-width: 600px) {
+            .navbar-container {
+                padding: 0 15px;
+                height: 60px;
+            }
+            .brand-logo {
+                width: 35px;
+                height: 35px;
+                margin-right: 8px;
+            }
+            .brand-text {
+                font-size: 1.2rem;
+            }
+            .navbar-nav {
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
             .supplies-section {
                 padding: 18px 4vw 18px 4vw;
             }
@@ -148,7 +269,42 @@
     </style>
 </head>
 <body>
-    <a href="{{ url('/welcome') }}" class="back-btn">← Back to Home</a>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url('/welcome') }}" class="navbar-brand">
+                <div class="brand-logo">
+                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    </svg>
+                </div>
+                <span class="brand-text">PETSROLOGY</span>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{{ url('/welcome') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/vet-home') }}" class="nav-link">Veterinary Support</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pet.supplies') }}" class="nav-link active">Pet Supplies</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="header">
         <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
             <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
