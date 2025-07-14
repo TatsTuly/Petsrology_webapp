@@ -34,6 +34,10 @@ Route::get('/vet-home', function () {
     return view('vet_home');
 });
 
+Route::get('/book-appointment', function () {
+    return view('book_appointment');
+})->name('book.appointment');
+
 Route::get('/adopt-home', function () {
     return view('adopt_home');
 });

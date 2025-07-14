@@ -587,25 +587,25 @@
                     <span class="service-icon">🩺</span>
                     <h3>General Checkup</h3>
                     <p>Comprehensive health examinations to keep your pet healthy and detect any issues early. Regular checkups are essential for your pet's wellbeing.</p>
-                    <a href="#" class="service-btn">Book Appointment</a>
+                    <a href="{{ route('book.appointment') }}" class="service-btn">Book Appointment</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">💉</span>
                     <h3>Vaccinations</h3>
                     <p>Essential vaccination services to protect your pet from diseases and infections. Keep your furry friend safe with up-to-date immunizations.</p>
-                    <a href="#" class="service-btn">Schedule Vaccination</a>
+                    <a href="{{ route('book.appointment') }}" class="service-btn">Schedule Vaccination</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">🏥</span>
                     <h3>Surgery</h3>
                     <p>Advanced surgical procedures performed by experienced veterinary surgeons. From routine spaying to complex operations, we provide expert care.</p>
-                    <a href="#" class="service-btn">Surgical Consultation</a>
+                    <a href="{{ route('book.appointment') }}" class="service-btn">Surgical Consultation</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">✂️</span>
                     <h3>Pet Grooming</h3>
                     <p>Professional grooming services including bathing, nail trimming, hair cutting, and overall hygiene care for your beloved pet.</p>
-                    <a href="#" class="service-btn">Book Grooming</a>
+                    <a href="{{ route('book.appointment') }}" class="service-btn">Book Grooming</a>
                 </div>
             </div>
         </section>
