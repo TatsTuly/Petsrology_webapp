@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;  // Add this line at the top
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +45,7 @@ Route::get('/pet-supplies', function () {
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 

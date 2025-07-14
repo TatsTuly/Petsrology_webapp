@@ -386,11 +386,12 @@
                     <a href="{{ route('pet.supplies') }}" class="nav-link">Pet Supplies</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">Contact</a>
+                    <a href="{{ route('contact') }}" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
                 </li>
+                
             </ul>
         </div>
     </nav>
