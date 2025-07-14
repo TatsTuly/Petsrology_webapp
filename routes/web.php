@@ -46,6 +46,10 @@ Route::get('/pet-supplies', function () {
     return view('pet_supplies');
 })->name('pet.supplies');
 
+Route::get('/shop-food', function () {
+    return view('shop_food');
+})->name('shop.food');
+
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');

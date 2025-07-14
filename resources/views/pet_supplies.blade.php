@@ -376,7 +376,7 @@
                 <div class="supply-icon">🍖</div>
                 <div class="supply-title">Pet Food</div>
                 <div class="supply-desc">Nutritious food for cats, dogs, birds, and more. Choose from top brands and healthy options.</div>
-                <a href="#" class="supply-link">Shop Food</a>
+                <a href="{{ route('shop.food') }}" class="supply-link">Shop Food</a>
             </div>
             <div class="supply-card">
                 <div class="supply-icon">🧸</div>
