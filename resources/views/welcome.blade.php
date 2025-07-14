@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PETSROLOGY - Your Pet's Best Friend</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -200,17 +201,66 @@
         .feature:hover::after {
             opacity: 1;
         }
+        /* Footer Styles - matching contact page */
         footer {
             background-color: #333;
             color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: auto;
-            width: 100%;
+            padding: 40px 0 20px;
+            margin-top: 50px;
         }
-        footer p {
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-section h3 {
+            color: #ff6f61;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #ff6f61;
+        }
+        
+        .footer-section ul li a i {
+            margin-right: 8px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+        }
+        
+        .footer-bottom p {
             margin: 0;
             font-size: 0.9rem;
+            color: #ccc;
         }
         .auth-buttons {
             margin-top: 25px;
@@ -441,7 +491,51 @@
         </section>
 
         <footer>
-            <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>About PETSROLOGY</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Mission & Vision</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Our Services</h3>
+                    <ul>
+                        <li><a href="#">Pet Adoption</a></li>
+                        <li><a href="#">Veterinary Care</a></li>
+                        <li><a href="#">Pet Supplies</a></li>
+                        <li><a href="#">Pet Training</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
+            </div>
         </footer>
     </div>
     <script>

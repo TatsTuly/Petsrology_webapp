@@ -405,34 +405,30 @@
             }
         }
 
-        /* Footer Styles */
+        /* Footer Styles - matching other pages */
         footer {
-            background: #fff;
-            padding: 2rem 0;
-            margin-top: 2rem;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
         }
-
+        
         .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
         }
-
-        .footer-section {
-            display: flex;
-            flex-direction: column;
-        }
-
+        
         .footer-section h3 {
+            color: #ff6f61;
             font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
         }
-
+        
         .footer-links {
             list-style: none;
             padding: 0;
@@ -441,27 +437,33 @@
             flex-direction: column;
             gap: 0.5rem;
         }
-
+        
         .footer-links a {
-            color: #333;
+            color: #ccc;
             text-decoration: none;
+            font-size: 0.95rem;
             transition: color 0.3s ease;
         }
-
+        
         .footer-links a:hover {
-            color: var(--primary-color);
+            color: #ff6f61;
         }
-
+        
+        .footer-links a i {
+            margin-right: 8px;
+        }
+        
         .footer-bottom {
             text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
         }
-
+        
         .footer-bottom p {
-            font-size: 0.875rem;
-            color: #777;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
         }
     </style>
 </head>
