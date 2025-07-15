@@ -11,6 +11,7 @@
             font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
+            //tuly test
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
             line-height: 1.6;
@@ -114,7 +115,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
@@ -123,20 +124,20 @@
             box-shadow: 0 2px 10px rgba(255,111,97,0.1);
             position: relative;
         }
-        
+
         header h1 {
             font-size: 2.8rem;
             margin: 0;
             font-weight: 700;
             letter-spacing: 1px;
         }
-        
+
         header p {
             font-size: 1.2rem;
             margin: 15px 0 0;
             opacity: 0.9;
         }
-        
+
         .search-filter-section {
             background: #fff;
             padding: 30px 20px;
@@ -146,12 +147,12 @@
             position: relative;
             z-index: 2;
         }
-        
+
         .search-filter-container {
             max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .search-bar {
             display: flex;
             align-items: center;
@@ -162,13 +163,13 @@
             border: 2px solid transparent;
             transition: all 0.3s ease;
         }
-        
+
         .search-bar:focus-within {
             border-color: #ff6f61;
             background: #fff;
             box-shadow: 0 0 0 3px rgba(255,111,97,0.1);
         }
-        
+
         .search-input {
             flex: 1;
             border: none;
@@ -178,27 +179,27 @@
             outline: none;
             font-family: 'Nunito', sans-serif;
         }
-        
+
         .search-input::placeholder {
             color: #999;
         }
-        
+
         .search-icon {
             color: #ff6f61;
             font-size: 1.2rem;
         }
-        
+
         .filters-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
         }
-        
+
         .filter-group {
             position: relative;
         }
-        
+
         .filter-select {
             width: 100%;
             padding: 12px 15px;
@@ -211,13 +212,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .filter-select:focus {
             border-color: #ff6f61;
             outline: none;
             box-shadow: 0 0 0 3px rgba(255,111,97,0.1);
         }
-        
+
         .clear-filters-btn {
             background: #6c757d;
             color: white;
@@ -229,12 +230,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .clear-filters-btn:hover {
             background: #5a6268;
             transform: translateY(-1px);
         }
-        
+
         .results-info {
             display: flex;
             justify-content: space-between;
@@ -242,17 +243,17 @@
             margin-bottom: 15px;
             padding: 0 5px;
         }
-        
+
         .results-count {
             color: #666;
             font-weight: 600;
         }
-        
+
         .view-toggle {
             display: flex;
             gap: 8px;
         }
-        
+
         .view-btn {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
@@ -261,13 +262,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .view-btn.active {
             background: #ff6f61;
             color: white;
             border-color: #ff6f61;
         }
-        
+
         .view-btn:hover {
             border-color: #ff6f61;
         }
@@ -295,25 +296,25 @@
             padding: 40px 20px 30px;
             background: #f8f9fa;
         }
-        
+
         .greeting-content {
             max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .greeting-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+
         .user-avatar {
             width: 55px;
             height: 55px;
@@ -328,44 +329,44 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(255,111,97,0.2);
         }
-        
+
         .user-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
         }
-        
+
         .greeting-text h2 {
             margin: 0;
             font-size: 1.8rem;
             color: #333;
             font-weight: 700;
         }
-        
+
         .greeting-text p {
             margin: 5px 0 0;
             color: #666;
             font-size: 1rem;
         }
-        
+
         .stats-summary {
             display: flex;
             gap: 30px;
             align-items: center;
         }
-        
+
         .stat-item {
             text-align: center;
         }
-        
+
         .stat-number {
             font-size: 1.8rem;
             font-weight: 700;
             color: #ff6f61;
             display: block;
         }
-        
+
         .stat-label {
             font-size: 0.9rem;
             color: #666;
@@ -423,26 +424,26 @@
             padding: 30px 20px 60px;
             background: #f8f9fa;
         }
-        
+
         .pets-content {
             max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .pets-grid {
             display: grid;
             gap: 25px;
             transition: all 0.3s ease;
         }
-        
+
         .pets-grid.grid-view {
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         }
-        
+
         .pets-grid.list-view {
             grid-template-columns: 1fr;
         }
-        
+
         .pet-card {
             background: #fff;
             border-radius: 15px;
@@ -454,7 +455,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .pet-card::before {
             content: '';
             position: absolute;
@@ -464,25 +465,25 @@
             height: 3px;
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
         }
-        
+
         .pet-card:hover {
             box-shadow: 0 8px 30px rgba(255,111,97,0.15);
             border-color: #ff6f61;
             transform: translateY(-5px);
         }
-        
+
         .list-view .pet-card {
             display: flex;
             align-items: center;
             gap: 25px;
         }
-        
+
         .grid-view .pet-card {
             display: flex;
             flex-direction: column;
             text-align: center;
         }
-        
+
         .pet-image {
             width: 100px;
             height: 100px;
@@ -497,57 +498,57 @@
             box-shadow: 0 4px 12px rgba(255,111,97,0.1);
             flex-shrink: 0;
         }
-        
+
         .grid-view .pet-image {
             margin: 0 auto 20px;
         }
-        
+
         .pet-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 12px;
         }
-        
+
         .pet-info {
             flex: 1;
         }
-        
+
         .grid-view .pet-info {
             text-align: center;
         }
-        
+
         .pet-info h3 {
             margin: 0 0 8px 0;
             font-size: 1.4rem;
             color: #333;
             font-weight: 700;
         }
-        
+
         .pet-breed {
             color: #ff6f61;
             margin: 0 0 6px 0;
             font-size: 1rem;
             font-weight: 600;
         }
-        
+
         .pet-details {
             color: #666;
             font-size: 0.95rem;
             margin: 0 0 15px 0;
         }
-        
+
         .pet-tags {
             display: flex;
             gap: 8px;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-        
+
         .grid-view .pet-tags {
             justify-content: center;
         }
-        
+
         .pet-tag {
             background: #f8f9fa;
             color: #666;
@@ -556,17 +557,17 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-        
+
         .pet-actions {
             display: flex;
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .grid-view .pet-actions {
             justify-content: center;
         }
-        
+
         .adopt-btn {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
@@ -579,12 +580,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .adopt-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(255,111,97,0.3);
         }
-        
+
         .favorite-btn {
             background: #f8f9fa;
             color: #666;
@@ -594,33 +595,33 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .favorite-btn:hover,
         .favorite-btn.active {
             background: #ff6f61;
             color: white;
             border-color: #ff6f61;
         }
-        
+
         .no-pets-message {
             text-align: center;
             padding: 60px 20px;
             color: #666;
         }
-        
+
         .no-pets-message i {
             font-size: 3rem;
             color: #ddd;
             margin-bottom: 20px;
             display: block;
         }
-        
+
         .no-pets-message h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
             color: #999;
         }
-        
+
         .no-pets-message p {
             font-size: 1rem;
             margin: 0;
@@ -702,7 +703,7 @@
             padding: 40px 0 20px;
             margin-top: 50px;
         }
-        
+
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -711,46 +712,46 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
         }
-        
+
         .footer-section h3 {
             color: #ff6f61;
             font-size: 1.2rem;
             margin-bottom: 20px;
             font-weight: 700;
         }
-        
+
         .footer-section ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
+
         .footer-section ul li {
             margin-bottom: 12px;
         }
-        
+
         .footer-section ul li a {
             color: #ccc;
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
-        
+
         .footer-section ul li a:hover {
             color: #ff6f61;
         }
-        
+
         .footer-section ul li a i {
             margin-right: 8px;
         }
-        
+
         .footer-bottom {
             text-align: center;
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #555;
         }
-        
+
         .footer-bottom p {
             margin: 0;
             font-size: 0.9rem;
@@ -907,7 +908,7 @@
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" id="searchInput" placeholder="Search by name, breed, or type...">
                 </div>
-                
+
                 <div class="filters-row">
                     <div class="filter-group">
                         <select class="filter-select" id="categoryFilter">
@@ -939,7 +940,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="results-info">
                     <div class="results-count" id="resultsCount">Showing 16 of 16 pets</div>
                     <div class="view-toggle">
@@ -978,7 +979,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="cats" data-age="adult" data-gender="female" data-name="sir whiskerlot" data-breed="maine coon">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=160&h=160&fit=crop&auto=format" alt="Sir Whiskerlot" />
@@ -1000,7 +1001,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="cats" data-age="senior" data-gender="female" data-name="mochi" data-breed="persian">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=160&h=160&fit=crop&auto=format" alt="Mochi" />
@@ -1022,7 +1023,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="dogs" data-age="adult" data-gender="male" data-name="buddy" data-breed="golden retriever">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=160&h=160&fit=crop&auto=format" alt="Buddy" />
@@ -1044,7 +1045,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="dogs" data-age="adult" data-gender="female" data-name="luna" data-breed="labrador">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=160&h=160&fit=crop&auto=format" alt="Luna" />
@@ -1066,7 +1067,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="birds" data-age="young" data-gender="male" data-name="charlie" data-breed="parakeet">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=160&h=160&fit=crop&auto=format" alt="Charlie" />
@@ -1088,7 +1089,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="other" data-age="young" data-gender="female" data-name="snowball" data-breed="rabbit">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=160&h=160&fit=crop&auto=format" alt="Snowball" />
@@ -1110,7 +1111,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="dogs" data-age="young" data-gender="male" data-name="max" data-breed="beagle">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1551717743-49959800b1f6?w=160&h=160&fit=crop&auto=format" alt="Max" />
@@ -1132,7 +1133,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="cats" data-age="young" data-gender="male" data-name="whiskers" data-breed="tabby">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=160&h=160&fit=crop&auto=format" alt="Whiskers" />
@@ -1154,7 +1155,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="dogs" data-age="senior" data-gender="female" data-name="bella" data-breed="german shepherd">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=160&h=160&fit=crop&auto=format" alt="Bella" />
@@ -1176,7 +1177,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="birds" data-age="adult" data-gender="female" data-name="sunny" data-breed="cockatiel">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=160&h=160&fit=crop&auto=format" alt="Sunny" />
@@ -1198,7 +1199,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="other" data-age="adult" data-gender="male" data-name="spike" data-breed="guinea pig">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=160&h=160&fit=crop&auto=format" alt="Spike" />
@@ -1220,7 +1221,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="cats" data-age="adult" data-gender="male" data-name="shadow" data-breed="black cat">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?w=160&h=160&fit=crop&auto=format" alt="Shadow" />
@@ -1242,7 +1243,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="dogs" data-age="young" data-gender="female" data-name="ruby" data-breed="poodle">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1616190265687-b7ebf7aa31ac?w=160&h=160&fit=crop&auto=format" alt="Ruby" />
@@ -1264,7 +1265,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pet-card" data-category="other" data-age="young" data-gender="male" data-name="nibbles" data-breed="hamster">
                         <div class="pet-image">
                             <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=160&h=160&fit=crop&auto=format" alt="Nibbles" />
@@ -1287,7 +1288,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="no-pets-message" id="noPetsMessage" style="display: none;">
                     <i class="fas fa-search"></i>
                     <h3>No pets found</h3>
@@ -1336,7 +1337,7 @@
                         <li><a href="#">Careers</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Our Services</h3>
                     <ul>
@@ -1346,7 +1347,7 @@
                         <li><a href="#">Pet Training</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Support</h3>
                     <ul>
@@ -1356,7 +1357,7 @@
                         <li><a href="#">Terms of Service</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Connect With Us</h3>
                     <ul>
@@ -1367,7 +1368,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
             </div>
@@ -1383,27 +1384,27 @@
             const petCards = document.querySelectorAll('.pet-card');
             const noPetsMessage = document.getElementById('noPetsMessage');
             const resultsCount = document.getElementById('resultsCount');
-            
+
             function filterPets() {
                 const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
                 const categoryValue = categoryFilter ? categoryFilter.value : '';
                 const ageValue = ageFilter ? ageFilter.value : '';
                 const genderValue = genderFilter ? genderFilter.value : '';
-                
+
                 let visibleCount = 0;
-                
+
                 petCards.forEach(card => {
                     const petName = card.dataset.name ? card.dataset.name.toLowerCase() : '';
                     const petBreed = card.dataset.breed ? card.dataset.breed.toLowerCase() : '';
                     const petCategory = card.dataset.category || '';
                     const petAge = card.dataset.age || '';
                     const petGender = card.dataset.gender || '';
-                    
+
                     const matchesSearch = !searchTerm || petName.includes(searchTerm) || petBreed.includes(searchTerm);
                     const matchesCategory = !categoryValue || petCategory === categoryValue;
                     const matchesAge = !ageValue || petAge === ageValue;
                     const matchesGender = !genderValue || petGender === genderValue;
-                    
+
                     if (matchesSearch && matchesCategory && matchesAge && matchesGender) {
                         card.style.display = 'block';
                         visibleCount++;
@@ -1411,12 +1412,12 @@
                         card.style.display = 'none';
                     }
                 });
-                
+
                 // Update results count
                 if (resultsCount) {
                     resultsCount.textContent = `Showing ${visibleCount} of ${petCards.length} pets`;
                 }
-                
+
                 // Show/hide no pets message
                 if (noPetsMessage) {
                     if (visibleCount === 0) {
@@ -1426,37 +1427,37 @@
                     }
                 }
             }
-            
+
             // Add event listeners with safety checks
             if (searchInput) searchInput.addEventListener('input', filterPets);
             if (categoryFilter) categoryFilter.addEventListener('change', filterPets);
             if (ageFilter) ageFilter.addEventListener('change', filterPets);
             if (genderFilter) genderFilter.addEventListener('change', filterPets);
         }
-        
+
         // Clear all filters function
         function clearAllFilters() {
             const searchInput = document.getElementById('searchInput');
             const categoryFilter = document.getElementById('categoryFilter');
             const ageFilter = document.getElementById('ageFilter');
             const genderFilter = document.getElementById('genderFilter');
-            
+
             if (searchInput) searchInput.value = '';
             if (categoryFilter) categoryFilter.value = '';
             if (ageFilter) ageFilter.value = '';
             if (genderFilter) genderFilter.value = '';
-            
+
             // Trigger filter update
             const event = new Event('change');
             if (categoryFilter) categoryFilter.dispatchEvent(event);
         }
-        
+
         // View Toggle Functionality
         function toggleView(viewType) {
             const petsGrid = document.getElementById('petsGrid');
             const gridBtn = document.getElementById('gridViewBtn');
             const listBtn = document.getElementById('listViewBtn');
-            
+
             if (petsGrid && gridBtn && listBtn) {
                 if (viewType === 'grid') {
                     petsGrid.className = 'pets-grid grid-view';
@@ -1469,12 +1470,12 @@
                 }
             }
         }
-        
+
         // Pet Card Actions
         function adoptPet(petName) {
             alert(`Thank you for your interest in adopting ${petName}! Please contact us at adopt@petsrology.com or call (555) 123-4567 to start the adoption process.`);
         }
-        
+
         function toggleFavorite(button) {
             const icon = button.querySelector('i');
             if (icon.classList.contains('far')) {
@@ -1487,35 +1488,35 @@
                 button.style.color = '#666';
             }
         }
-        
+
         // Filter Button Actions for Category Cards
         function filterPetsByCategory(category) {
             const categoryFilter = document.getElementById('categoryFilter');
             categoryFilter.value = category;
             categoryFilter.dispatchEvent(new Event('change'));
-            
+
             // Update active category card
             document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
             if (event && event.target) {
                 event.target.closest('.category-card').classList.add('active');
             }
         }
-        
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
-            
+
             // Set default active view button
             const gridBtn = document.getElementById('gridViewBtn');
             if (gridBtn) gridBtn.classList.add('active');
-            
+
             // Initialize stats
             const totalPetsElement = document.getElementById('totalPets');
             const petCards = document.querySelectorAll('.pet-card');
             if (totalPetsElement) {
                 totalPetsElement.textContent = petCards.length;
             }
-            
+
             // Initialize results count
             const resultsCount = document.getElementById('resultsCount');
             if (resultsCount) {
