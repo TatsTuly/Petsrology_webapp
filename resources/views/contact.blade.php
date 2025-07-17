@@ -4,29 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #ff6f61;
-            --secondary-color: #ff9472;
-            --text-color: #333;
-            --background-color: #f9f9f9;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
+        body {
+            font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;  /* Changed from Roboto to Nunito */
-            background: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
         }
 
         /* Navigation Styles */
@@ -55,6 +41,10 @@
             color: #333;
             margin-left: 0;
         }
+        .navbar-brand:hover {
+            color: #333;
+            text-decoration: none;
+        }
 
         .brand-logo {
             width: 45px;
@@ -82,7 +72,7 @@
             margin: 0;
             padding: 0;
             gap: 8px;
-            margin-right: 20px;
+            margin-right: 10px;
         }
 
         .nav-item {
@@ -91,8 +81,8 @@
 
         .nav-link {
             display: block;
-            padding: 12px 20px;
-            color: #333;
+            padding: 12px 18px;
+            color: #ff6f61;
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
@@ -100,7 +90,6 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            font-family: 'Nunito', sans-serif;  /* Added font-family */
         }
 
         .nav-link::before {
@@ -110,20 +99,25 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: #ff6f61;
+            background: rgba(255, 111, 97, 0.1);
             transition: left 0.3s ease;
             z-index: -1;
         }
 
         .nav-link:hover {
-            color: #fff;
+            color: #ff6f61;
             text-decoration: none;
             transform: translateY(-2px);
+            background: rgba(255, 111, 97, 0.1);
         }
 
         .nav-link.active {
             background: #ff6f61;
             color: #fff;
+        }
+        .nav-link.active::before {
+            left: 0;
+            background: #ff6f61;
         }
 
         .nav-link:hover::before {
@@ -138,7 +132,7 @@
         }
 
         .contact-header h1 {
-            color: var(--primary-color);
+            color: #ff6f61;
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem;
@@ -146,7 +140,7 @@
         }
 
         .contact-header p {
-            color: var(--text-color);
+            color: #333;
             font-size: 1.1rem;
             opacity: 0.8;
             line-height: 1.6;
@@ -166,14 +160,14 @@
             background: #fff;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .contact-sidebar {
             background: #fff;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
@@ -191,13 +185,13 @@
         }
 
         .form-control:focus {
-            border-color: var(--primary-color);
+            border-color: #ff6f61;
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
         }
 
         .btn-submit {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(45deg, #ff6f61, #ff9472);
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -218,7 +212,7 @@
         }
 
         .contact-info h3 {
-            color: var(--primary-color);
+            color: #ff6f61;
             margin-bottom: 1rem;
         }
 
@@ -229,7 +223,7 @@
         }
 
         .contact-item i {
-            color: var(--primary-color);
+            color: #ff6f61;
             margin-right: 1rem;
             font-size: 1.2rem;
         }
@@ -251,13 +245,13 @@
         }
 
         .social-links a {
-            color: var(--primary-color);
+            color: #ff6f61;
             font-size: 1.5rem;
             transition: color 0.3s ease;
         }
 
         .social-links a:hover {
-            color: var(--secondary-color);
+            color: #ff9472;
         }
 
         .alert {
@@ -366,42 +360,50 @@
             }
         }
 
+        @media (max-width: 1150px) {
+            .nav-link {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+            .navbar-container {
+                padding: 0 15px;
+            }
+        }
         @media (max-width: 900px) {
             .navbar-nav {
                 gap: 4px;
             }
             .nav-link {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-                font-family: 'Nunito', sans-serif;  /* Added font-family */
+                padding: 10px 12px;
+                font-size: 0.85rem;
             }
         }
-
         @media (max-width: 700px) {
             .navbar-container {
-                padding: 0 15px;
-                height: 60px;
+                padding: 0 10px;
+                height: auto;
+                min-height: 60px;
+                flex-wrap: wrap;
             }
-            
+            .navbar-nav {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                flex-wrap: wrap;
+                gap: 2px;
+                margin-right: 0;
+            }
             .brand-logo {
                 width: 35px;
                 height: 35px;
                 margin-right: 8px;
             }
-            
             .brand-text {
                 font-size: 1.2rem;
             }
-            
-            .navbar-nav {
-                flex-wrap: wrap;
-                gap: 2px;
-            }
-            
             .nav-link {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-                font-family: 'Nunito', sans-serif;  /* Added font-family */
+                padding: 8px 10px;
+                font-size: 0.8rem;
             }
         }
 
@@ -429,27 +431,28 @@
             font-weight: 700;
         }
         
-        .footer-links {
+        .footer-section ul {
             list-style: none;
             padding: 0;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
         }
         
-        .footer-links a {
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section ul li a {
             color: #ccc;
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         
-        .footer-links a:hover {
+        .footer-section ul li a:hover {
             color: #ff6f61;
         }
         
-        .footer-links a i {
+        .footer-section ul li a i {
             margin-right: 8px;
         }
         
@@ -464,6 +467,46 @@
             margin: 0;
             font-size: 0.9rem;
             color: #ccc;
+        }
+        .logout-btn {
+            background: transparent;
+            color: #ff6f61;
+            padding: 12px 18px;
+            border-radius: 0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .logout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 111, 97, 0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        .logout-btn:hover {
+            color: #ff6f61;
+            text-decoration: none;
+            transform: translateY(-2px);
+            background: rgba(255, 111, 97, 0.1);
+        }
+        .logout-btn:hover::before {
+            left: 0;
+        }
+        .logout-btn i {
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -500,6 +543,15 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </div>
@@ -592,7 +644,7 @@
             <div class="footer-container">
                 <div class="footer-section">
                     <h3>About PETSROLOGY</h3>
-                    <ul class="footer-links">
+                    <ul>
                         <li><a href="#">Our Story</a></li>
                         <li><a href="#">Mission & Vision</a></li>
                         <li><a href="#">Team</a></li>
@@ -602,7 +654,7 @@
                 
                 <div class="footer-section">
                     <h3>Our Services</h3>
-                    <ul class="footer-links">
+                    <ul>
                         <li><a href="#">Pet Adoption</a></li>
                         <li><a href="#">Veterinary Care</a></li>
                         <li><a href="#">Pet Supplies</a></li>
@@ -612,7 +664,7 @@
                 
                 <div class="footer-section">
                     <h3>Support</h3>
-                    <ul class="footer-links">
+                    <ul>
                         <li><a href="#">FAQs</a></li>
                         <li><a href="#">Contact Us</a></li>
                         <li><a href="#">Privacy Policy</a></li>
@@ -622,7 +674,7 @@
                 
                 <div class="footer-section">
                     <h3>Connect With Us</h3>
-                    <ul class="footer-links">
+                    <ul>
                         <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
                         <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
                         <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>

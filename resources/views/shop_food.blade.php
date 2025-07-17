@@ -66,15 +66,15 @@
             margin: 0;
             padding: 0;
             gap: 8px;
-            margin-right: 20px;
+            margin-right: 10px;
         }
         .nav-item {
             position: relative;
         }
         .nav-link {
             display: block;
-            padding: 12px 20px;
-            color: #333;
+            padding: 12px 18px;
+            color: #ff6f61;
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
@@ -90,14 +90,15 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: #ff6f61;
+            background: rgba(255, 111, 97, 0.1);
             transition: left 0.3s ease;
             z-index: -1;
         }
         .nav-link:hover {
-            color: #fff;
+            color: #ff6f61;
             text-decoration: none;
             transform: translateY(-2px);
+            background: rgba(255, 111, 97, 0.1);
         }
         .nav-link:hover::before {
             left: 0;
@@ -108,6 +109,7 @@
         }
         .nav-link.active::before {
             left: 0;
+            background: #ff6f61;
         }
         
         header {
@@ -516,6 +518,92 @@
                 grid-template-columns: 1fr;
             }
         }
+        @media (max-width: 1150px) {
+            .nav-link {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+            .navbar-container {
+                padding: 0 15px;
+            }
+        }
+        @media (max-width: 900px) {
+            .navbar-nav {
+                gap: 4px;
+            }
+            .nav-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+        }
+        @media (max-width: 700px) {
+            .navbar-container {
+                padding: 0 10px;
+                height: auto;
+                min-height: 60px;
+                flex-wrap: wrap;
+            }
+            .navbar-nav {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                flex-wrap: wrap;
+                gap: 2px;
+                margin-right: 0;
+            }
+            .brand-logo {
+                width: 35px;
+                height: 35px;
+                margin-right: 8px;
+            }
+            .brand-text {
+                font-size: 1.2rem;
+            }
+            .nav-link {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+        }
+        .logout-btn {
+            background: transparent;
+            color: #ff6f61;
+            padding: 12px 18px;
+            border-radius: 0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .logout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 111, 97, 0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        .logout-btn:hover {
+            color: #ff6f61;
+            text-decoration: none;
+            transform: translateY(-2px);
+            background: rgba(255, 111, 97, 0.1);
+        }
+        .logout-btn:hover::before {
+            left: 0;
+        }
+        .logout-btn i {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -551,6 +639,15 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </div>
