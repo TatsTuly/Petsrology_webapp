@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - PETSROLOGY</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -42,6 +43,42 @@
             margin-bottom: 7px;
             font-weight: 600;
             color: #444;
+        }
+        .role-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .role-selection input[type="radio"] {
+            display: none;
+        }
+        .role-label {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #666;
+            background: #fafafa;
+        }
+        .role-label:hover {
+            border-color: #ff6f61;
+            background: #fff;
+        }
+        .role-selection input[type="radio"]:checked + .role-label {
+            border-color: #ff6f61;
+            background: #ff6f61;
+            color: white;
+        }
+        .role-label i {
+            font-size: 1.1rem;
         }
         .signup-form input {
             width: 100%;
@@ -119,6 +156,22 @@
         </div>
         <form class="signup-form" method="POST" action="{{ route('signup.submit') }}">
             @csrf
+            
+            <label for="role">Sign Up As</label>
+            <div class="role-selection">
+                <input type="radio" id="customer" name="role" value="customer" checked>
+                <label for="customer" class="role-label">
+                    <i class="fas fa-user"></i>
+                    Customer
+                </label>
+                
+                <input type="radio" id="vet" name="role" value="vet">
+                <label for="vet" class="role-label">
+                    <i class="fas fa-stethoscope"></i>
+                    Veterinarian
+                </label>
+            </div>
+            
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required placeholder="Your Name">
 

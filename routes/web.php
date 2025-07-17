@@ -42,29 +42,48 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/login', function (Illuminate\Http\Request $request) {
     // Simple demo authentication - in real app, you'd validate against database
-    if ($request->filled('email') && $request->filled('password')) {
+    if ($request->filled('email') && $request->filled('password') && $request->filled('role')) {
         // Create a simple session to simulate authentication
-        session(['user_authenticated' => true, 'user_email' => $request->email]);
-        return redirect('/welcome');
+        session([
+            'user_authenticated' => true, 
+            'user_email' => $request->email,
+            'user_role' => $request->role
+        ]);
+        
+        // Redirect based on role
+        if ($request->role === 'vet') {
+            return redirect('/vet-home');
+        } else {
+            return redirect('/welcome');
+        }
     }
     
-    return back()->withErrors(['email' => 'Invalid credentials']);
+    return back()->withErrors(['email' => 'Invalid credentials or missing role']);
 })->name('login.submit');
 
 Route::post('/signup', function (Illuminate\Http\Request $request) {
     // Simple demo registration - in real app, you'd save to database
-    if ($request->filled('email') && $request->filled('password')) {
+    if ($request->filled('email') && $request->filled('password') && $request->filled('role')) {
         // Create a simple session to simulate authentication after signup
-        session(['user_authenticated' => true, 'user_email' => $request->email]);
-        return redirect('/welcome');
+        session([
+            'user_authenticated' => true, 
+            'user_email' => $request->email,
+            'user_role' => $request->role
+        ]);
+        
+        // Redirect based on role
+        if ($request->role === 'vet') {
+            return redirect('/vet-home');
+        } else {
+            return redirect('/welcome');
+        }
     }
     
     return back()->withErrors(['email' => 'Please fill in all required fields']);
 })->name('signup.submit');
 
 Route::post('/logout', function () {
-    session()->forget('user_authenticated');
-    session()->forget('user_email');
+    session()->forget(['user_authenticated', 'user_email', 'user_role']);
     return redirect('/landing');
 })->name('logout');
 
