@@ -59,13 +59,6 @@
             box-shadow: 0 5px 15px rgba(255,111,97,0.2);
             margin-bottom: 20px;
         }
-        .login-form label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #444;
-            font-size: 1.05rem;
-        }
         .role-selection {
             display: flex;
             gap: 15px;
@@ -109,14 +102,22 @@
             margin-bottom: 20px;
             position: relative;
         }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #444;
+            font-size: 1.05rem;
+        }
         .login-form input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px 45px 14px 16px;
             border-radius: 10px;
             border: 1.5px solid #eee;
             font-size: 1rem;
             background: #fafafa;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
         .login-form input:focus {
             border: 1.5px solid #ff6f61;
@@ -127,10 +128,15 @@
         .input-icon {
             position: absolute;
             right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 44px;
             color: #aaa;
             font-size: 1.1rem;
+            line-height: 0;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
         }
         .btn {
             display: inline-block;
@@ -199,6 +205,8 @@
             align-items: center;
             justify-content: center;
             margin-right: 15px;
+            padding: 2px;
+            box-sizing: border-box;
         }
         .brand-name {
             font-size: 1.8rem;
@@ -302,13 +310,13 @@
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="you@email.com">
-                    <i class="fas fa-envelope input-icon"></i>
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required placeholder="Your password">
-                    <i class="fas fa-lock input-icon"></i>
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
                 </div>
 
                 <button type="submit" class="btn">Sign In</button>
@@ -334,7 +342,7 @@
         <div class="side-container">
             <div class="side-logo-container">
                 <div class="side-logo">
-                    <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; margin: auto;">
                         <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
                         <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
                         <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
@@ -343,6 +351,22 @@
                     </svg>
                 </div>
                 <div class="brand-name">PETSROLOGY</div>
+            </div>
+            
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>295/2 Dhaka, Bangladesh</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+880 1603221681</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>contact@petsrology.com</span>
+                </div>
             </div>
             
             <div class="map-container">
@@ -356,33 +380,17 @@
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
+            <div class="view-map-link">
+                <a href="#" onclick="window.open('https://www.google.com/maps?q=295/2+Dhaka,+Bangladesh', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View larger map
+                </a>
+            </div>
             
-            <div class="contact-info">
-                <h3>Contact Information</h3>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>295/2 Dhaka, Bangladesh</span>
-                </div>
-                <div class="view-map-link">
-                    <a href="#" onclick="window.open('https://www.google.com/maps?q=295/2+Dhaka,+Bangladesh', '_blank')">
-                        <i class="fas fa-external-link-alt"></i> View larger map
-                    </a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone-alt"></i>
-                    <span>+880 1603221681</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>contact@petsrology.com</span>
-                </div>
-                
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </div>
