@@ -126,8 +126,8 @@
             <p>Welcome back! Please login to your account.</p>
             <h2>Login to PETSROLOGY</h2>
         </div>
-        <form class="login-form" method="POST" action="#">
-            
+        <form class="login-form" method="POST" action="{{ route('login.submit') }}">
+            @csrf
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required placeholder="you@email.com">
 

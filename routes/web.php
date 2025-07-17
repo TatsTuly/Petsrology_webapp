@@ -18,42 +18,102 @@ Route::get('/', function () {
     return view('splash_screen');
 });
 
+Route::get('/landing', function () {
+    return view('landing');
+});
+
 Route::get('/welcome', function () {
+    // Simple session-based authentication check
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('welcome');
 });
 
-Route::get('/signup', function () {
-    return view('signup');
+Route::middleware('guest')->group(function () {
+    Route::get('/signup', function () {
+        return view('signup');
+    });
+
+    Route::get('/login', function () {
+        return view('login');
+    });
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::post('/login', function (Illuminate\Http\Request $request) {
+    // Simple demo authentication - in real app, you'd validate against database
+    if ($request->filled('email') && $request->filled('password')) {
+        // Create a simple session to simulate authentication
+        session(['user_authenticated' => true, 'user_email' => $request->email]);
+        return redirect('/welcome');
+    }
+    
+    return back()->withErrors(['email' => 'Invalid credentials']);
+})->name('login.submit');
+
+Route::post('/signup', function (Illuminate\Http\Request $request) {
+    // Simple demo registration - in real app, you'd save to database
+    if ($request->filled('email') && $request->filled('password')) {
+        // Create a simple session to simulate authentication after signup
+        session(['user_authenticated' => true, 'user_email' => $request->email]);
+        return redirect('/welcome');
+    }
+    
+    return back()->withErrors(['email' => 'Please fill in all required fields']);
+})->name('signup.submit');
+
+Route::post('/logout', function () {
+    session()->forget('user_authenticated');
+    session()->forget('user_email');
+    return redirect('/landing');
+})->name('logout');
 
 Route::get('/vet-home', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('vet_home');
 });
 
 Route::get('/book-appointment', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('book_appointment');
 })->name('book.appointment');
 
 Route::get('/adopt-home', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('adopt_home');
 });
 
 Route::get('/pet-supplies', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('pet_supplies');
 })->name('pet.supplies');
 
 Route::get('/shop-food', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('shop_food');
 })->name('shop.food');
 
 Route::get('/shop', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('shop');
 })->name('shop');
+
 Route::get('/contact', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
     return view('contact');
 })->name('contact');
 

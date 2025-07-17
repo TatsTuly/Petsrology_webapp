@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,8 +117,8 @@
             <p>Join PETSROLOGY and start your pet journey today!</p>
             <h2>Create Your Account</h2>
         </div>
-        <form class="signup-form" method="POST" action="#">
-            
+        <form class="signup-form" method="POST" action="{{ route('signup.submit') }}">
+            @csrf
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required placeholder="Your Name">
 

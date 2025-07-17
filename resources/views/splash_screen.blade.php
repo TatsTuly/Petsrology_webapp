@@ -144,7 +144,7 @@
     </div>
     <script>
         setTimeout(function() {
-            window.location.href = "{{ url('/welcome') }}";
+            window.location.href = "{{ url('/landing') }}";
         }, 5000);
     </script>
 </body>
