@@ -653,6 +653,12 @@
                     <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('/user/dashboard') }}" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i>
                         Logout

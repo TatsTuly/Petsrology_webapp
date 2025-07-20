@@ -136,6 +136,14 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+// User Dashboard Route
+Route::get('/user/dashboard', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('user_dashboard');
+})->name('user.dashboard');
+
 // Admin Routes
 Route::get('/admin/login', function () {
     return view('admin_login');
