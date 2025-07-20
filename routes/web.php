@@ -101,6 +101,13 @@ Route::get('/book-appointment', function () {
     return view('book_appointment');
 })->name('book.appointment');
 
+Route::get('/all-vets', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('all_vets');
+})->name('all.vets');
+
 Route::get('/adopt-home', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');
