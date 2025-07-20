@@ -119,6 +119,20 @@
             box-shadow: 0 4px 15px rgba(230,92,80,0.3);
         }
 
+        .nav-btn.admin {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: 2px solid #3498db;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.admin:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1f6391 100%);
+            border-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
         /* Hero Section */
         .hero-section {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
@@ -727,6 +741,7 @@
             <div class="navbar-actions">
                 <a href="{{ url('/login') }}" class="nav-btn login">Login</a>
                 <a href="{{ url('/signup') }}" class="nav-btn signup">Sign Up</a>
+                <a href="{{ url('/admin/login') }}" class="nav-btn admin">Admin Dashboard</a>
             </div>
         </div>
     </nav>
@@ -895,7 +910,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 PETSROLOGY. All rights reserved. Made with ❤️ for pets and their families.</p>
+            <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
         </div>
     </footer>
 

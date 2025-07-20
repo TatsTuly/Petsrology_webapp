@@ -136,3 +136,39 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+// Admin Routes
+Route::get('/admin/login', function () {
+    return view('admin_login');
+})->name('admin.login');
+
+Route::post('/admin/login', function (Illuminate\Http\Request $request) {
+    // Simple demo admin authentication - in real app, you'd validate against admin table
+    if ($request->filled('admin_email') && $request->filled('admin_password')) {
+        // For demo purposes, accept any admin credentials
+        // In production, you'd validate against a secure admin database
+        session([
+            'admin_authenticated' => true, 
+            'admin_email' => $request->admin_email,
+            'admin_role' => 'admin'
+        ]);
+        
+        // Redirect to admin dashboard (you'll create this later)
+        return redirect('/admin/dashboard');
+    }
+    
+    return back()->withErrors(['admin_email' => 'Invalid admin credentials']);
+})->name('admin.login.submit');
+
+Route::post('/admin/logout', function () {
+    session()->forget(['admin_authenticated', 'admin_email', 'admin_role']);
+    return redirect('/landing');
+})->name('admin.logout');
+
+Route::get('/admin/dashboard', function () {
+    if (!session('admin_authenticated')) {
+        return redirect('/admin/login');
+    }
+    // For now, just return a simple view - you can create admin dashboard later
+    return view('admin_dashboard');
+})->name('admin.dashboard');
+
