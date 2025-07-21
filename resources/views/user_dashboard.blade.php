@@ -999,13 +999,13 @@
             </h3>
             <div class="profile-header">
                 <div class="profile-avatar">
-                    {{ substr(Auth::user()->name ?? 'User', 0, 1) }}
+                    {{ substr(Auth::user()->name ?? 'Shafin', 0, 1) }}
                 </div>
                 <div class="profile-info">
-                    <h3>{{ Auth::user()->name ?? 'John Doe' }}</h3>
-                    <p><i class="fas fa-envelope"></i> {{ Auth::user()->email ?? 'john.doe@example.com' }}</p>
+                    <h3>{{ Auth::user()->name ?? 'Tanjid Ahammed Shafin' }}</h3>
+                    <p><i class="fas fa-envelope"></i> {{ Auth::user()->email ?? 'shaf1501@example.com' }}</p>
                     <p><i class="fas fa-calendar"></i> Member since January 2024</p>
-                    <p><i class="fas fa-map-marker-alt"></i> New York, NY</p>
+                    <p><i class="fas fa-map-marker-alt"></i>DIU, Bangladesh</p>
                 </div>
             </div>
             <div class="profile-stats">

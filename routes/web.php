@@ -115,6 +115,13 @@ Route::get('/adopt-home', function () {
     return view('adopt_home');
 });
 
+Route::get('/adoption-details', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('adoption_details');
+});
+
 Route::get('/pet-supplies', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');

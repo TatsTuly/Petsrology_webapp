@@ -11,18 +11,19 @@
             font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
-            //tuly test
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
         }
         .navbar {
-            background: #fff;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             padding: 0;
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255,111,97,0.1);
         }
         .navbar-container {
             width: 100%;
@@ -44,22 +45,30 @@
             text-decoration: none;
         }
         .brand-logo {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
-            margin-right: 12px;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            margin-right: 15px;
+            transition: all 0.3s ease;
         }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+        }
+
         .brand-text {
             font-family: 'Nunito', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: #ff6f61;
+            text-shadow: 0 2px 4px rgba(255,111,97,0.1);
         }
         .navbar-nav {
             display: flex;
@@ -119,34 +128,93 @@
             flex-direction: column;
         }
 
+        /* Enhanced Header */
         header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
             text-align: center;
-            padding: 60px 20px 40px;
-            box-shadow: 0 2px 10px rgba(255,111,97,0.1);
+            padding: 80px 20px 60px;
+            box-shadow: 0 4px 20px rgba(255,111,97,0.2);
             position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background-size: 1000px 100px;
+            animation: wave 20s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+
+        .header-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-icon span {
+            font-size: 3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         header h1 {
-            font-size: 2.8rem;
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
         }
 
         header p {
-            font-size: 1.2rem;
-            margin: 15px 0 0;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            margin: 0;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
+        /* Enhanced Search & Filter Section */
         .search-filter-section {
             background: #fff;
-            padding: 30px 20px;
-            margin: -20px 20px 0;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(255,111,97,0.12);
+            padding: 35px 20px;
+            margin: -25px 20px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(255,111,97,0.12), 0 2px 8px rgba(0,0,0,0.04);
             position: relative;
             z-index: 2;
         }
@@ -295,9 +363,14 @@
         .back-btn:hover {
             background: rgba(255,255,255,0.3);
         }
+        /* Enhanced Greeting Section */
         .greeting-section {
-            padding: 40px 20px 30px;
-            background: #f8f9fa;
+            padding: 50px 20px 40px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            margin: 20px 20px 0;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(255,111,97,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,111,97,0.05);
         }
 
         .greeting-content {
@@ -423,14 +496,48 @@
             font-size: 1rem;
             font-weight: 600;
         }
+        /* Enhanced Pets Section */
         .pets-section {
-            padding: 30px 20px 60px;
-            background: #f8f9fa;
+            padding: 50px 20px 80px;
+            background: transparent;
         }
 
         .pets-content {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6f61, #ff9472);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #ff6f61;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #5a6c7d;
+            font-weight: 500;
+            line-height: 1.8;
         }
 
         .pets-grid {
@@ -447,13 +554,14 @@
             grid-template-columns: 1fr;
         }
 
+        /* Enhanced Pet Cards */
         .pet-card {
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.08);
-            padding: 25px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(255,111,97,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,111,97,0.05);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -465,14 +573,14 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
         }
 
         .pet-card:hover {
-            box-shadow: 0 8px 30px rgba(255,111,97,0.15);
-            border-color: #ff6f61;
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255,111,97,0.15), 0 5px 15px rgba(0,0,0,0.08);
+            border-color: rgba(255,111,97,0.2);
         }
 
         .list-view .pet-card {
@@ -488,18 +596,24 @@
         }
 
         .pet-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 12px;
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
             object-fit: cover;
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(255,111,97,0.1);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.15);
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .pet-card:hover .pet-image {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255,111,97,0.2);
         }
 
         .grid-view .pet-image {
@@ -510,7 +624,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .pet-card:hover .pet-image img {
+            transform: scale(1.1);
         }
 
         .pet-info {
@@ -575,18 +694,38 @@
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 25px;
             font-family: 'Nunito', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adopt-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e65c50 0%, #ff6f61 100%);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .adopt-btn:hover::before {
+            left: 0;
         }
 
         .adopt-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255,111,97,0.3);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
         }
 
         .favorite-btn {
@@ -629,75 +768,103 @@
             font-size: 1rem;
             margin: 0;
         }
+        /* Enhanced Contact Section */
         .contact-section {
-            background: white;
-            padding: 60px 20px;
-            margin: 0;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 70px 20px;
+            margin: 40px 20px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(255,111,97,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,111,97,0.05);
         }
+
         .contact-content {
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
         }
+
         .contact-content h2 {
             color: #ff6f61;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
         }
         .contact-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 50px;
-            font-weight: 400;
+            font-size: 1.3rem;
+            color: #5a6c7d;
+            margin-bottom: 60px;
+            font-weight: 500;
+            line-height: 1.8;
         }
+
         .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
         }
+
         .contact-item {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(255,111,97,0.08), 0 1px 4px rgba(0,0,0,0.03);
-            padding: 20px 18px 18px 18px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(255,111,97,0.1), 0 2px 8px rgba(0,0,0,0.05);
+            padding: 30px 25px 25px;
             text-align: center;
-            width: 180px;
-            transition: box-shadow 0.25s, transform 0.25s, border 0.25s;
-            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,111,97,0.05);
             position: relative;
             overflow: hidden;
         }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #ff6f61, #ff9472);
+            transition: left 0.5s ease;
+        }
+
+        .contact-item:hover::before {
+            left: 0;
+        }
+
         .contact-item:hover {
-            box-shadow: 0 6px 24px rgba(255,111,97,0.12), 0 2px 8px rgba(0,0,0,0.06);
-            border: 2px solid #ff6f61;
-            transform: translateY(-5px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255,111,97,0.15), 0 5px 15px rgba(0,0,0,0.08);
+            border-color: rgba(255,111,97,0.2);
         }
         .contact-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             display: block;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(255,111,97,0.1));
         }
+
         .contact-item:hover .contact-icon {
-            transform: scale(1.08) rotate(-4deg);
+            transform: scale(1.1) rotate(-5deg);
+            filter: drop-shadow(0 4px 8px rgba(255,111,97,0.2));
         }
+
         .contact-item h4 {
-            color: #ff6f61;
-            margin: 8px 0 6px 0;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            color: #2c3e50;
+            margin: 12px 0 10px 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
+
         .contact-item p {
-            color: #555;
+            color: #5a6c7d;
             margin: 0;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
         }
         /* Footer Styles - matching contact page */
         footer {
@@ -801,26 +968,28 @@
             font-size: 0.9rem;
         }
         @media (max-width: 900px) {
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .pets-section {
+                padding: 40px 20px 60px;
             }
-            .pet-card {
-                flex-direction: column;
-                text-align: center;
+            
+            .section-title {
+                font-size: 2.2rem;
             }
+            
             .contact-info {
-                flex-direction: column;
-                align-items: center;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
+            
             .contact-item {
-                width: 90vw;
+                width: auto;
                 min-width: 0;
-                max-width: 280px;
             }
+            
             .navbar-nav {
                 gap: 4px;
             }
+            
             .nav-link, .logout-btn {
                 padding: 10px 16px;
                 font-size: 0.9rem;
@@ -971,9 +1140,9 @@
     </nav>
     <div class="main-content">
         <header>
-            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
-                <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                    <span style="font-size:2.5rem;">🐾</span>
+            <div class="header-icon-container">
+                <div class="header-icon">
+                    <span>🐾</span>
                 </div>
             </div>
             <h1>Adopt a Pet</h1>
@@ -1061,6 +1230,10 @@
 
         <section class="pets-section">
             <div class="pets-content">
+                <div class="section-header">
+                    <h2 class="section-title">Available Pets</h2>
+                    <p class="section-subtitle">Meet our wonderful animals looking for their forever homes</p>
+                </div>
                 <div class="pets-grid grid-view" id="petsGrid">
                     <div class="pet-card" data-category="cats" data-age="adult" data-gender="female" data-name="milo" data-breed="mixed">
                         <div class="pet-image">
@@ -1577,7 +1750,8 @@
 
         // Pet Card Actions
         function adoptPet(petName) {
-            alert(`Thank you for your interest in adopting ${petName}! Please contact us at adopt@petsrology.com or call (555) 123-4567 to start the adoption process.`);
+            // Redirect to adoption details page with pet information
+            window.location.href = '/adoption-details?pet=' + encodeURIComponent(petName.toLowerCase());
         }
 
         function toggleFavorite(button) {

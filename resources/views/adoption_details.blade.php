@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoption Details - PETSROLOGY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,111,97,0.1);
+        }
+
+        .navbar-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 70px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .brand-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #ff6f61;
+            text-shadow: 0 2px 4px rgba(255,111,97,0.1);
+        }
+
+        .back-btn {
+            background: #ff6f61;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+        }
+
+        .back-btn:hover {
+            background: #e65c50;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+        }
+
+        /* Pet Details Section */
+        .pet-details {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(255,111,97,0.12), 0 2px 8px rgba(0,0,0,0.04);
+            padding: 40px;
+            border: 1px solid rgba(255,111,97,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pet-details::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        }
+
+        .pet-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .pet-image-large {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.15);
+            flex-shrink: 0;
+        }
+
+        .pet-info-main {
+            flex: 1;
+        }
+
+        .pet-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .pet-breed {
+            font-size: 1.3rem;
+            color: #ff6f61;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .pet-basic-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #ff6f61;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .pet-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .pet-tag {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(255,111,97,0.3);
+        }
+
+        /* Pet Description */
+        .pet-description {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #ff6f61;
+        }
+
+        .description-text {
+            font-size: 1rem;
+            color: #5a6c7d;
+            line-height: 1.8;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ff6f61;
+        }
+
+        /* Health Information */
+        .health-info {
+            margin-bottom: 30px;
+        }
+
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .health-item {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #28a745;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .health-item i {
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .health-item.pending {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .health-item.pending i {
+            color: #ffc107;
+        }
+
+        /* Adoption Sidebar */
+        .adoption-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .adoption-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(255,111,97,0.12), 0 2px 8px rgba(0,0,0,0.04);
+            padding: 30px;
+            border: 1px solid rgba(255,111,97,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adoption-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #ff6f61, #ff9472);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: #ff6f61;
+        }
+
+        /* Adoption Fee */
+        .adoption-fee {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .fee-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ff6f61;
+            margin-bottom: 5px;
+        }
+
+        .fee-includes {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Adoption Process */
+        .process-steps {
+            list-style: none;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Requirements */
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .requirement-item i {
+            color: #ff6f61;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Information */
+        .contact-info {
+            text-align: center;
+        }
+
+        .contact-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .contact-item i {
+            color: #ff6f61;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            text-decoration: none;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6f61;
+            border: 2px solid #ff6f61;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6f61;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Contact Section in Left Container */
+        .pet-contact-section {
+            margin-top: 30px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.08), 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,111,97,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #ff6f61, #ff9472);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255,111,97,0.15), 0 3px 8px rgba(0,0,0,0.08);
+        }
+
+        .contact-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255,111,97,0.3);
+        }
+
+        .contact-icon-wrapper i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-details h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .contact-details p {
+            color: #ff6f61;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+
+        .contact-note {
+            color: #666;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px 15px;
+            }
+
+            .pet-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .pet-image-large {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .pet-basic-info {
+                grid-template-columns: 1fr;
+            }
+
+            .health-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .pet-name {
+                font-size: 2rem;
+            }
+
+            .navbar-container {
+                padding: 0 15px;
+                height: 60px;
+            }
+
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .brand-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Animation for page load */
+        .main-content {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Additional Professional Styling */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255,111,97,0.1) 0%, rgba(255,148,114,0.05) 100%);
+            border: 1px solid rgba(255,111,97,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.urgent {
+            background: #dc3545;
+        }
+
+        .status-badge.special {
+            background: #6f42c1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url('/welcome') }}" class="navbar-brand">
+                <div class="brand-logo">
+                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    </svg>
+                </div>
+                <span class="brand-text">PETSROLOGY</span>
+            </a>
+            <a href="{{ url('/adopt-home') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Pets
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Pet Details Section -->
+        <div class="pet-details">
+            <div class="pet-header">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=280&h=280&fit=crop&auto=format" alt="Milo" class="pet-image-large" id="petImage">
+                <div class="pet-info-main">
+                    <h1 class="pet-name" id="petName">Milo</h1>
+                    <p class="pet-breed" id="petBreed">Mixed Breed Cat</p>
+                    <span class="status-badge" id="statusBadge">Available</span>
+                    
+                    <div class="pet-basic-info">
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value" id="petAge">1 Year Old</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Gender</div>
+                            <div class="info-value" id="petGender">Female</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Weight</div>
+                            <div class="info-value" id="petWeight">4.2 kg</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Location</div>
+                            <div class="info-value" id="petLocation">Dhaka Center</div>
+                        </div>
+                    </div>
+
+                    <div class="pet-tags">
+                        <span class="pet-tag">Friendly</span>
+                        <span class="pet-tag">Indoor Cat</span>
+                        <span class="pet-tag">Playful</span>
+                        <span class="pet-tag">Good with Kids</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Description -->
+            <div class="pet-description">
+                <h3 class="section-title">
+                    <i class="fas fa-heart"></i>
+                    About Milo
+                </h3>
+                <div class="description-text">
+                    Milo is a sweet and affectionate mixed breed cat who loves to play and cuddle. She has been with us for 3 months and has shown incredible resilience and love for humans. Milo is perfect for families with children and gets along well with other cats. She enjoys interactive toys, sunny windowsills, and gentle pets. This beautiful girl is looking for a loving forever home where she can share all the love she has to give.
+                </div>
+            </div>
+
+            <!-- Health Information -->
+            <div class="health-info">
+                <h3 class="section-title">
+                    <i class="fas fa-stethoscope"></i>
+                    Health & Medical Information
+                </h3>
+                <div class="health-grid">
+                    <div class="health-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Vaccinated</span>
+                    </div>
+                    <div class="health-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Spayed</span>
+                    </div>
+                    <div class="health-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Microchipped</span>
+                    </div>
+                    <div class="health-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Dewormed</span>
+                    </div>
+                    <div class="health-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Health Check Complete</span>
+                    </div>
+                    <div class="health-item pending">
+                        <i class="fas fa-clock"></i>
+                        <span>Dental Cleaning Scheduled</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4 style="color: #ff6f61; margin-bottom: 10px;">
+                    <i class="fas fa-info-circle"></i>
+                    Special Care Notes
+                </h4>
+                <p style="margin: 0; color: #5a6c7d;">
+                    Milo prefers quiet environments and may need a few days to adjust to her new home. She's very food-motivated and responds well to treats during training sessions.
+                </p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="pet-contact-section">
+                <h3 class="section-title">
+                    <i class="fas fa-phone"></i>
+                    Contact Our Adoption Team
+                </h3>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon-wrapper">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Call Us</h4>
+                            <p>+880 1234-567890</p>
+                            <span class="contact-note">Available during business hours</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon-wrapper">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email Us</h4>
+                            <p>adopt@petsrology.com</p>
+                            <span class="contact-note">We respond within 24 hours</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon-wrapper">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Visit Hours</h4>
+                            <p>Daily: 9:00 AM - 6:00 PM</p>
+                            <span class="contact-note">No appointment needed</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon-wrapper">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Dhaka Pet Center</p>
+                            <span class="contact-note">Easy parking available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adoption Sidebar -->
+        <div class="adoption-sidebar">
+            <!-- Adoption Fee -->
+            <div class="adoption-card">
+                <h3 class="card-title">
+                    <i class="fas fa-tag"></i>
+                    Adoption Fee
+                </h3>
+                <div class="adoption-fee">
+                    <div class="fee-amount">৳2,500</div>
+                    <div class="fee-includes">Includes vaccinations, spaying, and microchip</div>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" class="btn-primary" onclick="startAdoptionProcess()">
+                        <i class="fas fa-heart"></i>
+                        Start Adoption Process
+                    </a>
+                    <a href="#" class="btn-secondary" onclick="scheduleVisit()">
+                        <i class="fas fa-calendar"></i>
+                        Schedule a Visit
+                    </a>
+                </div>
+            </div>
+
+            <!-- Adoption Process -->
+            <div class="adoption-card">
+                <h3 class="card-title">
+                    <i class="fas fa-list-check"></i>
+                    Adoption Process
+                </h3>
+                <ul class="process-steps">
+                    <li class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Submit Application</h4>
+                            <p>Fill out our adoption form with your information and preferences.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Meet & Greet</h4>
+                            <p>Schedule a visit to meet your potential new companion.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Home Check</h4>
+                            <p>Our team will visit to ensure a safe environment.</p>
+                        </div>
+                    </li>
+                    <li class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Finalize Adoption</h4>
+                            <p>Complete paperwork and take your new pet home!</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Requirements -->
+            <div class="adoption-card">
+                <h3 class="card-title">
+                    <i class="fas fa-clipboard-check"></i>
+                    Requirements
+                </h3>
+                <ul class="requirement-list">
+                    <li class="requirement-item">
+                        <i class="fas fa-check"></i>
+                        <span>Valid government ID</span>
+                    </li>
+                    <li class="requirement-item">
+                        <i class="fas fa-check"></i>
+                        <span>Proof of residence</span>
+                    </li>
+                    <li class="requirement-item">
+                        <i class="fas fa-check"></i>
+                        <span>Landlord permission (if renting)</span>
+                    </li>
+                    <li class="requirement-item">
+                        <i class="fas fa-check"></i>
+                        <span>Meet all family members</span>
+                    </li>
+                    <li class="requirement-item">
+                        <i class="fas fa-check"></i>
+                        <span>Commitment to pet care</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to start adoption process
+        function startAdoptionProcess() {
+            // Show adoption form modal or redirect to adoption form page
+            alert('Starting adoption process for ' + document.getElementById('petName').textContent + '. This will redirect to the adoption application form.');
+            // In a real implementation, this would redirect to an adoption form
+            // window.location.href = '/adoption-form/' + petId;
+        }
+
+        // Function to schedule a visit
+        function scheduleVisit() {
+            // Show visit scheduling modal or redirect to scheduling page
+            alert('Scheduling a visit to meet ' + document.getElementById('petName').textContent + '. This will open the visit scheduling system.');
+            // In a real implementation, this would open a calendar/scheduling system
+        }
+
+        // Function to load pet data (this would typically come from the backend)
+        function loadPetData(petName) {
+            // Pet database - in a real app, this would come from the backend
+            const petDatabase = {
+                'milo': {
+                    name: 'Milo',
+                    breed: 'Mixed Breed Cat',
+                    age: '1 Year Old',
+                    gender: 'Female',
+                    weight: '4.2 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Milo is a sweet and affectionate mixed breed cat who loves to play and cuddle. She has been with us for 3 months and has shown incredible resilience and love for humans. Milo is perfect for families with children and gets along well with other cats.',
+                    fee: '৳2,500',
+                    tags: ['Friendly', 'Indoor Cat', 'Playful', 'Good with Kids']
+                },
+                'sir whiskerlot': {
+                    name: 'Sir Whiskerlot',
+                    breed: 'Maine Coon',
+                    age: '2 Years Old',
+                    gender: 'Female',
+                    weight: '6.8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Sir Whiskerlot is a majestic Maine Coon with a gentle temperament. Despite her regal name, she is very calm and loves to be petted. She would be perfect for a quiet household and enjoys lounging in sunny spots.',
+                    fee: '৳3,500',
+                    tags: ['Calm', 'Large', 'Gentle', 'Quiet']
+                },
+                'buddy': {
+                    name: 'Buddy',
+                    breed: 'Golden Retriever',
+                    age: '2 Years Old',
+                    gender: 'Male',
+                    weight: '28 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Buddy is an energetic and loyal Golden Retriever who loves playing fetch and swimming. He is well-trained and great with children. Buddy needs an active family who can provide him with plenty of exercise and mental stimulation.',
+                    fee: '৳5,000',
+                    tags: ['Active', 'Large', 'Family-friendly', 'Trained']
+                },
+                'luna': {
+                    name: 'Luna',
+                    breed: 'Labrador',
+                    age: '1.5 Years Old',
+                    gender: 'Female',
+                    weight: '25 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Luna is a playful and energetic Labrador who loves water activities. She is very social and gets along well with other dogs and children. Luna needs an active family who enjoys outdoor activities.',
+                    fee: '৳4,500',
+                    tags: ['Playful', 'Medium', 'Swimming', 'Social']
+                },
+                'charlie': {
+                    name: 'Charlie',
+                    breed: 'Parakeet',
+                    age: '6 Months Old',
+                    gender: 'Male',
+                    weight: '0.8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Charlie is a vibrant and talkative parakeet who loves to interact with people. He can learn words and phrases quickly and enjoys playing with toys. Charlie needs someone who can spend time teaching him and providing mental stimulation.',
+                    fee: '৳1,500',
+                    tags: ['Vocal', 'Small', 'Colorful', 'Interactive']
+                }
+            };
+
+            // Get pet data or use default
+            const petData = petDatabase[petName] || petDatabase['milo'];
+
+            // Update the page with pet data
+            document.getElementById('petName').textContent = petData.name;
+            document.getElementById('petBreed').textContent = petData.breed;
+            document.getElementById('petAge').textContent = petData.age;
+            document.getElementById('petGender').textContent = petData.gender;
+            document.getElementById('petWeight').textContent = petData.weight;
+            document.getElementById('petLocation').textContent = petData.location;
+            document.getElementById('petImage').src = petData.image;
+            document.getElementById('statusBadge').textContent = petData.status;
+            
+            // Update description
+            const descriptionElement = document.querySelector('.description-text');
+            if (descriptionElement) {
+                descriptionElement.textContent = petData.description;
+            }
+            
+            // Update About section title
+            const aboutTitle = document.querySelector('.pet-description .section-title');
+            if (aboutTitle) {
+                aboutTitle.innerHTML = `<i class="fas fa-heart"></i> About ${petData.name}`;
+            }
+            
+            // Update adoption fee
+            const feeElement = document.querySelector('.fee-amount');
+            if (feeElement) {
+                feeElement.textContent = petData.fee;
+            }
+            
+            // Update tags
+            const tagsContainer = document.querySelector('.pet-tags');
+            if (tagsContainer && petData.tags) {
+                tagsContainer.innerHTML = petData.tags.map(tag => 
+                    `<span class="pet-tag">${tag}</span>`
+                ).join('');
+            }
+        }
+
+        // Load pet data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the pet name from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const petName = urlParams.get('pet') || 'milo';
+            loadPetData(petName);
+        });
+
+        // Add smooth scrolling for internal navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
