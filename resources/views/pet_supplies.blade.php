@@ -485,7 +485,7 @@
                 <div class="supply-icon">🧸</div>
                 <div class="supply-title">Toys & Enrichment</div>
                 <div class="supply-desc">Keep your pet active and happy with a variety of toys, puzzles, and enrichment products.</div>
-                <a href="#" class="supply-link">Browse Toys</a>
+                <a href="{{ route('shop.toys') }}" class="supply-link">Browse Toys</a>
             </div>
             <div class="supply-card">
                 <div class="supply-icon">🛏️</div>

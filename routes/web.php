@@ -136,6 +136,13 @@ Route::get('/shop-food', function () {
     return view('shop_food');
 })->name('shop.food');
 
+Route::get('/shop-toys', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('shop_toys');
+})->name('shop.toys');
+
 Route::get('/shop', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');

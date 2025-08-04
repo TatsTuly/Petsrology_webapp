@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Food Shop - PETSROLOGY</title>
+    <title>Pet Toys & Enrichment - PETSROLOGY</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -683,11 +683,11 @@
         <a href="{{ route('pet.supplies') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Pet Supplies</a>
         <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
             <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                <span style="font-size:2.5rem;">🍖</span>
+                <span style="font-size:2.5rem;">🧸</span>
             </div>
         </div>
-        <h1>Pet Food Shop</h1>
-        <p>Premium nutrition for your beloved pets - healthy, delicious, and trusted brands</p>
+        <h1>Pet Toys & Enrichment</h1>
+        <p>Keep your pets happy, active, and mentally stimulated with our premium toys and enrichment products</p>
     </header>
 
     <section class="shop-section">
@@ -695,7 +695,7 @@
             <div class="filter-section">
                 <div class="filter-title">
                     <i class="fas fa-filter"></i>
-                    Find the Perfect Food
+                    Find the Perfect Toy
                 </div>
                 <div class="filter-controls">
                     <div class="filter-group">
@@ -719,53 +719,55 @@
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label for="foodType">Food Type</label>
-                        <select id="foodType" name="foodType">
+                        <label for="toyType">Toy Type</label>
+                        <select id="toyType" name="toyType">
                             <option value="">All Types</option>
-                            <option value="dry">Dry Food</option>
-                            <option value="wet">Wet Food</option>
-                            <option value="treats">Treats</option>
-                            <option value="raw">Raw Food</option>
+                            <option value="chew">Chew Toys</option>
+                            <option value="puzzle">Puzzle Toys</option>
+                            <option value="plush">Plush Toys</option>
+                            <option value="ball">Balls</option>
+                            <option value="rope">Rope Toys</option>
+                            <option value="interactive">Interactive</option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label for="priceRange">Price Range</label>
                         <select id="priceRange" name="priceRange">
                             <option value="">All Prices</option>
-                            <option value="0-500">৳0 - ৳500</option>
-                            <option value="500-1000">৳500 - ৳1,000</option>
-                            <option value="1000-2000">৳1,000 - ৳2,000</option>
-                            <option value="2000+">৳2,000+</option>
+                            <option value="0-300">৳0 - ৳300</option>
+                            <option value="300-600">৳300 - ৳600</option>
+                            <option value="600-1000">৳600 - ৳1,000</option>
+                            <option value="1000+">৳1,000+</option>
                         </select>
                     </div>
                     <div class="filter-group search-box">
                         <label for="search">Search Products</label>
-                        <input type="text" id="search" name="search" placeholder="Search for food brands, ingredients...">
+                        <input type="text" id="search" name="search" placeholder="Search for toys, brands, features...">
                         <i class="fas fa-search"></i>
                     </div>
                 </div>
             </div>
 
             <div class="products-grid" id="productsGrid">
-                <!-- Dog Food Products -->
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="dry" data-price="850">
+                <!-- Dog Toys -->
+                <div class="product-card" data-pet="dog" data-age="adult" data-type="chew" data-price="450">
                     <div class="product-image">
-                        🐕
+                        🦴
                         <div class="product-badge">Popular</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Royal Canin</div>
-                        <div class="product-title">Adult Dog Food - Chicken & Rice</div>
-                        <div class="product-description">Complete nutrition for adult dogs with high-quality protein and essential nutrients.</div>
+                        <div class="product-brand">Kong</div>
+                        <div class="product-title">Classic Dog Toy - Red</div>
+                        <div class="product-description">Durable rubber chew toy that can be stuffed with treats for hours of entertainment.</div>
                         <div class="product-features">
-                            <span class="feature-tag">High Protein</span>
-                            <span class="feature-tag">Natural</span>
-                            <span class="feature-tag">2kg</span>
+                            <span class="feature-tag">Durable</span>
+                            <span class="feature-tag">Treat Dispenser</span>
+                            <span class="feature-tag">Medium Size</span>
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳850</span>
-                                <span class="old-price">৳950</span>
+                                <span class="price">৳450</span>
+                                <span class="old-price">৳520</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -784,23 +786,23 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-pet="cat" data-age="adult" data-type="wet" data-price="450">
+                <div class="product-card" data-pet="cat" data-age="adult" data-type="interactive" data-price="380">
                     <div class="product-image">
-                        🐱
-                        <div class="product-badge">New</div>
+                        🐾
+                        <div class="product-badge">Interactive</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Whiskas</div>
-                        <div class="product-title">Cat Food - Tuna in Gravy</div>
-                        <div class="product-description">Delicious wet food with real tuna pieces in savory gravy, perfect for adult cats.</div>
+                        <div class="product-brand">Catit</div>
+                        <div class="product-title">Cat Activity Center</div>
+                        <div class="product-description">Interactive play center with balls, tracks, and hiding spots to stimulate your cat's hunting instincts.</div>
                         <div class="product-features">
-                            <span class="feature-tag">Real Fish</span>
-                            <span class="feature-tag">Gravy</span>
-                            <span class="feature-tag">400g</span>
+                            <span class="feature-tag">Interactive</span>
+                            <span class="feature-tag">Multi-level</span>
+                            <span class="feature-tag">Easy Assembly</span>
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳450</span>
+                                <span class="price">৳380</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -819,95 +821,24 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-pet="dog" data-age="puppy" data-type="dry" data-price="1200">
+                <div class="product-card" data-pet="dog" data-age="adult" data-type="puzzle" data-price="650">
                     <div class="product-image">
-                        🐶
-                        <div class="product-badge">Premium</div>
+                        🧩
+                        <div class="product-badge">Smart</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Pedigree</div>
-                        <div class="product-title">Puppy Food - Chicken & Milk</div>
-                        <div class="product-description">Specially formulated for growing puppies with calcium and DHA for healthy development.</div>
+                        <div class="product-brand">Nina Ottosson</div>
+                        <div class="product-title">Dog Puzzle Toy - Level 2</div>
+                        <div class="product-description">Mental stimulation puzzle that challenges your dog to find hidden treats by sliding and lifting pieces.</div>
                         <div class="product-features">
-                            <span class="feature-tag">Puppy Formula</span>
-                            <span class="feature-tag">Calcium+</span>
-                            <span class="feature-tag">3kg</span>
+                            <span class="feature-tag">Mental Stimulation</span>
+                            <span class="feature-tag">Treat Puzzle</span>
+                            <span class="feature-tag">Level 2</span>
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳1,200</span>
-                                <span class="old-price">৳1,350</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.7</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="bird" data-age="adult" data-type="treats" data-price="320">
-                    <div class="product-image">
-                        🐦
-                        <div class="product-badge">Organic</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Vitakraft</div>
-                        <div class="product-title">Bird Seed Mix - Premium Blend</div>
-                        <div class="product-description">Natural seed mix with sunflower seeds, millet, and dried fruits for all bird types.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Natural</span>
-                            <span class="feature-tag">Mixed Seeds</span>
-                            <span class="feature-tag">500g</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳320</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.5</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="cat" data-age="senior" data-type="dry" data-price="950">
-                    <div class="product-image">
-                        🐱
-                        <div class="product-badge">Senior</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Hill's Science Diet</div>
-                        <div class="product-title">Senior Cat Food - Chicken</div>
-                        <div class="product-description">Specially formulated for senior cats with easy-to-digest ingredients and joint support.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Senior Formula</span>
-                            <span class="feature-tag">Joint Care</span>
-                            <span class="feature-tag">1.5kg</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳950</span>
-                                <span class="old-price">৳1,100</span>
+                                <span class="price">৳650</span>
+                                <span class="old-price">৳720</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -926,23 +857,94 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-pet="rabbit" data-age="adult" data-type="dry" data-price="680">
+                <div class="product-card" data-pet="cat" data-age="puppy" data-type="plush" data-price="280">
                     <div class="product-image">
-                        🐰
-                        <div class="product-badge">Natural</div>
+                        🐭
+                        <div class="product-badge">Soft</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Oxbow</div>
-                        <div class="product-title">Rabbit Pellets - Timothy Hay</div>
-                        <div class="product-description">High-fiber pellets made from timothy hay, perfect for adult rabbit nutrition.</div>
+                        <div class="product-brand">Yeowww!</div>
+                        <div class="product-title">Catnip Banana Toy</div>
+                        <div class="product-description">Organic catnip-filled banana toy that drives cats crazy with excitement and playfulness.</div>
                         <div class="product-features">
-                            <span class="feature-tag">High Fiber</span>
-                            <span class="feature-tag">Timothy Hay</span>
-                            <span class="feature-tag">1kg</span>
+                            <span class="feature-tag">Organic Catnip</span>
+                            <span class="feature-tag">Soft Fabric</span>
+                            <span class="feature-tag">Banana Shape</span>
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳680</span>
+                                <span class="price">৳280</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-pet="dog" data-age="puppy" data-type="ball" data-price="320">
+                    <div class="product-image">
+                        ⚽
+                        <div class="product-badge">Bouncy</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Chuckit!</div>
+                        <div class="product-title">Ultra Ball - Medium</div>
+                        <div class="product-description">High-bounce rubber ball perfect for fetch games. Floats in water and glows in the dark.</div>
+                        <div class="product-features">
+                            <span class="feature-tag">High Bounce</span>
+                            <span class="feature-tag">Waterproof</span>
+                            <span class="feature-tag">Glow in Dark</span>
+                        </div>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">৳320</span>
+                                <span class="old-price">৳380</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.5</span>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-pet="bird" data-age="adult" data-type="interactive" data-price="420">
+                    <div class="product-image">
+                        🦜
+                        <div class="product-badge">Bird Safe</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">Super Bird Creations</div>
+                        <div class="product-title">Bird Foraging Toy</div>
+                        <div class="product-description">Natural wood foraging toy that encourages birds to work for their treats, promoting natural behaviors.</div>
+                        <div class="product-features">
+                            <span class="feature-tag">Natural Wood</span>
+                            <span class="feature-tag">Foraging</span>
+                            <span class="feature-tag">Bird Safe</span>
+                        </div>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">৳420</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -961,24 +963,24 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="treats" data-price="380">
+                <div class="product-card" data-pet="dog" data-age="adult" data-type="rope" data-price="350">
                     <div class="product-image">
-                        🦴
-                        <div class="product-badge">Bestseller</div>
+                        🪢
+                        <div class="product-badge">Tug Toy</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Pedigree</div>
-                        <div class="product-title">Dentastix - Dental Treats</div>
-                        <div class="product-description">Daily dental care treats that help reduce tartar buildup and freshen breath.</div>
+                        <div class="product-brand">Mammoth</div>
+                        <div class="product-title">Rope Tug Toy - Large</div>
+                        <div class="product-description">Heavy-duty cotton rope toy perfect for tug-of-war games and dental health. Made from natural materials.</div>
                         <div class="product-features">
-                            <span class="feature-tag">Dental Care</span>
-                            <span class="feature-tag">Fresh Breath</span>
-                            <span class="feature-tag">28 Sticks</span>
+                            <span class="feature-tag">Cotton Rope</span>
+                            <span class="feature-tag">Dental Health</span>
+                            <span class="feature-tag">Large Size</span>
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳380</span>
-                                <span class="old-price">৳420</span>
+                                <span class="price">৳350</span>
+                                <span class="old-price">৳400</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -997,19 +999,19 @@
                     </div>
                 </div>
 
-                <div class="product-card" data-pet="fish" data-age="adult" data-type="dry" data-price="280">
+                <div class="product-card" data-pet="hamster" data-age="adult" data-type="puzzle" data-price="280">
                     <div class="product-image">
-                        🐠
-                        <div class="product-badge">Aquatic</div>
+                        🐹
+                        <div class="product-badge">Small Pet</div>
                     </div>
                     <div class="product-info">
-                        <div class="product-brand">Tetra</div>
-                        <div class="product-title">Tropical Fish Flakes</div>
-                        <div class="product-description">Complete nutrition for tropical fish with enhanced colors and vitality.</div>
+                        <div class="product-brand">Kaytee</div>
+                        <div class="product-title">Hamster Activity Ball</div>
+                        <div class="product-description">Exercise ball for hamsters to run around safely while exploring their environment.</div>
                         <div class="product-features">
-                            <span class="feature-tag">Color Enhancing</span>
-                            <span class="feature-tag">Tropical</span>
-                            <span class="feature-tag">200g</span>
+                            <span class="feature-tag">Exercise</span>
+                            <span class="feature-tag">Safe Design</span>
+                            <span class="feature-tag">Ventilated</span>
                         </div>
                         <div class="product-price">
                             <div>
@@ -1083,8 +1085,8 @@
         // Filter functionality
         function filterProducts() {
             const petType = document.getElementById('petType').value;
+            const toyType = document.getElementById('toyType').value;
             const ageGroup = document.getElementById('ageGroup').value;
-            const foodType = document.getElementById('foodType').value;
             const priceRange = document.getElementById('priceRange').value;
             const searchTerm = document.getElementById('search').value.toLowerCase();
             
@@ -1098,23 +1100,23 @@
                     show = false;
                 }
                 
-                // Age group filter
-                if (ageGroup && product.dataset.age !== ageGroup) {
+                // Toy type filter
+                if (toyType && product.dataset.type !== toyType) {
                     show = false;
                 }
                 
-                // Food type filter
-                if (foodType && product.dataset.type !== foodType) {
+                // Age group filter
+                if (ageGroup && product.dataset.age !== ageGroup) {
                     show = false;
                 }
                 
                 // Price range filter
                 if (priceRange) {
                     const price = parseInt(product.dataset.price);
-                    if (priceRange === '0-500' && (price < 0 || price > 500)) show = false;
-                    if (priceRange === '500-1000' && (price < 500 || price > 1000)) show = false;
-                    if (priceRange === '1000-2000' && (price < 1000 || price > 2000)) show = false;
-                    if (priceRange === '2000+' && price < 2000) show = false;
+                    if (priceRange === '0-300' && (price < 0 || price > 300)) show = false;
+                    if (priceRange === '300-600' && (price < 300 || price > 600)) show = false;
+                    if (priceRange === '600-1000' && (price < 600 || price > 1000)) show = false;
+                    if (priceRange === '1000+' && price < 1000) show = false;
                 }
                 
                 // Search filter
@@ -1134,8 +1136,8 @@
         
         // Add event listeners
         document.getElementById('petType').addEventListener('change', filterProducts);
+        document.getElementById('toyType').addEventListener('change', filterProducts);
         document.getElementById('ageGroup').addEventListener('change', filterProducts);
-        document.getElementById('foodType').addEventListener('change', filterProducts);
         document.getElementById('priceRange').addEventListener('change', filterProducts);
         document.getElementById('search').addEventListener('input', filterProducts);
         
