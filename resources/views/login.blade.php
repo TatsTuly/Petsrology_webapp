@@ -294,13 +294,13 @@
                 
                 <label for="role">Login As</label>
                 <div class="role-selection">
-                    <input type="radio" id="customer" name="role" value="customer" checked>
+                    <input type="radio" id="customer" name="role" value="customer" {{ request('role') !== 'vet' ? 'checked' : '' }}>
                     <label for="customer" class="role-label">
                         <i class="fas fa-user"></i>
                         Customer
                     </label>
                     
-                    <input type="radio" id="vet" name="role" value="vet">
+                    <input type="radio" id="vet" name="role" value="vet" {{ request('role') === 'vet' ? 'checked' : '' }}>
                     <label for="vet" class="role-label">
                         <i class="fas fa-stethoscope"></i>
                         Veterinarian

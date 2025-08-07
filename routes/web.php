@@ -52,7 +52,7 @@ Route::post('/login', function (Illuminate\Http\Request $request) {
         
         // Redirect based on role
         if ($request->role === 'vet') {
-            return redirect('/vet-home');
+            return redirect('/vet-dashboard');
         } else {
             return redirect('/welcome');
         }
@@ -92,6 +92,13 @@ Route::get('/vet-home', function () {
         return redirect('/landing');
     }
     return view('vet_home');
+});
+
+Route::get('/vet-dashboard', function () {
+    if (!session('user_authenticated') || session('user_role') !== 'vet') {
+        return redirect('/landing');
+    }
+    return view('vet_dashboard');
 });
 
 Route::get('/book-appointment', function () {

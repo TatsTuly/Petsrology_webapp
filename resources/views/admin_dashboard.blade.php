@@ -462,7 +462,7 @@
                     <span>User Management</span>
                 </a>
                 
-                <a href="#" class="action-btn vet-management">
+                <a href="{{ url('/login?role=vet') }}" class="action-btn vet-management">
                     <div class="action-icon">
                         <i class="fas fa-user-md"></i>
                     </div>
