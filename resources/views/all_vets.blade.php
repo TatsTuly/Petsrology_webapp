@@ -497,12 +497,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: white;
             box-shadow: 0 8px 25px rgba(255,111,97,0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 4px solid #fff;
+        }
+
+        .vet-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .vet-avatar.initials {
+            font-family: 'Nunito', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .vet-avatar::before {
@@ -1031,10 +1046,12 @@
         </div>
 
         <div class="vets-grid" id="vetsGrid">
-            <!-- Dr. Sarah Johnson -->
-            <div class="vet-card" data-name="Dr. Sarah Johnson" data-specialty="general" data-availability="available" data-experience="senior">
-                <div class="vet-avatar">👩‍⚕️</div>
-                <h3 class="vet-name">Dr. Sarah Johnson</h3>
+            <!-- Dr. Rashida Rahman -->
+            <div class="vet-card" data-name="Dr. Rashida Rahman" data-specialty="general" data-availability="available" data-experience="senior">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);">
+                    RR
+                </div>
+                <h3 class="vet-name">Dr. Rashida Rahman</h3>
                 <p class="vet-specialty">General Practice</p>
                 <div class="availability available">
                     <i class="fas fa-circle"></i>
@@ -1077,10 +1094,12 @@
                 </div>
             </div>
 
-            <!-- Dr. Michael Chen -->
-            <div class="vet-card" data-name="Dr. Michael Chen" data-specialty="surgery" data-availability="busy" data-experience="senior">
-                <div class="vet-avatar">👨‍⚕️</div>
-                <h3 class="vet-name">Dr. Michael Chen</h3>
+            <!-- Dr. Mohammad Karim -->
+            <div class="vet-card" data-name="Dr. Mohammad Karim" data-specialty="surgery" data-availability="busy" data-experience="senior">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #4a90e2 0%, #6bb6ff 100%);">
+                    MK
+                </div>
+                <h3 class="vet-name">Dr. Mohammad Karim</h3>
                 <p class="vet-specialty">Veterinary Surgeon</p>
                 <div class="availability busy">
                     <i class="fas fa-circle"></i>
@@ -1123,10 +1142,12 @@
                 </div>
             </div>
 
-            <!-- Dr. Emily Rodriguez -->
-            <div class="vet-card" data-name="Dr. Emily Rodriguez" data-specialty="dermatology" data-availability="available" data-experience="junior">
-                <div class="vet-avatar">👩‍⚕️</div>
-                <h3 class="vet-name">Dr. Emily Rodriguez</h3>
+            <!-- Dr. Fatima Sultana -->
+            <div class="vet-card" data-name="Dr. Fatima Sultana" data-specialty="dermatology" data-availability="available" data-experience="junior">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);">
+                    FS
+                </div>
+                <h3 class="vet-name">Dr. Fatima Sultana</h3>
                 <p class="vet-specialty">Veterinary Dermatologist</p>
                 <div class="availability available">
                     <i class="fas fa-circle"></i>
@@ -1169,10 +1190,12 @@
                 </div>
             </div>
 
-            <!-- Dr. James Wilson -->
-            <div class="vet-card" data-name="Dr. James Wilson" data-specialty="cardiology" data-availability="available" data-experience="expert">
-                <div class="vet-avatar">👨‍⚕️</div>
-                <h3 class="vet-name">Dr. James Wilson</h3>
+            <!-- Dr. Abdul Hamid -->
+            <div class="vet-card" data-name="Dr. Abdul Hamid" data-specialty="cardiology" data-availability="available" data-experience="expert">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">
+                    AH
+                </div>
+                <h3 class="vet-name">Dr. Abdul Hamid</h3>
                 <p class="vet-specialty">Veterinary Cardiologist</p>
                 <div class="availability available">
                     <i class="fas fa-circle"></i>
@@ -1215,10 +1238,12 @@
                 </div>
             </div>
 
-            <!-- Dr. Lisa Thompson -->
-            <div class="vet-card" data-name="Dr. Lisa Thompson" data-specialty="emergency" data-availability="available" data-experience="senior">
-                <div class="vet-avatar">👩‍⚕️</div>
-                <h3 class="vet-name">Dr. Lisa Thompson</h3>
+            <!-- Dr. Nasreen Akter -->
+            <div class="vet-card" data-name="Dr. Nasreen Akter" data-specialty="emergency" data-availability="available" data-experience="senior">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                    NA
+                </div>
+                <h3 class="vet-name">Dr. Nasreen Akter</h3>
                 <p class="vet-specialty">Emergency Medicine</p>
                 <div class="availability available">
                     <i class="fas fa-circle"></i>
@@ -1261,10 +1286,12 @@
                 </div>
             </div>
 
-            <!-- Dr. David Kim -->
-            <div class="vet-card" data-name="Dr. David Kim" data-specialty="exotic" data-availability="unavailable" data-experience="junior">
-                <div class="vet-avatar">👨‍⚕️</div>
-                <h3 class="vet-name">Dr. David Kim</h3>
+            <!-- Dr. Mizanur Rahman -->
+            <div class="vet-card" data-name="Dr. Mizanur Rahman" data-specialty="exotic" data-availability="unavailable" data-experience="junior">
+                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    MR
+                </div>
+                <h3 class="vet-name">Dr. Mizanur Rahman</h3>
                 <p class="vet-specialty">Exotic Animal Specialist</p>
                 <div class="availability unavailable">
                     <i class="fas fa-circle"></i>
