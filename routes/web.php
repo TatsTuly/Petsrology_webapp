@@ -122,6 +122,47 @@ Route::get('/adoption-details', function () {
     return view('adoption_details');
 });
 
+Route::get('/adoption-form', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('adoption_form');
+});
+
+Route::post('/adoption-form', function (Illuminate\Http\Request $request) {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    
+    // Validate the form data
+    $validated = $request->validate([
+        'firstName' => 'required|string|max:255',
+        'lastName' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:20',
+        'age' => 'required|integer|min:18|max:100',
+        'address' => 'required|string|max:500',
+        'city' => 'required|string|max:255',
+        'housingType' => 'required|string',
+        'ownRent' => 'required|string',
+        'currentPets' => 'required|string',
+        'previousPets' => 'required|string',
+        'reasonForAdoption' => 'required|string|max:1000',
+        'veterinaryCare' => 'required|string|max:1000',
+        'financialCommitment' => 'required|string',
+        'agreements' => 'required|array|min:5',
+    ]);
+    
+    // In a real application, you would save this to a database
+    // For now, we'll just simulate success and redirect
+    
+    session()->flash('success', 'Your adoption application has been submitted successfully! We will contact you within 2-3 business days.');
+    
+    // Redirect back to the pet details page
+    $petName = $request->get('pet', 'milo');
+    return redirect('/adoption-details?pet=' . urlencode($petName));
+})->name('adoption.form.submit');
+
 Route::get('/pet-supplies', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');

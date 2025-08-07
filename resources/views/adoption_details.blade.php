@@ -675,6 +675,16 @@
         </div>
     </nav>
 
+    <!-- Success Message -->
+    @if(session('success'))
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px 20px; text-align: center; margin: 0; box-shadow: 0 2px 10px rgba(40,167,69,0.3);">
+            <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <i class="fas fa-check-circle" style="font-size: 1.2rem;"></i>
+                <span style="font-weight: 600; font-family: 'Nunito', sans-serif;">{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
+
     <div class="main-content">
         <!-- Pet Details Section -->
         <div class="pet-details">
@@ -916,10 +926,12 @@
     <script>
         // Function to start adoption process
         function startAdoptionProcess() {
-            // Show adoption form modal or redirect to adoption form page
-            alert('Starting adoption process for ' + document.getElementById('petName').textContent + '. This will redirect to the adoption application form.');
-            // In a real implementation, this would redirect to an adoption form
-            // window.location.href = '/adoption-form/' + petId;
+            // Get current pet name from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const petName = urlParams.get('pet') || 'milo';
+            
+            // Redirect to adoption form with pet parameter
+            window.location.href = `/adoption-form?pet=${encodeURIComponent(petName)}`;
         }
 
         // Function to schedule a visit
