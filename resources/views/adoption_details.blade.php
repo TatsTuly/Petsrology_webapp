@@ -944,7 +944,12 @@
                     status: 'Available',
                     description: 'Milo is a sweet and affectionate mixed breed cat who loves to play and cuddle. She has been with us for 3 months and has shown incredible resilience and love for humans. Milo is perfect for families with children and gets along well with other cats.',
                     fee: '৳2,500',
-                    tags: ['Friendly', 'Indoor Cat', 'Playful', 'Good with Kids']
+                    tags: ['Friendly', 'Indoor Cat', 'Playful', 'Good with Kids'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed', 'Health Check Complete'],
+                        pending: ['Dental Cleaning Scheduled']
+                    },
+                    specialCare: 'Milo prefers quiet environments and may need a few days to adjust to her new home. She\'s very food-motivated and responds well to treats during training sessions.'
                 },
                 'sir whiskerlot': {
                     name: 'Sir Whiskerlot',
@@ -957,7 +962,12 @@
                     status: 'Available',
                     description: 'Sir Whiskerlot is a majestic Maine Coon with a gentle temperament. Despite her regal name, she is very calm and loves to be petted. She would be perfect for a quiet household and enjoys lounging in sunny spots.',
                     fee: '৳3,500',
-                    tags: ['Calm', 'Large', 'Gentle', 'Quiet']
+                    tags: ['Calm', 'Large', 'Gentle', 'Quiet'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed', 'Health Check Complete', 'Grooming Complete'],
+                        pending: []
+                    },
+                    specialCare: 'Sir Whiskerlot has a long coat that requires daily brushing to prevent matting. She enjoys quiet spaces and may hide initially but warms up quickly with patience.'
                 },
                 'buddy': {
                     name: 'Buddy',
@@ -970,7 +980,12 @@
                     status: 'Available',
                     description: 'Buddy is an energetic and loyal Golden Retriever who loves playing fetch and swimming. He is well-trained and great with children. Buddy needs an active family who can provide him with plenty of exercise and mental stimulation.',
                     fee: '৳5,000',
-                    tags: ['Active', 'Large', 'Family-friendly', 'Trained']
+                    tags: ['Active', 'Large', 'Family-friendly', 'Trained'],
+                    health: {
+                        completed: ['Vaccinated', 'Neutered', 'Microchipped', 'Dewormed', 'Health Check Complete', 'Hip Screening Normal'],
+                        pending: ['Annual Booster Due']
+                    },
+                    specialCare: 'Buddy requires daily exercise (2+ hours) and mental stimulation. He loves water activities and needs regular grooming due to his double coat. Best suited for active families with a yard.'
                 },
                 'luna': {
                     name: 'Luna',
@@ -983,7 +998,12 @@
                     status: 'Available',
                     description: 'Luna is a playful and energetic Labrador who loves water activities. She is very social and gets along well with other dogs and children. Luna needs an active family who enjoys outdoor activities.',
                     fee: '৳4,500',
-                    tags: ['Playful', 'Medium', 'Swimming', 'Social']
+                    tags: ['Playful', 'Medium', 'Swimming', 'Social'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed', 'Health Check Complete'],
+                        pending: ['Swimming Safety Assessment']
+                    },
+                    specialCare: 'Luna is a strong swimmer but should always be supervised around water. She needs plenty of exercise and mental stimulation. Great with children but may be too energetic for toddlers initially.'
                 },
                 'charlie': {
                     name: 'Charlie',
@@ -996,7 +1016,192 @@
                     status: 'Available',
                     description: 'Charlie is a vibrant and talkative parakeet who loves to interact with people. He can learn words and phrases quickly and enjoys playing with toys. Charlie needs someone who can spend time teaching him and providing mental stimulation.',
                     fee: '৳1,500',
-                    tags: ['Vocal', 'Small', 'Colorful', 'Interactive']
+                    tags: ['Vocal', 'Small', 'Colorful', 'Interactive'],
+                    health: {
+                        completed: ['Health Check Complete', 'Wing Clipping Optional', 'Beak & Nail Trim'],
+                        pending: ['Quarantine Period Complete']
+                    },
+                    specialCare: 'Charlie needs a spacious cage, daily social interaction, and mental stimulation with toys. He requires a varied diet including fresh fruits and vegetables. Keep away from drafts and strong odors.'
+                },
+                'mochi': {
+                    name: 'Mochi',
+                    breed: 'Persian Cat',
+                    age: '3 Years Old',
+                    gender: 'Female',
+                    weight: '5.5 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Mochi is a beautiful Persian cat with special needs. She is very quiet and loves to cuddle. Despite her age, she has so much love to give and would be perfect for someone looking for a calm, gentle companion.',
+                    fee: '৳2,000',
+                    tags: ['Quiet', 'Cuddly', 'Senior', 'Special Needs'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed'],
+                        pending: ['Eye Treatment Ongoing', 'Special Diet Required']
+                    },
+                    specialCare: 'Mochi has mild eye issues requiring daily cleaning with saline solution. She needs a special diet for sensitive digestion and daily grooming due to her long coat. Perfect for quiet homes with patient owners.'
+                },
+                'snowball': {
+                    name: 'Snowball',
+                    breed: 'Holland Lop Rabbit',
+                    age: '8 Months Old',
+                    gender: 'Female',
+                    weight: '1.8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Snowball is an adorable Holland Lop rabbit who is litter trained and very gentle. She loves fresh vegetables and enjoys hopping around in safe spaces. Perfect for families looking for a quiet, low-maintenance pet.',
+                    fee: '৳1,800',
+                    tags: ['Quiet', 'Small', 'Soft', 'Litter Trained'],
+                    health: {
+                        completed: ['Health Check Complete', 'Spayed', 'Nail Trimming', 'Teeth Check Normal'],
+                        pending: ['Habitat Setup Consultation']
+                    },
+                    specialCare: 'Snowball needs a spacious hutch with hiding spots and daily exercise time outside the cage. She requires fresh hay daily, limited pellets, and fresh vegetables. Keep away from loud noises and sudden movements.'
+                },
+                'max': {
+                    name: 'Max',
+                    breed: 'Beagle',
+                    age: '10 Months Old',
+                    gender: 'Male',
+                    weight: '12 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Max is a curious and friendly Beagle puppy who loves exploring and playing. He is house trained and gets along wonderfully with children. Max would be perfect for an active family who enjoys outdoor adventures.',
+                    fee: '৳4,200',
+                    tags: ['Curious', 'Medium', 'Good with kids', 'House Trained'],
+                    health: {
+                        completed: ['Vaccinated', 'Neutered', 'Microchipped', 'Dewormed', 'House Training Complete'],
+                        pending: ['Obedience Training Recommended']
+                    },
+                    specialCare: 'Max is still a puppy and needs consistent training and socialization. He requires regular exercise and mental stimulation to prevent destructive behavior. Great with children but needs supervision during play.'
+                },
+                'whiskers': {
+                    name: 'Whiskers',
+                    breed: 'Tabby Cat',
+                    age: '8 Months Old',
+                    gender: 'Male',
+                    weight: '3.8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Whiskers is an affectionate young tabby cat who loves attention and quiet spaces. He is neutered and loves to purr when petted. Perfect for someone looking for an indoor companion who enjoys calm environments.',
+                    fee: '৳2,200',
+                    tags: ['Affectionate', 'Indoor', 'Quiet', 'Neutered'],
+                    health: {
+                        completed: ['Vaccinated', 'Neutered', 'Microchipped', 'Dewormed', 'Health Check Complete'],
+                        pending: ['Behavioral Assessment Complete']
+                    },
+                    specialCare: 'Whiskers is very affectionate but can be shy with strangers initially. He prefers quiet environments and indoor living. Responds well to gentle interaction and regular feeding schedules.'
+                },
+                'bella': {
+                    name: 'Bella',
+                    breed: 'German Shepherd',
+                    age: '5 Years Old',
+                    gender: 'Female',
+                    weight: '32 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Bella is a well-trained and loyal German Shepherd who would make an excellent family guardian. She is protective yet gentle with children and has excellent obedience training. Perfect for experienced dog owners.',
+                    fee: '৳6,000',
+                    tags: ['Loyal', 'Large', 'Protective', 'Well-trained'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed', 'Hip Screening Normal', 'Advanced Training Complete'],
+                        pending: ['Senior Health Monitoring']
+                    },
+                    specialCare: 'Bella is a mature dog who needs experienced owners familiar with large breeds. She requires regular exercise but not as intensive as younger dogs. Excellent guard dog with protective instincts.'
+                },
+                'sunny': {
+                    name: 'Sunny',
+                    breed: 'Cockatiel',
+                    age: '2 Years Old',
+                    gender: 'Female',
+                    weight: '0.9 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Sunny is a beautiful cockatiel who loves to sing and whistle. She is very social and enjoys interacting with people. Sunny would be perfect for someone who appreciates the musical nature of birds.',
+                    fee: '৳2,800',
+                    tags: ['Musical', 'Small', 'Social', 'Vocal'],
+                    health: {
+                        completed: ['Health Check Complete', 'Wing Clipping Complete', 'Beak & Nail Trim', 'Sex Verification'],
+                        pending: ['Breeding History Assessment']
+                    },
+                    specialCare: 'Sunny is very social and needs daily interaction. She requires a large cage, varied diet with seeds, pellets, and fresh foods. Keep away from kitchen fumes and maintain consistent temperature.'
+                },
+                'spike': {
+                    name: 'Spike',
+                    breed: 'Guinea Pig',
+                    age: '1.5 Years Old',
+                    gender: 'Male',
+                    weight: '1.2 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Spike is a very social guinea pig who loves interaction and fresh vegetables. He makes cute squeaking sounds when excited and enjoys gentle handling. Perfect for families with children.',
+                    fee: '৳1,200',
+                    tags: ['Social', 'Small', 'Gentle', 'Interactive'],
+                    health: {
+                        completed: ['Health Check Complete', 'Neutered', 'Nail Trimming', 'Teeth Check Normal'],
+                        pending: ['Companion Assessment']
+                    },
+                    specialCare: 'Spike is very social and would benefit from having another guinea pig companion. He needs fresh vegetables daily, unlimited hay, and vitamin C supplements. Requires a large cage with hiding spots.'
+                },
+                'shadow': {
+                    name: 'Shadow',
+                    breed: 'Black Cat',
+                    age: '2.5 Years Old',
+                    gender: 'Male',
+                    weight: '4.8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1561948955-570b270e7c36?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Shadow is a sleek black cat with a mysterious charm. He is very affectionate once he warms up to you and loves to follow his humans around. Perfect for someone who appreciates the elegance of black cats.',
+                    fee: '৳2,300',
+                    tags: ['Mysterious', 'Affectionate', 'Loyal', 'Indoor'],
+                    health: {
+                        completed: ['Vaccinated', 'Neutered', 'Microchipped', 'Dewormed', 'Health Check Complete'],
+                        pending: ['Socialization Assessment']
+                    },
+                    specialCare: 'Shadow can be initially shy but becomes very loyal once bonded. He prefers indoor living and quiet environments. Takes time to warm up to new people but forms strong attachments.'
+                },
+                'ruby': {
+                    name: 'Ruby',
+                    breed: 'Poodle',
+                    age: '1 Year Old',
+                    gender: 'Female',
+                    weight: '8 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Ruby is an energetic young poodle with a beautiful curly coat. She is intelligent, easily trainable, and loves to play. Ruby would be perfect for an active family who enjoys training and playing with dogs.',
+                    fee: '৳4,800',
+                    tags: ['Energetic', 'Intelligent', 'Trainable', 'Playful'],
+                    health: {
+                        completed: ['Vaccinated', 'Spayed', 'Microchipped', 'Dewormed', 'Health Check Complete', 'Professional Grooming'],
+                        pending: ['Advanced Training Recommended']
+                    },
+                    specialCare: 'Ruby needs regular professional grooming every 6-8 weeks due to her curly coat. She\'s highly intelligent and requires mental stimulation. Excellent for families who enjoy active training sessions.'
+                },
+                'nibbles': {
+                    name: 'Nibbles',
+                    breed: 'Hamster',
+                    age: '4 Months Old',
+                    gender: 'Male',
+                    weight: '0.15 kg',
+                    location: 'Dhaka Center',
+                    image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=280&h=280&fit=crop&auto=format',
+                    status: 'Available',
+                    description: 'Nibbles is a cute little hamster who loves to run on his wheel and explore his habitat. He is very active during evening hours and enjoys sunflower seeds as treats. Perfect for children learning pet responsibility.',
+                    fee: '৳800',
+                    tags: ['Tiny', 'Active', 'Nocturnal', 'Low-maintenance'],
+                    health: {
+                        completed: ['Health Check Complete', 'Habitat Setup Complete', 'Diet Assessment'],
+                        pending: ['Handling Training for Owner']
+                    },
+                    specialCare: 'Nibbles is nocturnal and most active during evening hours. He needs a quiet location during day time for sleeping. Requires fresh bedding weekly and small portions of fresh vegetables as treats.'
                 }
             };
 
@@ -1037,6 +1242,40 @@
                 tagsContainer.innerHTML = petData.tags.map(tag => 
                     `<span class="pet-tag">${tag}</span>`
                 ).join('');
+            }
+
+            // Update health information
+            const healthGrid = document.querySelector('.health-grid');
+            if (healthGrid && petData.health) {
+                let healthHTML = '';
+                
+                // Add completed health items
+                petData.health.completed.forEach(item => {
+                    healthHTML += `
+                        <div class="health-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>${item}</span>
+                        </div>
+                    `;
+                });
+                
+                // Add pending health items
+                petData.health.pending.forEach(item => {
+                    healthHTML += `
+                        <div class="health-item pending">
+                            <i class="fas fa-clock"></i>
+                            <span>${item}</span>
+                        </div>
+                    `;
+                });
+                
+                healthGrid.innerHTML = healthHTML;
+            }
+
+            // Update special care notes
+            const specialCareElement = document.querySelector('.highlight-box p');
+            if (specialCareElement && petData.specialCare) {
+                specialCareElement.textContent = petData.specialCare;
             }
         }
 

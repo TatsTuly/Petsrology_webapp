@@ -307,6 +307,40 @@
             transform: translateY(-1px);
         }
 
+        .favorites-btn {
+            background: transparent;
+            color: #ff6f61;
+            border: 2px solid #ff6f61;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .favorites-btn:hover {
+            background: #ff6f61;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+        }
+
+        .favorites-btn.active {
+            background: #ff6f61;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+        }
+
+        .favorites-btn.active:hover {
+            background: #e65c50;
+        }
+
         .results-info {
             display: flex;
             justify-content: space-between;
@@ -1212,6 +1246,11 @@
                             <i class="fas fa-times"></i> Clear Filters
                         </button>
                     </div>
+                    <div class="filter-group">
+                        <button class="favorites-btn" id="favoritesBtn" onclick="toggleFavorites()">
+                            <i class="fas fa-heart"></i> Show Favorites
+                        </button>
+                    </div>
                 </div>
 
                 <div class="results-info">
@@ -1523,7 +1562,7 @@
 
                     <div class="pet-card" data-category="dogs" data-age="young" data-gender="female" data-name="ruby" data-breed="poodle">
                         <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1616190265687-b7ebf7aa31ac?w=160&h=160&fit=crop&auto=format" alt="Ruby" />
+                            <img src="https://images.unsplash.com/photo-1551717743-49959800b1f6?w=160&h=160&fit=crop&auto=format" alt="Ruby" />
                         </div>
                         <div class="pet-info">
                             <h3>Ruby</h3>
@@ -1545,7 +1584,7 @@
 
                     <div class="pet-card" data-category="other" data-age="young" data-gender="male" data-name="nibbles" data-breed="hamster">
                         <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=160&h=160&fit=crop&auto=format" alt="Nibbles" />
+                            <img src="https://images.unsplash.com/photo-1681141289794-ff2f3b2002c3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cGV0cyUyMEhhbXN0ZXJ8ZW58MHx8MHx8fDA%3D" alt="Nibbles" />
                         </div>
                         <div class="pet-info">
                             <h3>Nibbles</h3>
@@ -1667,6 +1706,9 @@
                 const categoryValue = categoryFilter ? categoryFilter.value : '';
                 const ageValue = ageFilter ? ageFilter.value : '';
                 const genderValue = genderFilter ? genderFilter.value : '';
+                const favoritesBtn = document.getElementById('favoritesBtn');
+                const showingFavorites = favoritesBtn && favoritesBtn.classList.contains('active');
+                const favorites = showingFavorites ? JSON.parse(localStorage.getItem('favoritePets') || '[]') : [];
 
                 let visibleCount = 0;
 
@@ -1681,8 +1723,9 @@
                     const matchesCategory = !categoryValue || petCategory === categoryValue;
                     const matchesAge = !ageValue || petAge === ageValue;
                     const matchesGender = !genderValue || petGender === genderValue;
+                    const matchesFavorites = !showingFavorites || favorites.includes(card.dataset.name);
 
-                    if (matchesSearch && matchesCategory && matchesAge && matchesGender) {
+                    if (matchesSearch && matchesCategory && matchesAge && matchesGender && matchesFavorites) {
                         card.style.display = 'block';
                         visibleCount++;
                     } else {
@@ -1692,7 +1735,11 @@
 
                 // Update results count
                 if (resultsCount) {
-                    resultsCount.textContent = `Showing ${visibleCount} of ${petCards.length} pets`;
+                    if (showingFavorites) {
+                        resultsCount.textContent = `Showing ${visibleCount} favorite pets`;
+                    } else {
+                        resultsCount.textContent = `Showing ${visibleCount} of ${petCards.length} pets`;
+                    }
                 }
 
                 // Show/hide no pets message
@@ -1718,11 +1765,18 @@
             const categoryFilter = document.getElementById('categoryFilter');
             const ageFilter = document.getElementById('ageFilter');
             const genderFilter = document.getElementById('genderFilter');
+            const favoritesBtn = document.getElementById('favoritesBtn');
 
             if (searchInput) searchInput.value = '';
             if (categoryFilter) categoryFilter.value = '';
             if (ageFilter) ageFilter.value = '';
             if (genderFilter) genderFilter.value = '';
+            
+            // Reset favorites display
+            if (favoritesBtn && favoritesBtn.classList.contains('active')) {
+                favoritesBtn.classList.remove('active');
+                favoritesBtn.innerHTML = '<i class="fas fa-heart"></i> Show Favorites';
+            }
 
             // Trigger filter update
             const event = new Event('change');
@@ -1755,15 +1809,149 @@
         }
 
         function toggleFavorite(button) {
+            const petCard = button.closest('.pet-card');
+            const petName = petCard.dataset.name;
             const icon = button.querySelector('i');
+            
+            // Get current favorites from localStorage
+            let favorites = JSON.parse(localStorage.getItem('favoritePets') || '[]');
+            
             if (icon.classList.contains('far')) {
+                // Add to favorites
                 icon.classList.remove('far');
                 icon.classList.add('fas');
-                button.style.color = '#ff6f61';
+                button.classList.add('active');
+                if (!favorites.includes(petName)) {
+                    favorites.push(petName);
+                }
             } else {
+                // Remove from favorites
                 icon.classList.remove('fas');
                 icon.classList.add('far');
-                button.style.color = '#666';
+                button.classList.remove('active');
+                favorites = favorites.filter(name => name !== petName);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('favoritePets', JSON.stringify(favorites));
+            
+            // Update favorites count if showing favorites
+            const favoritesBtn = document.getElementById('favoritesBtn');
+            if (favoritesBtn && favoritesBtn.classList.contains('active')) {
+                updateFavoritesDisplay();
+            }
+        }
+
+        // Load favorites from localStorage and apply to UI
+        function loadFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favoritePets') || '[]');
+            const petCards = document.querySelectorAll('.pet-card');
+            
+            petCards.forEach(card => {
+                const petName = card.dataset.name;
+                const favoriteBtn = card.querySelector('.favorite-btn');
+                const icon = favoriteBtn.querySelector('i');
+                
+                if (favorites.includes(petName)) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    favoriteBtn.classList.add('active');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    favoriteBtn.classList.remove('active');
+                }
+            });
+        }
+
+        // Toggle favorites display
+        function toggleFavorites() {
+            const favoritesBtn = document.getElementById('favoritesBtn');
+            const isActive = favoritesBtn.classList.contains('active');
+            
+            if (isActive) {
+                // Show all pets
+                favoritesBtn.classList.remove('active');
+                favoritesBtn.innerHTML = '<i class="fas fa-heart"></i> Show Favorites';
+                showAllPets();
+            } else {
+                // Show only favorites
+                favoritesBtn.classList.add('active');
+                favoritesBtn.innerHTML = '<i class="fas fa-heart-broken"></i> Show All Pets';
+                showOnlyFavorites();
+            }
+        }
+
+        // Show only favorite pets
+        function showOnlyFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favoritePets') || '[]');
+            const petCards = document.querySelectorAll('.pet-card');
+            const noPetsMessage = document.getElementById('noPetsMessage');
+            let visibleCount = 0;
+            
+            petCards.forEach(card => {
+                const petName = card.dataset.name;
+                if (favorites.includes(petName)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update results count
+            const resultsCount = document.getElementById('resultsCount');
+            if (resultsCount) {
+                resultsCount.textContent = `Showing ${visibleCount} favorite pets`;
+            }
+            
+            // Show/hide no pets message
+            if (noPetsMessage) {
+                if (visibleCount === 0) {
+                    noPetsMessage.style.display = 'block';
+                    noPetsMessage.querySelector('h3').textContent = 'No favorite pets yet';
+                    noPetsMessage.querySelector('p').textContent = 'Start adding pets to your favorites by clicking the heart icon';
+                } else {
+                    noPetsMessage.style.display = 'none';
+                }
+            }
+        }
+
+        // Show all pets (reset favorites filter)
+        function showAllPets() {
+            const petCards = document.querySelectorAll('.pet-card');
+            const noPetsMessage = document.getElementById('noPetsMessage');
+            let visibleCount = 0;
+            
+            petCards.forEach(card => {
+                card.style.display = 'block';
+                visibleCount++;
+            });
+            
+            // Update results count
+            const resultsCount = document.getElementById('resultsCount');
+            if (resultsCount) {
+                resultsCount.textContent = `Showing ${visibleCount} of ${visibleCount} pets`;
+            }
+            
+            // Hide no pets message
+            if (noPetsMessage) {
+                noPetsMessage.style.display = 'none';
+            }
+            
+            // Re-apply other filters
+            initializeFilters();
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // Update favorites display when favorites change
+        function updateFavoritesDisplay() {
+            const favoritesBtn = document.getElementById('favoritesBtn');
+            if (favoritesBtn && favoritesBtn.classList.contains('active')) {
+                showOnlyFavorites();
             }
         }
 
@@ -1800,6 +1988,9 @@
             if (resultsCount) {
                 resultsCount.textContent = `Showing ${petCards.length} of ${petCards.length} pets`;
             }
+
+            // Load favorites from localStorage
+            loadFavorites();
         });
     </script>
 </body>
