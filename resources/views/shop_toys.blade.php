@@ -637,6 +637,307 @@
         .logout-btn i {
             font-size: 0.9rem;
         }
+        
+        /* Floating Cart Styles */
+        .floating-cart {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+        }
+        
+        .floating-cart:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255,111,97,0.6);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff3333;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            border: 2px solid white;
+        }
+        
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cart-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+        
+        .cart-panel {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            border-radius: 15px;
+            overflow: hidden;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .cart-overlay.show .cart-panel {
+            transform: translateY(0);
+        }
+        
+        .cart-header {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .close-cart:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            gap: 15px;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-brand {
+            color: #ff6f61;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .cart-item-price {
+            color: #333;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 5px 10px;
+        }
+        
+        .quantity-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: #ff6f61;
+            color: white;
+        }
+        
+        .quantity-display {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-item:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid #f8f9fa;
+            background: #fff;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-cart i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .empty-cart h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .floating-cart {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .cart-panel {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .cart-item {
+                padding: 12px 15px;
+            }
+            
+            .cart-item-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1050,6 +1351,41 @@
         </div>
     </section>
     
+    <!-- Floating Cart Button -->
+    <button class="floating-cart" onclick="openCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()">
+        <div class="cart-panel" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-cart"></i> Shopping Cart</h3>
+                <button class="close-cart" onclick="closeCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h4>Your cart is empty</h4>
+                    <p>Add some toys to get started!</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-total">
+                    <span>Total: </span>
+                    <span id="cartTotal">৳0</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">
+                    <i class="fas fa-credit-card"></i>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <footer>
         <div class="footer-container">
             <div class="footer-section">
@@ -1095,6 +1431,174 @@
     </footer>
     
     <script>
+        // Cart functionality
+        let cart = [];
+        
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+        
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Your cart is empty</h4>
+                        <p>Add some toys to get started!</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+            } else {
+                let total = 0;
+                cartItems.innerHTML = cart.map(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                <img src="${item.image}" alt="${item.title}">
+                            </div>
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.title}</div>
+                                <div class="cart-item-brand">${item.brand}</div>
+                                <div class="cart-item-price">৳${itemTotal}</div>
+                            </div>
+                            <div class="cart-item-controls">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" onclick="changeQuantity('${item.id}', -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="quantity-display">${item.quantity}</span>
+                                    <button class="quantity-btn" onclick="changeQuantity('${item.id}', 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                cartTotal.textContent = `৳${total}`;
+                cartFooter.style.display = 'block';
+            }
+            
+            updateCartCount();
+        }
+        
+        function addToCart(productCard) {
+            const title = productCard.querySelector('.product-title').textContent;
+            const brand = productCard.querySelector('.product-brand').textContent;
+            const priceText = productCard.querySelector('.price').textContent;
+            const price = parseInt(priceText.replace('৳', ''));
+            const image = productCard.querySelector('.product-image img').src;
+            const id = `${brand}-${title}`.replace(/\s+/g, '-').toLowerCase();
+            
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id,
+                    title,
+                    brand,
+                    price,
+                    image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartDisplay();
+            
+            // Show success message
+            showCartMessage(`${title} added to cart!`);
+        }
+        
+        function changeQuantity(itemId, change) {
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemId);
+                } else {
+                    updateCartDisplay();
+                }
+            }
+        }
+        
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+        
+        function openCart() {
+            document.getElementById('cartOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCart() {
+            document.getElementById('cartOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            alert(`Checkout Summary:\n\nItems: ${itemCount}\nTotal: ৳${total}\n\nThank you for shopping with PETSROLOGY!\nRedirecting to payment...`);
+            
+            // Clear cart after checkout
+            cart = [];
+            updateCartDisplay();
+            closeCart();
+        }
+        
+        function showCartMessage(message) {
+            // Create temporary message
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 30px;
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 25px;
+                font-weight: 600;
+                z-index: 3000;
+                box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+            `;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            // Animate in
+            setTimeout(() => {
+                messageDiv.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                messageDiv.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    document.body.removeChild(messageDiv);
+                }, 300);
+            }, 3000);
+        }
+
         // Filter functionality
         function filterProducts() {
             const petType = document.getElementById('petType').value;
@@ -1158,18 +1662,15 @@
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', function() {
                 const productCard = this.closest('.product-card');
-                const productTitle = productCard.querySelector('.product-title').textContent;
-                const productPrice = productCard.querySelector('.price').textContent;
-                
-                // Simple alert for demo - in real app this would add to cart
-                alert(`Added to cart:\n${productTitle}\nPrice: ${productPrice}\n\nThank you for shopping with PETSROLOGY!`);
+                addToCart(productCard);
                 
                 // Visual feedback
+                const originalContent = this.innerHTML;
                 this.innerHTML = '<i class="fas fa-check"></i> Added!';
                 this.style.background = '#28a745';
                 
                 setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                    this.innerHTML = originalContent;
                     this.style.background = '';
                 }, 2000);
             });
