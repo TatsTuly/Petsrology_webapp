@@ -283,14 +283,27 @@
         }
         
         .product-image {
-            height: 200px;
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            height: 220px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: white;
             position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
         }
         
         .product-badge {
@@ -682,8 +695,8 @@
     <header>
         <a href="{{ route('pet.supplies') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Pet Supplies</a>
         <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
-            <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                <span style="font-size:2.5rem;">🧸</span>
+            <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);overflow:hidden;">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=70&h=70&fit=crop&crop=center" alt="Pet Toys" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
             </div>
         </div>
         <h1>Pet Toys & Enrichment</h1>
@@ -752,7 +765,7 @@
                 <!-- Dog Toys -->
                 <div class="product-card" data-pet="dog" data-age="adult" data-type="chew" data-price="450">
                     <div class="product-image">
-                        🦴
+                        <img src="https://thepetslarder.co.uk/cdn/shop/files/kong-classic-red-small-dog-toys-251_700x700.jpg?v=1742774805" alt="Kong Classic Dog Toy">
                         <div class="product-badge">Popular</div>
                     </div>
                     <div class="product-info">
@@ -788,7 +801,7 @@
 
                 <div class="product-card" data-pet="cat" data-age="adult" data-type="interactive" data-price="380">
                     <div class="product-image">
-                        🐾
+                        <img src="https://m.media-amazon.com/images/I/817-OldoaEL.jpg" alt="Cat Activity Center">
                         <div class="product-badge">Interactive</div>
                     </div>
                     <div class="product-info">
@@ -802,7 +815,7 @@
                         </div>
                         <div class="product-price">
                             <div>
-                                <span class="price">৳380</span>
+                                <span class="price">৳5080</span>
                             </div>
                             <div class="rating">
                                 <i class="fas fa-star"></i>
@@ -823,7 +836,7 @@
 
                 <div class="product-card" data-pet="dog" data-age="adult" data-type="puzzle" data-price="650">
                     <div class="product-image">
-                        🧩
+                        <img src="https://www.shutterstock.com/image-photo/corgi-dog-bent-over-interactive-600nw-2340907407.jpg" alt="Dog Puzzle Toy">
                         <div class="product-badge">Smart</div>
                     </div>
                     <div class="product-info">
@@ -859,7 +872,7 @@
 
                 <div class="product-card" data-pet="cat" data-age="puppy" data-type="plush" data-price="280">
                     <div class="product-image">
-                        🐭
+                        <img src="https://i5.walmartimages.com/asr/5c81c4cc-3215-4216-856a-d9ec337b1ecc.f7aceeda5a8f086c324229f18eaecc40.jpeg" alt="Catnip Toy">
                         <div class="product-badge">Soft</div>
                     </div>
                     <div class="product-info">
@@ -894,7 +907,7 @@
 
                 <div class="product-card" data-pet="dog" data-age="puppy" data-type="ball" data-price="320">
                     <div class="product-image">
-                        ⚽
+                        <img src="https://m.media-amazon.com/images/I/71qm5PTt+9L.jpg" alt="Dog Ball Toy">
                         <div class="product-badge">Bouncy</div>
                     </div>
                     <div class="product-info">
@@ -930,7 +943,7 @@
 
                 <div class="product-card" data-pet="bird" data-age="adult" data-type="interactive" data-price="420">
                     <div class="product-image">
-                        🦜
+                        <img src="https://m.media-amazon.com/images/I/71ExvqD4yML.jpg" alt="Bird Foraging Toy">
                         <div class="product-badge">Bird Safe</div>
                     </div>
                     <div class="product-info">
@@ -965,7 +978,7 @@
 
                 <div class="product-card" data-pet="dog" data-age="adult" data-type="rope" data-price="350">
                     <div class="product-image">
-                        🪢
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnX6tRisUYlcYZa7pXq_odU7fdpM-shSYVnw&s" alt="Rope Tug Toy">
                         <div class="product-badge">Tug Toy</div>
                     </div>
                     <div class="product-info">
@@ -1001,7 +1014,7 @@
 
                 <div class="product-card" data-pet="hamster" data-age="adult" data-type="puzzle" data-price="280">
                     <div class="product-image">
-                        🐹
+                        <img src="https://m.media-amazon.com/images/I/61wgYz70IdL._UF1000,1000_QL80_.jpg" alt="Hamster Activity Ball">
                         <div class="product-badge">Small Pet</div>
                     </div>
                     <div class="product-info">

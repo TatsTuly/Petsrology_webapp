@@ -225,39 +225,19 @@
         .search-box {
             grid-column: 1 / -1;
             position: relative;
-            margin-top: 10px;
         }
         
         .search-box input {
             width: 100%;
-            padding: 12px 15px 12px 45px;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            background: #fff;
-        }
-        
-        .search-box input:focus {
-            border-color: #ff6f61;
-            box-shadow: 0 0 0 3px rgba(255,111,97,0.1);
-            outline: none;
-        }
-        
-        .search-box input::placeholder {
-            color: #999;
-            font-style: italic;
+            padding-left: 45px;
         }
         
         .search-box i {
             position: absolute;
             left: 15px;
-            top: 70%;
+            top: 50%;
             transform: translateY(-50%);
             color: #666;
-            pointer-events: none;
-            z-index: 1;
-            font-size: 1rem;
         }
         
         .products-grid {
@@ -283,14 +263,27 @@
         }
         
         .product-image {
-            height: 200px;
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            height: 220px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: white;
             position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
         }
         
         .product-badge {
@@ -661,12 +654,6 @@
                     <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/user/dashboard') }}" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i>
                         Logout
@@ -682,8 +669,8 @@
     <header>
         <a href="{{ route('pet.supplies') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Pet Supplies</a>
         <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
-            <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(255,111,97,0.13);">
-                <span style="font-size:2.5rem;">🍖</span>
+            <div style="width:80px;height:80px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(255,111,97,0.3);backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.2);">
+                <i class="fas fa-bone" style="font-size:2.5rem;color:white;"></i>
             </div>
         </div>
         <h1>Pet Food Shop</h1>
@@ -750,7 +737,7 @@
                 <!-- Dog Food Products -->
                 <div class="product-card" data-pet="dog" data-age="adult" data-type="dry" data-price="850">
                     <div class="product-image">
-                        🐕
+                        <img src="https://shop.royalcanin.ca/cdn/shop/products/n5ue7pedongc7yiawvq0.jpg?v=1609254626&width=1500" alt="Royal Canin Adult Dog Food">
                         <div class="product-badge">Popular</div>
                     </div>
                     <div class="product-info">
@@ -786,7 +773,7 @@
 
                 <div class="product-card" data-pet="cat" data-age="adult" data-type="wet" data-price="450">
                     <div class="product-image">
-                        🐱
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqvJIF9kBdHPQT5CoA69Z2zq1pBoHnfqgKkw&s" alt="Whiskas Cat Food">
                         <div class="product-badge">New</div>
                     </div>
                     <div class="product-info">
@@ -821,7 +808,7 @@
 
                 <div class="product-card" data-pet="dog" data-age="puppy" data-type="dry" data-price="1200">
                     <div class="product-image">
-                        🐶
+                        <img src="https://m.media-amazon.com/images/I/81HfEtQtIDL._UF1000,1000_QL80_.jpg" alt="Pedigree Puppy Food">
                         <div class="product-badge">Premium</div>
                     </div>
                     <div class="product-info">
@@ -857,7 +844,7 @@
 
                 <div class="product-card" data-pet="bird" data-age="adult" data-type="treats" data-price="320">
                     <div class="product-image">
-                        🐦
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbwYG54uIkxneJ3nyqOfPmkcHBO6W1AB7K8Q&s" alt="Bird Seed Mix">
                         <div class="product-badge">Organic</div>
                     </div>
                     <div class="product-info">
@@ -892,7 +879,7 @@
 
                 <div class="product-card" data-pet="cat" data-age="senior" data-type="dry" data-price="950">
                     <div class="product-image">
-                        🐱
+                        <img src="https://pxmshare.colgatepalmolive.com/JPEG_1500/R1smRgNvhXECmYV_qdHdo.jpg" alt="Senior Cat Food">
                         <div class="product-badge">Senior</div>
                     </div>
                     <div class="product-info">
@@ -928,7 +915,7 @@
 
                 <div class="product-card" data-pet="rabbit" data-age="adult" data-type="dry" data-price="680">
                     <div class="product-image">
-                        🐰
+                        <img src="https://images-cdn.ubuy.co.id/65b4a8dfd4f9a162d5662ca8-menu-premium-rabbit-food-timothy-hay.jpg" alt="Rabbit Pellets">
                         <div class="product-badge">Natural</div>
                     </div>
                     <div class="product-info">
@@ -963,7 +950,7 @@
 
                 <div class="product-card" data-pet="dog" data-age="adult" data-type="treats" data-price="380">
                     <div class="product-image">
-                        🦴
+                        <img src="https://images.albertsons-media.com/is/image/ABS/960225872?$ng-ecom-pdp-desktop$&defaultImage=Not_Available" alt="Dog Dental Treats">
                         <div class="product-badge">Bestseller</div>
                     </div>
                     <div class="product-info">
@@ -999,7 +986,7 @@
 
                 <div class="product-card" data-pet="fish" data-age="adult" data-type="dry" data-price="280">
                     <div class="product-image">
-                        🐠
+                        <img src="https://static-01.daraz.com.bd/p/692b29da77a63c12c2d2a1b6d403bb48.jpg" alt="Fish Food Flakes">
                         <div class="product-badge">Aquatic</div>
                     </div>
                     <div class="product-info">
