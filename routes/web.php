@@ -136,6 +136,13 @@ Route::get('/adopt-home', function () {
     return view('adopt_home');
 });
 
+Route::get('/first-time-adopter', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('first_time_adopter');
+})->name('first.time.adopter');
+
 Route::get('/adoption-details', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');

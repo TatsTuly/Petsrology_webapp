@@ -307,38 +307,172 @@
             transform: translateY(-1px);
         }
 
-        .favorites-btn {
-            background: transparent;
-            color: #ff6f61;
-            border: 2px solid #ff6f61;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        /* Quick Actions Section */
+        .quick-actions-section {
+            margin: 40px 0 60px 0;
+            padding: 30px 20px;
+        }
+
+        .quick-actions-tabs {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 0.5px;
+            justify-content: center;
+            gap: 30px;
+            margin: 0 auto;
+            max-width: 800px;
+            flex-wrap: wrap;
         }
 
-        .favorites-btn:hover {
-            background: #ff6f61;
+        .action-tab {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        /* First action tab (favorites) - Red/Orange theme */
+        .action-tab:first-child::before {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        }
+
+        /* Second action tab (first-time adopter) - Green theme */
+        .action-tab:last-child::before {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .action-tab:last-child:hover,
+        .action-tab:last-child.active {
+            border-color: #28a745;
+        }
+
+        .action-tab:hover::before,
+        .action-tab.active::before {
+            left: 0;
+        }
+
+        .action-tab:hover,
+        .action-tab.active {
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+            transform: translateY(-5px);
+            text-decoration: none;
         }
 
-        .favorites-btn.active {
-            background: #ff6f61;
+        .action-tab:first-child:hover,
+        .action-tab:first-child.active {
+            border-color: #ff6f61;
+        }
+
+        .action-tab:last-child:hover,
+        .action-tab:last-child.active {
+            border-color: #28a745;
+        }
+
+        .action-tab-link {
+            display: block;
+        }
+
+        .action-tab-link:hover {
+            text-decoration: none;
             color: white;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
         }
 
-        .favorites-btn.active:hover {
-            background: #e65c50;
+        .action-tab-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        /* Default icon color for first tab (favorites) */
+        .action-tab:first-child .action-tab-icon {
+            color: #ff6f61;
+        }
+
+        /* Icon color for second tab (first-time adopter) */
+        .action-tab:last-child .action-tab-icon {
+            color: #28a745;
+        }
+
+        .action-tab:hover .action-tab-icon,
+        .action-tab.active .action-tab-icon {
+            color: white;
+        }
+
+        .action-tab h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+
+        .action-tab:hover h3,
+        .action-tab.active h3 {
+            color: white;
+        }
+
+        .action-tab p {
+            font-size: 0.95rem;
+            color: #5a6c7d;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .action-tab:hover p,
+        .action-tab.active p {
+            color: white;
+        }
+
+        /* Responsive Design for Action Tabs */
+        @media (max-width: 700px) {
+            .quick-actions-section {
+                margin: 30px 0 50px 0;
+                padding: 20px 15px;
+            }
+            
+            .quick-actions-tabs {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+                max-width: none;
+            }
+            
+            .action-tab {
+                min-width: auto;
+                padding: 15px 20px;
+            }
+            
+            .action-tab-icon {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            
+            .action-tab h3 {
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+            
+            .action-tab p {
+                font-size: 0.85rem;
+            }
         }
 
         .results-info {
@@ -1246,11 +1380,6 @@
                             <i class="fas fa-times"></i> Clear Filters
                         </button>
                     </div>
-                    <div class="filter-group">
-                        <button class="favorites-btn" id="favoritesBtn" onclick="toggleFavorites()">
-                            <i class="fas fa-heart"></i> Show Favorites
-                        </button>
-                    </div>
                 </div>
 
                 <div class="results-info">
@@ -1264,6 +1393,26 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="quick-actions-section">
+            <div class="quick-actions-tabs">
+                <div class="action-tab" onclick="toggleFavorites()">
+                    <div class="action-tab-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Show Favorites</h3>
+                    <p>View your saved pets</p>
+                </div>
+                <a href="{{ route('first.time.adopter') }}" class="action-tab action-tab-link">
+                    <div class="action-tab-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Haven't adopted a pet before</h3>
+                    <p>New to pet adoption? Get guidance</p>
+                </a>
             </div>
         </section>
 
@@ -1866,18 +2015,20 @@
 
         // Toggle favorites display
         function toggleFavorites() {
-            const favoritesBtn = document.getElementById('favoritesBtn');
-            const isActive = favoritesBtn.classList.contains('active');
+            const favoritesTab = document.querySelector('.action-tab');
+            const isActive = favoritesTab.classList.contains('active');
             
             if (isActive) {
                 // Show all pets
-                favoritesBtn.classList.remove('active');
-                favoritesBtn.innerHTML = '<i class="fas fa-heart"></i> Show Favorites';
+                favoritesTab.classList.remove('active');
+                favoritesTab.querySelector('h3').textContent = 'Show Favorites';
+                favoritesTab.querySelector('p').textContent = 'View your saved pets';
                 showAllPets();
             } else {
                 // Show only favorites
-                favoritesBtn.classList.add('active');
-                favoritesBtn.innerHTML = '<i class="fas fa-heart-broken"></i> Show All Pets';
+                favoritesTab.classList.add('active');
+                favoritesTab.querySelector('h3').textContent = 'Show All Pets';
+                favoritesTab.querySelector('p').textContent = 'View all available pets';
                 showOnlyFavorites();
             }
         }
