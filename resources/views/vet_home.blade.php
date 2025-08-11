@@ -855,7 +855,7 @@
                     <span class="service-icon">💉</span>
                     <h3>Vaccinations</h3>
                     <p>Essential vaccination services to protect your pet from diseases and infections. Keep your furry friend safe with up-to-date immunizations.</p>
-                    <a href="{{ route('book.appointment') }}" class="service-btn">Schedule Vaccination</a>
+                    <a href="{{ route('vaccination.schedule') }}" class="service-btn">Schedule Vaccination</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">🏥</span>

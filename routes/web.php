@@ -115,6 +115,13 @@ Route::get('/all-vets', function () {
     return view('all_vets');
 })->name('all.vets');
 
+Route::get('/vaccination-schedule', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('vaccination_schedule');
+})->name('vaccination.schedule');
+
 Route::get('/adopt-home', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');
