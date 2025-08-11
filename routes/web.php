@@ -122,6 +122,13 @@ Route::get('/vaccination-schedule', function () {
     return view('vaccination_schedule');
 })->name('vaccination.schedule');
 
+Route::get('/vaccination-booking', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('vaccination_booking');
+})->name('vaccination.booking');
+
 Route::get('/adopt-home', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');

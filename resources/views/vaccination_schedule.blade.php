@@ -943,7 +943,7 @@
                         <li><i class="fas fa-check"></i> Vaccination Certificate</li>
                         <li><i class="fas fa-check"></i> 1 Follow-up Visit</li>
                     </ul>
-                    <a href="#" class="package-btn">
+                    <a href="{{ route('vaccination.booking', ['package' => 'Basic Protection']) }}" class="package-btn">
                         <i class="fas fa-calendar-plus"></i>
                         Book Package
                     </a>
@@ -965,7 +965,7 @@
                         <li><i class="fas fa-check"></i> Deworming Treatment</li>
                         <li><i class="fas fa-check"></i> 3 Follow-up Visits</li>
                     </ul>
-                    <a href="#" class="package-btn">
+                    <a href="{{ route('vaccination.booking', ['package' => 'Premium Protection']) }}" class="package-btn">
                         <i class="fas fa-calendar-plus"></i>
                         Book Package
                     </a>
@@ -986,7 +986,7 @@
                         <li><i class="fas fa-check"></i> Emergency Support</li>
                         <li><i class="fas fa-check"></i> Unlimited Follow-ups</li>
                     </ul>
-                    <a href="#" class="package-btn">
+                    <a href="{{ route('vaccination.booking', ['package' => 'Complete Care']) }}" class="package-btn">
                         <i class="fas fa-calendar-plus"></i>
                         Book Package
                     </a>
@@ -1020,7 +1020,7 @@
                         </div>
                         <span class="expert-rating-text">(4.9/5)</span>
                     </div>
-                    <a href="{{ route('book.appointment') }}" class="expert-btn">
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Aminul Islam']) }}" class="expert-btn">
                         <i class="fas fa-user-md"></i>
                         Book with Dr. Aminul
                     </a>
@@ -1044,7 +1044,7 @@
                         </div>
                         <span class="expert-rating-text">(4.8/5)</span>
                     </div>
-                    <a href="{{ route('book.appointment') }}" class="expert-btn">
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Sultana Razia']) }}" class="expert-btn">
                         <i class="fas fa-user-md"></i>
                         Book with Dr. Sultana
                     </a>
@@ -1068,7 +1068,7 @@
                         </div>
                         <span class="expert-rating-text">(4.7/5)</span>
                     </div>
-                    <a href="{{ route('book.appointment') }}" class="expert-btn">
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Karim Ahmed']) }}" class="expert-btn">
                         <i class="fas fa-user-md"></i>
                         Book with Dr. Karim
                     </a>
@@ -1092,9 +1092,81 @@
                         </div>
                         <span class="expert-rating-text">(4.9/5)</span>
                     </div>
-                    <a href="{{ route('book.appointment') }}" class="expert-btn">
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Fatema Begum']) }}" class="expert-btn">
                         <i class="fas fa-user-md"></i>
                         Book with Dr. Fatema
+                    </a>
+                </div>
+
+                <!-- Dr. Mohammad Hassan -->
+                <div class="expert-card">
+                    <div class="expert-avatar" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);">
+                        MH
+                    </div>
+                    <h3 class="expert-name">Dr. Mohammad Hassan</h3>
+                    <p class="expert-specialty">Vaccine Research Specialist</p>
+                    <p class="expert-experience">18 years experience in vaccine research</p>
+                    <div class="expert-rating">
+                        <div class="expert-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="expert-rating-text">(4.9/5)</span>
+                    </div>
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Mohammad Hassan']) }}" class="expert-btn">
+                        <i class="fas fa-user-md"></i>
+                        Book with Dr. Hassan
+                    </a>
+                </div>
+
+                <!-- Dr. Nasreen Akter -->
+                <div class="expert-card">
+                    <div class="expert-avatar" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);">
+                        NA
+                    </div>
+                    <h3 class="expert-name">Dr. Nasreen Akter</h3>
+                    <p class="expert-specialty">Senior Immunologist</p>
+                    <p class="expert-experience">14 years experience in pet immunology</p>
+                    <div class="expert-rating">
+                        <div class="expert-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="expert-rating-text">(4.8/5)</span>
+                    </div>
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Nasreen Akter']) }}" class="expert-btn">
+                        <i class="fas fa-user-md"></i>
+                        Book with Dr. Nasreen
+                    </a>
+                </div>
+
+                <!-- Dr. Rafiqul Islam -->
+                <div class="expert-card">
+                    <div class="expert-avatar" style="background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);">
+                        RI
+                    </div>
+                    <h3 class="expert-name">Dr. Rafiqul Islam</h3>
+                    <p class="expert-specialty">Exotic Pet Vaccination</p>
+                    <p class="expert-experience">11 years experience with exotic pets</p>
+                    <div class="expert-rating">
+                        <div class="expert-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="expert-rating-text">(4.7/5)</span>
+                    </div>
+                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Rafiqul Islam']) }}" class="expert-btn">
+                        <i class="fas fa-user-md"></i>
+                        Book with Dr. Rafiqul
                     </a>
                 </div>
             </div>
@@ -1199,17 +1271,6 @@
 
         // Initialize animations
         window.addEventListener('load', animateOnScroll);
-
-        // Package booking functionality
-        document.querySelectorAll('.package-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const packageName = this.closest('.package-card').querySelector('.package-name').textContent;
-                alert(`You selected the ${packageName} package. This will redirect to the booking form.`);
-                // Here you can redirect to a booking form with the selected package
-                // window.location.href = '/book-vaccination?package=' + encodeURIComponent(packageName);
-            });
-        });
     </script>
 </body>
 </html>
