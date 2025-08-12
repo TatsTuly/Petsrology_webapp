@@ -10,11 +10,13 @@
             background: #f8f9fa;
         }
 
+        /* Enhanced Header */
         .hero-section {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
-            padding: 80px 20px 60px;
             text-align: center;
+            padding: 80px 20px 60px;
+            box-shadow: 0 4px 20px rgba(255,111,97,0.2);
             position: relative;
             overflow: hidden;
         }
@@ -22,18 +24,18 @@
         .hero-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: float 20s linear infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background-size: 1000px 100px;
+            animation: wave 20s linear infinite;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-40px, -40px) rotate(360deg); }
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
         }
 
         .hero-content {
@@ -43,19 +45,56 @@
             margin: 0 auto;
         }
 
+        .header-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-icon i {
+            font-size: 3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 2px;
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .hero-subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
+            font-size: 1.3rem;
+            margin: 0;
             opacity: 0.95;
-            font-weight: 400;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
             line-height: 1.6;
         }
 
@@ -381,9 +420,9 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
-            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;">
-                <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.3);">
-                    <i class="fas fa-envelope" style="font-size: 30px; color: white;"></i>
+            <div class="header-icon-container">
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
                 </div>
             </div>
             <h1 class="hero-title">Contact Us</h1>

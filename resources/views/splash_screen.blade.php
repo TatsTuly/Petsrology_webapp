@@ -118,35 +118,35 @@
                 margin-top: 0;
             }
         }
-        @media (max-width: 600px) {
-            .custom-logo { width: 64px; height: 64px; }
-            .splash-title { font-size: 2rem; }
-            .loader { width: 38px; height: 38px; }
-        }
-@endsection
-
-@section('content')
-    <div class="splash-container">
-        <div class="custom-logo">
-            <svg width="54" height="54" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-            </svg>
+            @media (max-width: 600px) {
+                .custom-logo { width: 64px; height: 64px; }
+                .splash-title { font-size: 2rem; }
+                .loader { width: 38px; height: 38px; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="splash-container">
+            <div class="custom-logo">
+                <svg width="54" height="54" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                    <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                    <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                    <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                </svg>
+            </div>
+            <div class="splash-title">PETSROLOGY</div>
+            <div class="splash-slogan">
+                Your one-stop platform for all pet needs
+            </div>
+            <div class="loader"></div>
         </div>
-        <div class="splash-title">PETSROLOGY</div>
-        <div class="splash-slogan">
-            Your one-stop platform for all pet needs
-        </div>
-        <div class="loader"></div>
-    </div>
-    
-    <script>
-        setTimeout(function() {
-            window.location.href = "{{ url('/landing') }}";
-        }, 5000);
-    </script>
-</body>
+        
+        <script>
+            setTimeout(function() {
+                window.location.href = "{{ url('/landing') }}";
+            }, 5000);
+        </script>
+    </body>
 </html>
