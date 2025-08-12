@@ -1,127 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'Contact Us - PETSROLOGY')
+
+@section('styles')
     <style>
         body {
             font-family: 'Nunito', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            background: #f8f9fa;
         }
 
-        /* Navigation Styles */
-        .navbar {
-            background: #fff;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            height: 70px;
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            margin-left: 0;
-        }
-        .navbar-brand:hover {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .brand-logo {
-            width: 45px;
-            height: 45px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
-            margin-right: 12px;
-        }
-
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ff6f61;
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 8px;
-            margin-right: 10px;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 12px 18px;
-            color: #ff6f61;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 0;
-            transition: all 0.3s ease;
+        .hero-section {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .nav-link::before {
+        .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: float 20s linear infinite;
         }
 
-        .nav-link:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-40px, -40px) rotate(360deg); }
         }
 
-        .nav-link.active {
-            background: #ff6f61;
-            color: #fff;
-        }
-        .nav-link.active::before {
-            left: 0;
-            background: #ff6f61;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .nav-link:hover::before {
-            left: 0;
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 400;
+            line-height: 1.6;
         }
 
         .contact-header {
@@ -129,6 +64,7 @@
             margin: 3rem auto 2rem;
             max-width: 800px;
             padding: 0 1rem;
+            display: none;
         }
 
         .contact-header h1 {
@@ -149,62 +85,88 @@
 
         .contact-layout {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 2fr 1fr;
             gap: 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
         .contact-form-container {
             background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
+        }
+
+        .contact-form-container h2 {
+            color: #ff6f61;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            font-family: 'Nunito', sans-serif;
         }
 
         .contact-sidebar {
             background: #fff;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
         }
 
         .form-control {
             width: 100%;
-            padding: 0.8rem;
+            padding: 1.2rem;
             border: 2px solid #eee;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+            box-sizing: border-box;
         }
 
         .form-control:focus {
             border-color: #ff6f61;
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control::placeholder {
+            color: #999;
+            font-weight: 400;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
         }
 
         .btn-submit {
-            background: linear-gradient(45deg, #ff6f61, #ff9472);
+            background: linear-gradient(135deg, #ff6f61, #ff9472);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: transform 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.3);
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 111, 97, 0.4);
         }
 
         .contact-info {
@@ -213,19 +175,32 @@
 
         .contact-info h3 {
             color: #ff6f61;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-family: 'Nunito', sans-serif;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            padding: 0.5rem 0;
         }
 
         .contact-item i {
             color: #ff6f61;
             margin-right: 1rem;
             font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: #666;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
         }
 
         .map-container {
@@ -234,31 +209,42 @@
 
         .map-container iframe {
             width: 100%;
-            border-radius: 5px;
+            border-radius: 10px;
             border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
+            justify-content: center;
         }
 
         .social-links a {
             color: #ff6f61;
             font-size: 1.5rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 111, 97, 0.1);
         }
 
         .social-links a:hover {
-            color: #ff9472;
+            color: white;
+            background: #ff6f61;
+            transform: translateY(-3px);
         }
 
         .alert {
             max-width: 1200px;
             margin: 1rem auto;
             padding: 1rem 2rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-family: 'Nunito', sans-serif;
             font-weight: 600;
             text-align: center;
@@ -266,15 +252,21 @@
         }
 
         .alert-success {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
             box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
         }
 
         .alert-error {
-            background: linear-gradient(45deg, #ff6f61, #ff4444);
+            background: linear-gradient(135deg, #ff6f61, #ff4444);
             color: white;
             box-shadow: 0 4px 15px rgba(255, 111, 97, 0.2);
+        }
+
+        .alert ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .alert ul li {
@@ -292,9 +284,8 @@
             }
         }
 
-        /* Update existing success and error message styles */
         .success-message {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
             padding: 1rem;
             border-radius: 8px;
@@ -317,33 +308,27 @@
             animation: slideDown 0.3s ease-out;
         }
 
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .contact-layout {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 1.5rem auto;
+                padding: 0 1rem;
             }
 
-            .navbar-container {
-                flex-direction: column;
-                padding: 1rem;
-            }
-
-            .navbar-brand {
-                margin-bottom: 1rem;
-            }
-
-            .navbar-nav {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            footer {
-                padding: 1.5rem 0;
-                margin-top: 2rem;
-            }
-
-            footer p {
-                font-size: 0.9rem;
+            .contact-header {
+                margin: 2rem auto 1.5rem;
             }
 
             .contact-header h1 {
@@ -354,347 +339,146 @@
                 font-size: 1rem;
             }
 
+            .contact-form-container,
+            .contact-sidebar {
+                padding: 1.5rem;
+            }
+
             .alert {
                 margin: 1rem;
                 padding: 0.875rem 1.5rem;
             }
         }
 
-        @media (max-width: 1150px) {
-            .nav-link {
-                padding: 12px 14px;
-                font-size: 0.9rem;
-            }
-            .navbar-container {
-                padding: 0 15px;
-            }
-        }
-        @media (max-width: 900px) {
-            .navbar-nav {
-                gap: 4px;
-            }
-            .nav-link {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-        }
         @media (max-width: 700px) {
-            .navbar-container {
-                padding: 0 10px;
-                height: auto;
-                min-height: 60px;
-                flex-wrap: wrap;
-            }
-            .navbar-nav {
-                width: 100%;
-                justify-content: center;
-                margin-top: 10px;
-                flex-wrap: wrap;
-                gap: 2px;
-                margin-right: 0;
-            }
-            .brand-logo {
-                width: 35px;
-                height: 35px;
-                margin-right: 8px;
-            }
-            .brand-text {
-                font-size: 1.2rem;
-            }
-            .nav-link {
-                padding: 8px 10px;
-                font-size: 0.8rem;
+            .hero-title {
+                font-size: 2rem;
             }
         }
 
-        /* Footer Styles - matching other pages */
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-        
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-        
-        .footer-section h3 {
-            color: #ff6f61;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-section ul li a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section ul li a:hover {
-            color: #ff6f61;
-        }
-        
-        .footer-section ul li a i {
-            margin-right: 8px;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #555;
-        }
-        
-        .footer-bottom p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-        .logout-btn {
-            background: transparent;
-            color: #ff6f61;
-            padding: 12px 18px;
-            border-radius: 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-        .logout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        .logout-btn:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-        .logout-btn:hover::before {
-            left: 0;
-        }
-        .logout-btn i {
-            font-size: 0.9rem;
+        @media (max-width: 480px) {
+            .contact-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .contact-form-container,
+            .contact-sidebar {
+                padding: 1rem;
+            }
+
+            .form-control {
+                padding: 0.8rem;
+            }
+
+            .btn-submit {
+                padding: 0.8rem 1.5rem;
+            }
         }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
+@endsection
+
+@section('content')
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;">
+                <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.3);">
+                    <i class="fas fa-envelope" style="font-size: 30px; color: white;"></i>
                 </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/vet-home') }}" class="nav-link">Veterinary Support</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pet.supplies') }}" class="nav-link">Pet Supplies</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('contact') }}" class="nav-link active">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/user/dashboard') }}" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
+            </div>
+            <h1 class="hero-title">Contact Us</h1>
+            <p class="hero-subtitle">We'd love to hear from you! Get in touch with our team and we'll get back to you as soon as possible.</p>
         </div>
-    </nav>
+    </section>
 
-    <div class="main-content">
-        <div class="contact-header">
-            <h1>Contact Us</h1>
-            <p>We'd love to hear from you! Please fill out the form below.</p>
-        </div>
-
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-error">
-                <ul style="list-style: none; margin: 0; padding: 0;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <div class="contact-layout">
-            <div class="contact-form-container">
-                <h2>Send us a Message</h2>
-                <div class="success-message" id="successMessage">
-                    Thank you for your message! We'll get back to you soon.
-                </div>
-                <form id="contactForm" onsubmit="return validateForm(event)">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" placeholder="Full Name" required>
-                        <div class="error-message" id="nameError"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="email" placeholder="Email Address" required>
-                        <div class="error-message" id="emailError"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="subject" placeholder="Subject">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" id="message" rows="5" placeholder="Your Message" required></textarea>
-                        <div class="error-message" id="messageError"></div>
-                    </div>
-                    <button type="submit" class="btn-submit">Send Message</button>
-                </form>
-            </div>
-
-            <div class="contact-sidebar">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>295/2 Dhaka, Bangladesh</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <p>+880 1603221681</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>contact@petsrology.com</p>
-                    </div>
-                </div>
-
-                <div class="map-container">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.476468621499!2d67.0821!3d24.8607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDUxJzM4LjUiTiA2N8KwMDQnNTUuNiJF!5e0!3m2!1sen!2s!4v1234567890!5m2!1sen!2s"
-                        height="250" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
-                </div>
-
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>About PETSROLOGY</h3>
-                    <ul>
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Mission & Vision</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Our Services</h3>
-                    <ul>
-                        <li><a href="#">Pet Adoption</a></li>
-                        <li><a href="#">Veterinary Care</a></li>
-                        <li><a href="#">Pet Supplies</a></li>
-                        <li><a href="#">Pet Training</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Connect With Us</h3>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
-            </div>
-        </footer>
+    <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you! Please fill out the form below and we'll get back to you as soon as possible.</p>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-error">
+            <ul style="list-style: none; margin: 0; padding: 0;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="contact-layout">
+        <div class="contact-form-container">
+            <h2>Send us a Message</h2>
+            <div class="success-message" id="successMessage">
+                Thank you for your message! We'll get back to you soon.
+            </div>
+            <form id="contactForm" onsubmit="return validateForm(event)">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="message" rows="6" placeholder="Your Message" required></textarea>
+                    <div class="error-message" id="messageError"></div>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="contact-sidebar">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>295/2 Dhaka, Bangladesh</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+880 1603221681</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>contact@petsrology.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.8987445333937!2d90.3543872!3d23.7608652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087026b81%3A0x8fa563bbdd5904c2!2sDhaka%2C%20Bangladesh!5e0!3m2!1sen!2s!4v1234567890!5m2!1sen!2s"
+                    height="250" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+            <div class="social-links">
+                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
     <script>
         function validateForm(event) {
             event.preventDefault();
@@ -753,5 +537,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

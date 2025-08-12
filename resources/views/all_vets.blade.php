@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Veterinary Team - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'Our Veterinary Team - PETSROLOGY')
+
+@section('styles')
     <style>
+        /* Override layout styles for full-width header */
+        .main-content {
+            padding: 0 !important;
+            margin: 0 !important;
+            min-height: calc(100vh - 70px) !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,172 +23,10 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            margin: 0 !important;
         }
 
-        /* Enhanced Navbar */
-        .navbar {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,111,97,0.1);
-        }
-
-        .navbar-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            height: 70px;
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .navbar-brand:hover {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .brand-logo {
-            width: 50px;
-            height: 50px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
-            margin-right: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .brand-logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
-        }
-
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #ff6f61;
-            text-shadow: 0 2px 4px rgba(255,111,97,0.1);
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 8px;
-            margin-right: 10px;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 12px 18px;
-            color: #ff6f61;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        .nav-link:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-
-        .nav-link:hover::before {
-            left: 0;
-        }
-
-        .nav-link.active {
-            background: #ff6f61;
-            color: #fff;
-        }
-
-        .nav-link.active::before {
-            left: 0;
-            background: #ff6f61;
-        }
-
-        .logout-btn {
-            background: transparent;
-            color: #ff6f61;
-            padding: 12px 18px;
-            border-radius: 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        .logout-btn:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-
-        .logout-btn:hover::before {
-            left: 0;
-        }
-
-        .logout-btn i {
-            font-size: 0.9rem;
-        }
-
-        /* Enhanced Header */
+        /* Enhanced Header - Full Width */
         .header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
@@ -193,6 +35,10 @@
             box-shadow: 0 4px 20px rgba(255,111,97,0.2);
             position: relative;
             overflow: hidden;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-top: 0 !important;
+            margin-bottom: 0;
         }
 
         .header::before {
@@ -789,6 +635,16 @@
 
         /* Responsive Design */
         @media (max-width: 1200px) {
+            .hero-section {
+                padding: 100px 0 60px;
+                background-attachment: scroll;
+            }
+
+            .hero-text h1 {
+                font-size: 2.8rem;
+                letter-spacing: 1.5px;
+            }
+
             .vets-grid {
                 grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
                 gap: 30px;
@@ -796,6 +652,19 @@
         }
 
         @media (max-width: 900px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .hero-content {
+                padding: 0 15px;
+            }
+
             .vets-section {
                 padding: 40px 20px;
             }
@@ -921,62 +790,65 @@
                 padding: 8px 10px;
                 font-size: 0.8rem;
             }
+
+        /* Page Container for content after header */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .page-container {
+                max-width: 1000px;
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-container {
+                padding: 30px 15px;
+            }
+            
+            .vets-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .vets-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 20px 10px;
+            }
         }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
-                </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/vet-home') }}" class="nav-link active">Veterinary Support</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pet.supplies') }}" class="nav-link">Pet Supplies</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/user/dashboard') }}" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
+@endsection
 
+@section('content')
     <div class="header">
         <a href="{{ url('/vet-home') }}" class="back-btn">
             <i class="fas fa-arrow-left"></i>
@@ -984,12 +856,14 @@
         </a>
         <div class="header-icon-container">
             <div class="header-icon">
-                <span>👨‍⚕️</span>
+                <span>👩‍⚕️</span>
             </div>
         </div>
         <h1>Our Veterinary Team</h1>
         <p>Meet our experienced and caring veterinary professionals</p>
     </div>
+
+    <div class="page-container">
 
     <section class="search-filter-section">
         <div class="search-filter-container">
@@ -1341,55 +1215,10 @@
             <p>Try adjusting your search criteria or filters to find available veterinarians.</p>
         </div>
     </section>
+    </div>
+@endsection
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>About PETSROLOGY</h3>
-                <ul>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Mission & Vision</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Careers</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Our Services</h3>
-                <ul>
-                    <li><a href="#">Pet Adoption</a></li>
-                    <li><a href="#">Veterinary Care</a></li>
-                    <li><a href="#">Pet Supplies</a></li>
-                    <li><a href="#">Pet Training</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <ul>
-                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
-        </div>
-    </footer>
-
+@section('scripts')
     <script>
         // Search and Filter Functionality - adapted from adopt_home.blade.php
         function initializeFilters() {
@@ -1502,5 +1331,4 @@
         // Initialize animations
         window.addEventListener('load', animateOnScroll);
     </script>
-</body>
-</html>
+@endsection

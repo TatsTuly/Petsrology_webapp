@@ -1,129 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PETSROLOGY - Your Pet's Best Friend</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'PETSROLOGY - Your Pet\'s Best Friend')
+
+@section('styles')
     <style>
         body {
             font-family: 'Nunito', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            background: #f8f9fa;
         }
-        .navbar {
-            background: #fff;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .navbar-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            height: 70px;
-        }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            margin-left: 0;
-        }
-        .navbar-brand:hover {
-            color: #333;
-            text-decoration: none;
-        }
-        .brand-logo {
-            width: 45px;
-            height: 45px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
-            margin-right: 12px;
-        }
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ff6f61;
-        }
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 8px;
-            margin-right: 10px;
-        }
-        .nav-item {
-            position: relative;
-        }
-        .nav-link {
-            display: block;
-            padding: 12px 18px;
-            color: #ff6f61;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 0;
-            transition: all 0.3s ease;
+        
+        .hero-section {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
-        .nav-link::before {
+        
+        .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: float 20s linear infinite;
         }
-        .nav-link:hover {
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-40px, -40px) rotate(360deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .stats-section {
+            background: white;
+            padding: 60px 20px;
+            margin: -30px 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
             color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
+            margin-bottom: 10px;
+            display: block;
         }
-        .nav-link.active {
-            background: #ff6f61;
-            color: #fff;
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 600;
         }
-        .nav-link:hover::before {
-            left: 0;
-        }
-        .nav-link.active {
-            background: #ff6f61;
-            color: #fff;
-        }
-        .nav-link.active::before {
-            left: 0;
-            background: #ff6f61;
-        }
-        .main-content {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background: transparent;
-            box-shadow: none;
-            padding: 0;
-        }
+        
         .welcome-section {
             background: #fff;
             padding: 60px 20px;
@@ -132,10 +104,11 @@
         }
         .welcome-section h2 {
             font-size: 2.8rem;
-            color:#ff6f61;
+            color: #ff6f61;
             margin-bottom: 20px;
             font-weight: 700;
         }
+        
         .welcome-section p {
             font-size: 1.3rem;
             color: #666;
@@ -143,12 +116,14 @@
             margin: 0 auto 40px;
             line-height: 1.6;
         }
+        
         .cta-buttons {
             display: flex;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
         }
+        
         .cta-btn {
             background: #ff6f61;
             color: white;
@@ -162,6 +137,7 @@
             border: none;
             cursor: pointer;
         }
+        
         .cta-btn:hover {
             background: #e65c50;
             transform: translateY(-3px);
@@ -169,16 +145,19 @@
             color: white;
             text-decoration: none;
         }
+        
         .cta-btn.secondary {
             background: transparent;
             color: #ff6f61;
             border: 2px solid #ff6f61;
             box-shadow: none;
         }
+        
         .cta-btn.secondary:hover {
             background: #ff6f61;
             color: white;
         }
+        
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -188,6 +167,7 @@
             margin-left: auto;
             margin-right: auto;
         }
+        
         .feature {
             background: #fff;
             border-radius: 20px;
@@ -199,6 +179,7 @@
             position: relative;
             overflow: hidden;
         }
+        
         .feature::before {
             content: '';
             position: absolute;
@@ -209,186 +190,42 @@
             background: linear-gradient(90deg, #ff6f61, #ff9472);
             transition: left 0.5s ease;
         }
+        
         .feature:hover::before {
             left: 0;
         }
+        
         .feature:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(255,111,97,0.15);
             border-color: #ff6f61;
         }
+        
         .feature img {
             width: 60px;
             height: 60px;
             margin-bottom: 25px;
             transition: all 0.3s ease;
         }
+        
         .feature:hover img {
             transform: scale(1.1) rotate(5deg);
         }
+        
         .feature h3 {
             margin: 0 0 15px 0;
             font-size: 1.6rem;
             color: #ff6f61;
             font-weight: 700;
         }
+        
         .feature p {
             font-size: 1.1rem;
             color: #666;
             margin-bottom: 25px;
             line-height: 1.6;
         }
-        .feature::after {
-            content: "";
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, rgba(255,111,97,0.1) 50%, transparent 70%);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .feature:hover::after {
-            opacity: 1;
-        }
-        /* Footer Styles - matching contact page */
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
         
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-        
-        .footer-section h3 {
-            color: #ff6f61;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-section ul li a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section ul li a:hover {
-            color: #ff6f61;
-        }
-        
-        .footer-section ul li a i {
-            margin-right: 8px;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #555;
-        }
-        
-        .footer-bottom p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-        .hero-section {
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
-            color: white;
-            padding: 80px 20px 60px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: float 20s linear infinite;
-        }
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-40px, -40px) rotate(360deg); }
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 2px;
-        }
-        .hero-subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-        .stats-section {
-            background: white;
-            padding: 60px 20px;
-            margin: -30px 20px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 3;
-        }
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #ff6f61;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .stat-label {
-            font-size: 1.1rem;
-            color: #666;
-            font-weight: 600;
-        }
         .feature-btn {
             background: linear-gradient(135deg, #ff6f61, #ff9472);
             color: white;
@@ -405,12 +242,14 @@
             position: relative;
             overflow: hidden;
         }
+        
         .feature-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(255,111,97,0.4);
             color: white;
             text-decoration: none;
         }
+        
         .feature-btn::before {
             content: '';
             position: absolute;
@@ -422,6 +261,7 @@
             transition: left 0.3s ease;
             z-index: -1;
         }
+        
         .feature-btn:hover::before {
             left: 0;
         }
@@ -535,102 +375,10 @@
                 margin: 0;
             }
         }
-        .logout-btn {
-            background: transparent;
-            color: #ff6f61;
-            padding: 12px 18px;
-            border-radius: 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-        .logout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        .logout-btn:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-        .logout-btn:hover::before {
-            left: 0;
-        }
-        .logout-btn i {
-            font-size: 0.9rem;
-        }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
-                </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
-            
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/vet-home') }}" class="nav-link">Veterinary Support</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pet.supplies') }}" class="nav-link">Pet Supplies</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('contact') }}" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/user/dashboard') }}" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="main-content">
+@endsection
+
+@section('content')
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="hero-content">
@@ -702,57 +450,4 @@
                 <a href="{{ route('pet.supplies') }}" class="feature-btn">Shop Now</a>
             </div>
         </section>
-
-        <footer>
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>About PETSROLOGY</h3>
-                    <ul>
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Mission & Vision</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Our Services</h3>
-                    <ul>
-                        <li><a href="#">Pet Adoption</a></li>
-                        <li><a href="#">Veterinary Care</a></li>
-                        <li><a href="#">Pet Supplies</a></li>
-                        <li><a href="#">Pet Training</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Connect With Us</h3>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 PETSROLOGY. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
-    <script>
-        // Add any additional JavaScript functionality here if needed
-    </script>
-</body>
-</html>
+@endsection

@@ -1,80 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoption Application - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'Adoption Application - PETSROLOGY')
+
+@section('styles')
     <style>
-        * {
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
+        }
+
+        *, *::before, *::after {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* Navigation Styles */
-        .navbar {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        /* Remove any gaps from parent containers */
+        .container, .main-wrapper {
+            margin: 0;
             padding: 0;
-            position: sticky;
+        }
+
+        /* Reset container constraints for full-width header */
+        .main-content {
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: none !important;
+        }
+
+        /* Remove any spacing from content wrapper */
+        main, .content-wrapper {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Override any Bootstrap or layout spacing */
+        .row, .col, .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Ensure hero section appears right under navbar */
+        section:first-child, .hero-section {
+            margin-top: -30px !important;
+        }
+
+        /* Full-width Hero Section */
+        .hero-section {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-top: -30px !important;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, rgba(255,111,97,0.95) 0%, rgba(255,148,114,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1920&h=400&fit=crop&auto=format');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 140px 0 80px;
+            position: relative;
+            color: white;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
             top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,111,97,0.1);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,111,97,0.8) 0%, rgba(255,148,114,0.6) 100%);
+            z-index: 1;
         }
 
-        .navbar-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 0 20px;
-            height: 70px;
-        }
-
-        .navbar-brand {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            text-decoration: none;
-            color: #333;
+            gap: 30px;
         }
 
-        .brand-logo {
-            width: 50px;
-            height: 50px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
-            margin-right: 15px;
-            transition: all 0.3s ease;
-            font-size: 1.5rem;
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
         }
 
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #ff6f61;
-            text-shadow: 0 2px 4px rgba(255,111,97,0.1);
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 0;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .back-btn {
-            background: #ff6f61;
+            background: rgba(255,255,255,0.2);
             color: white;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.4);
             padding: 12px 24px;
             border-radius: 25px;
             cursor: pointer;
@@ -85,20 +117,21 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .back-btn:hover {
-            background: #e65c50;
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
             text-decoration: none;
             color: white;
         }
 
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
+        /* Page Container */
+        .page-container {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 30px 20px;
         }
@@ -161,9 +194,11 @@
         /* Form Container */
         .form-container {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
+            grid-template-columns: 2.2fr 0.8fr;
+            gap: 60px;
             animation: fadeInUp 0.8s ease-out;
+            width: 100%;
+            align-items: start;
         }
 
         /* Application Form */
@@ -171,10 +206,12 @@
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             border-radius: 20px;
             box-shadow: 0 8px 30px rgba(255,111,97,0.12), 0 2px 8px rgba(0,0,0,0.04);
-            padding: 40px;
+            padding: 45px;
             border: 1px solid rgba(255,111,97,0.05);
             position: relative;
             overflow: hidden;
+            width: 100%;
+            min-height: fit-content;
         }
 
         .application-form::before {
@@ -210,16 +247,22 @@
 
         .form-group {
             margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .form-row.three-col {
             grid-template-columns: 1fr 1fr 1fr;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         label {
@@ -249,6 +292,7 @@
             font-size: 0.95rem;
             transition: all 0.3s ease;
             background: #fff;
+            box-sizing: border-box;
         }
 
         input:focus,
@@ -306,6 +350,8 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
+            width: 100%;
+            min-height: fit-content;
         }
 
         .info-card {
@@ -534,13 +580,43 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .form-container {
+                grid-template-columns: 1.8fr 1.2fr;
+                gap: 40px;
+            }
+            
+            .page-container {
+                max-width: 1200px;
+                padding: 25px 15px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 0 60px;
+                background-attachment: scroll;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .hero-content {
+                padding: 0 15px;
+            }
+
             .form-container {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
 
-            .main-content {
+            .page-container {
                 padding: 20px 15px;
             }
 
@@ -670,38 +746,32 @@
 
         .highlight-section h4 {
             color: #ff6f61;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
-                </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
+@endsection
+
+@section('hero')
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Adoption Application</h1>
+                <p>Complete this application to begin the adoption process</p>
+            </div>
             <a href="{{ url('/adoption-details') }}" class="back-btn" id="backToPetBtn">
                 <i class="fas fa-arrow-left"></i>
                 Back to Pet Details
             </a>
         </div>
-    </nav>
+    </section>
+@endsection
 
-    <div class="main-content">
+@section('content')
+    <!-- Page Container -->
+    <div class="page-container">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-title">Adoption Application</h1>
-            <p class="page-subtitle">Complete this application to begin the adoption process. All information is confidential and will be used solely for the purpose of pet placement.</p>
+            <p class="page-subtitle">All information is confidential and will be used solely for the purpose of pet placement.</p>
             
             <div class="pet-info-banner" id="petInfoBanner">
                 <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format" alt="Pet" id="petBannerImage">
@@ -1175,7 +1245,9 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('scripts')
     <script>
         // Form validation and interaction
         document.addEventListener('DOMContentLoaded', function() {
@@ -1478,5 +1550,4 @@
         // Load draft on page load
         window.addEventListener('load', loadDraft);
     </script>
-</body>
-</html>
+@endsection

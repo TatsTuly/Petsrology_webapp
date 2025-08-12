@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoption Details - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'Adoption Details - PETSROLOGY')
+
+@section('styles')
     <style>
+        /* Override layout styles for full-width header */
+        .main-content {
+            padding: 0 !important;
+            margin: 0 !important;
+            min-height: calc(100vh - 70px) !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,87 +23,133 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            margin: 0 !important;
         }
 
-        /* Navigation Styles */
-        .navbar {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 0;
-            position: sticky;
+        /* Enhanced Header - Full Width */
+        .header {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px 60px;
+            box-shadow: 0 4px 20px rgba(255,111,97,0.2);
+            position: relative;
+            overflow: hidden;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-top: 0 !important;
+            margin-bottom: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
             top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,111,97,0.1);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background-size: 1000px 100px;
+            animation: wave 20s linear infinite;
         }
 
-        .navbar-container {
-            width: 100%;
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+
+        .header-icon-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            padding: 0 20px;
-            height: 70px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
         }
 
-        .navbar-brand {
+        .header-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
             display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .brand-logo {
-            width: 50px;
-            height: 50px;
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
-            margin-right: 15px;
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #ff6f61;
-            text-shadow: 0 2px 4px rgba(255,111,97,0.1);
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-icon span {
+            font-size: 3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            margin: 0;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
         .back-btn {
-            background: #ff6f61;
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.15);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 20px;
             border-radius: 25px;
             cursor: pointer;
-            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
             font-weight: 600;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .back-btn:hover {
-            background: #e65c50;
+            background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
-            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             color: white;
+            text-decoration: none;
         }
 
-        /* Main Content */
-        .main-content {
+        /* Page Container for content after header */
+        .page-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        /* Main Content Grid */
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 400px;
             gap: 40px;
@@ -556,59 +606,8 @@
             font-style: italic;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 20px 15px;
-            }
-
-            .pet-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .pet-image-large {
-                width: 100%;
-                max-width: 300px;
-                margin: 0 auto;
-            }
-
-            .pet-basic-info {
-                grid-template-columns: 1fr;
-            }
-
-            .health-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .pet-name {
-                font-size: 2rem;
-            }
-
-            .navbar-container {
-                padding: 0 15px;
-                height: 60px;
-            }
-
-            .brand-logo {
-                width: 40px;
-                height: 40px;
-            }
-
-            .brand-text {
-                font-size: 1.3rem;
-            }
-        }
-
         /* Animation for page load */
-        .main-content {
+        .content-grid {
             animation: fadeInUp 0.6s ease-out;
         }
 
@@ -648,32 +647,97 @@
             background: #dc3545;
         }
 
-        .status-badge.special {
-            background: #6f42c1;
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .page-container {
+                max-width: 1000px;
+                padding: 30px 20px;
+            }
+            
+            .content-grid {
+                gap: 30px;
+            }
         }
+
+        @media (max-width: 900px) {
+            .page-container {
+                padding: 30px 15px;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .pet-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .pet-image-large {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .pet-basic-info {
+                grid-template-columns: 1fr;
+            }
+
+            .health-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .pet-name {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 20px 10px;
+            }
+        }
+
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
-                </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
-            <a href="{{ url('/adopt-home') }}" class="back-btn">
-                <i class="fas fa-arrow-left"></i>
-                Back to Pets
-            </a>
+@endsection
+
+@section('content')
+    <div class="header">
+        <a href="{{ url('/adopt-home') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Pets
+        </a>
+        <div class="header-icon-container">
+            <div class="header-icon">
+                <span>🐾</span>
+            </div>
         </div>
-    </nav>
+        <h1>Pet Adoption Details</h1>
+        <p>Learn more about your potential new family member</p>
+    </div>
 
     <!-- Success Message -->
     @if(session('success'))
@@ -685,7 +749,8 @@
         </div>
     @endif
 
-    <div class="main-content">
+    <div class="page-container">
+        <div class="content-grid">
         <!-- Pet Details Section -->
         <div class="pet-details">
             <div class="pet-header">
@@ -921,8 +986,11 @@
                 </ul>
             </div>
         </div>
+        </div>
     </div>
+@endsection
 
+@section('scripts')
     <script>
         // Function to start adoption process
         function startAdoptionProcess() {
@@ -1309,5 +1377,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

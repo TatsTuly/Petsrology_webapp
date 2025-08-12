@@ -1,191 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Food Shop - PETSROLOGY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', 'Pet Food Shop - PETSROLOGY')
+
+@section('styles')
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
+        /* Override layout styles for full-width header */
+        .main-content {
+            padding: 0 !important;
+            margin: 0 !important;
+            min-height: calc(100vh - 70px) !important;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            margin: 0 !important;
         }
-        .navbar {
-            background: #fff;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .navbar-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            height: 70px;
-        }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            margin-left: 0;
-        }
-        .navbar-brand:hover {
-            color: #333;
-            text-decoration: none;
-        }
-        .brand-logo {
-            width: 45px;
-            height: 45px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6f61 70%, #ff9472 100%);
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(255,111,97,0.13);
-            margin-right: 12px;
-        }
-        .brand-text {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ff6f61;
-        }
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 8px;
-            margin-right: 10px;
-        }
-        .nav-item {
-            position: relative;
-        }
-        .nav-link {
-            display: block;
-            padding: 12px 18px;
-            color: #ff6f61;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        .nav-link:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-        .nav-link:hover::before {
-            left: 0;
-        }
-        .nav-link.active {
-            background: #ff6f61;
-            color: #fff;
-        }
-        .nav-link.active::before {
-            left: 0;
-            background: #ff6f61;
-        }
-        
-        header {
+
+        /* Enhanced Header - Full Width */
+        .header {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
             color: white;
             text-align: center;
-            padding: 60px 20px 40px;
-            box-shadow: 0 2px 10px rgba(255,111,97,0.1);
+            padding: 80px 20px 60px;
+            box-shadow: 0 4px 20px rgba(255,111,97,0.2);
             position: relative;
+            overflow: hidden;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-top: 0 !important;
+            margin-bottom: 0;
         }
-        
-        header h1 {
-            font-size: 2.8rem;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background-size: 1000px 100px;
+            animation: wave 20s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+
+        .header-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-icon span {
+            font-size: 3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.3rem;
             margin: 0;
-            font-weight: 700;
-            letter-spacing: 1px;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
-        
-        header p {
-            font-size: 1.2rem;
-            margin: 15px 0 0;
-            opacity: 0.9;
-        }
-        
+
         .back-btn {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.2);
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.15);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 12px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.3s;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+
         .back-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             color: white;
             text-decoration: none;
         }
-        
-        .shop-section {
-            padding: 40px 20px 60px;
-            background: #f8f9fa;
-        }
-        
-        .shop-container {
+
+        /* Page Container for content after header */
+        .page-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
         }
-        
+        /* Shop Category Filters */
         .filter-section {
-            background: #fff;
+            background: white;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(255,111,97,0.08);
-            border-top: 4px solid #ff6f61;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,111,97,0.1);
         }
-        
+
         .filter-title {
-            color: #ff6f61;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
+            color: #ff6f61;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .filter-controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -242,7 +223,7 @@
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin-top: 30px;
         }
@@ -412,75 +393,32 @@
             border-color: #ff6f61;
         }
         
-        /* Footer Styles - matching other pages */
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-        
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-        
-        .footer-section h3 {
-            color: #ff6f61;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-section ul li a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section ul li a:hover {
-            color: #ff6f61;
-        }
-        
-        .footer-section ul li a i {
-            margin-right: 8px;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #555;
-        }
-        
-        .footer-bottom p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #ccc;
-        }
         
         @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 0 60px;
+                background-attachment: scroll;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .hero-content {
+                padding: 0 15px;
+            }
+
             .filter-controls {
                 grid-template-columns: 1fr;
             }
             
             .products-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 20px;
             }
             
@@ -488,41 +426,11 @@
                 font-size: 2.2rem;
             }
             
-            .navbar-nav {
-                gap: 4px;
-            }
-            .nav-link {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
         }
         
         @media (max-width: 600px) {
-            .navbar-container {
-                padding: 0 15px;
-                height: 60px;
-            }
-            .brand-logo {
-                width: 35px;
-                height: 35px;
-                margin-right: 8px;
-            }
-            .brand-text {
-                font-size: 1.2rem;
-            }
-            .navbar-nav {
-                flex-wrap: wrap;
-                gap: 2px;
-            }
-            .nav-link {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
             header {
                 padding: 40px 20px 30px;
-            }
-            .shop-section {
-                padding: 30px 15px 50px;
             }
             .filter-section {
                 padding: 20px 15px;
@@ -530,92 +438,6 @@
             .products-grid {
                 grid-template-columns: 1fr;
             }
-        }
-        @media (max-width: 1150px) {
-            .nav-link {
-                padding: 12px 14px;
-                font-size: 0.9rem;
-            }
-            .navbar-container {
-                padding: 0 15px;
-            }
-        }
-        @media (max-width: 900px) {
-            .navbar-nav {
-                gap: 4px;
-            }
-            .nav-link {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-        }
-        @media (max-width: 700px) {
-            .navbar-container {
-                padding: 0 10px;
-                height: auto;
-                min-height: 60px;
-                flex-wrap: wrap;
-            }
-            .navbar-nav {
-                width: 100%;
-                justify-content: center;
-                margin-top: 10px;
-                flex-wrap: wrap;
-                gap: 2px;
-                margin-right: 0;
-            }
-            .brand-logo {
-                width: 35px;
-                height: 35px;
-                margin-right: 8px;
-            }
-            .brand-text {
-                font-size: 1.2rem;
-            }
-            .nav-link {
-                padding: 8px 10px;
-                font-size: 0.8rem;
-            }
-        }
-        .logout-btn {
-            background: transparent;
-            color: #ff6f61;
-            padding: 12px 18px;
-            border-radius: 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-        .logout-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 111, 97, 0.1);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        .logout-btn:hover {
-            color: #ff6f61;
-            text-decoration: none;
-            transform: translateY(-2px);
-            background: rgba(255, 111, 97, 0.1);
-        }
-        .logout-btn:hover::before {
-            left: 0;
-        }
-        .logout-btn i {
-            font-size: 0.9rem;
         }
         
         /* Floating Cart Styles */
@@ -918,73 +740,153 @@
                 height: 50px;
             }
         }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255,111,97,0.2);
+            border-color: rgba(255,111,97,0.3);
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #e55a50 0%, #ff7f5c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,111,97,0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .page-container {
+                padding: 30px 15px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .header {
+                padding: 60px 20px 50px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 50px 15px 40px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 12px 18px;
+                font-size: 0.95rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 40px 15px 30px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .header-icon span {
+                font-size: 2.5rem;
+            }
+        }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{{ url('/welcome') }}" class="navbar-brand">
-                <div class="brand-logo">
-                    <svg width="28" height="28" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
-                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
-                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
-                    </svg>
-                </div>
-                <span class="brand-text">PETSROLOGY</span>
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/adopt-home') }}" class="nav-link">Adopt a Pet</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/vet-home') }}" class="nav-link">Veterinary Support</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pet.supplies') }}" class="nav-link active">Pet Supplies</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('contact') }}" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/logout') }}" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    <header>
-        <a href="{{ route('pet.supplies') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Pet Supplies</a>
-        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
-            <div style="width:80px;height:80px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(255,111,97,0.3);backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.2);">
-                <i class="fas fa-bone" style="font-size:2.5rem;color:white;"></i>
+@endsection
+
+@section('content')
+    <!-- Enhanced Header with Back Button -->
+    <div class="header">
+        <a href="{{ url('/pet-supplies') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Pet Supplies
+        </a>
+        
+        <div class="header-icon-container">
+            <div class="header-icon">
+                <span>🍽️</span>
             </div>
         </div>
+        
         <h1>Pet Food Shop</h1>
         <p>Premium nutrition for your beloved pets - healthy, delicious, and trusted brands</p>
-    </header>
+    </div>
 
-    <section class="shop-section">
-        <div class="shop-container">
-            <div class="filter-section">
-                <div class="filter-title">
-                    <i class="fas fa-filter"></i>
-                    Find the Perfect Food
-                </div>
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fas fa-filter"></i>
+                Find the Perfect Food
+            </div>
                 <div class="filter-controls">
                     <div class="filter-group">
                         <label for="petType">Pet Type</label>
@@ -1321,7 +1223,6 @@
                 </div>
             </div>
         </div>
-    </section>
     
     <!-- Floating Cart Button -->
     <button class="floating-cart" onclick="openCart()">
@@ -1358,50 +1259,11 @@
         </div>
     </div>
     
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{{ url('/welcome') }}"><i class="fas fa-home"></i>Home</a></li>
-                    <li><a href="{{ url('/adopt-home') }}"><i class="fas fa-heart"></i>Adopt a Pet</a></li>
-                    <li><a href="{{ url('/vet-home') }}"><i class="fas fa-stethoscope"></i>Veterinary Support</a></li>
-                    <li><a href="{{ route('pet.supplies') }}"><i class="fas fa-shopping-bag"></i>Pet Supplies</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Services</h3>
-                <ul>
-                    <li><a href="#"><i class="fas fa-clipboard-check"></i>Health Checkups</a></li>
-                    <li><a href="#"><i class="fas fa-syringe"></i>Vaccinations</a></li>
-                    <li><a href="#"><i class="fas fa-cut"></i>Pet Grooming</a></li>
-                    <li><a href="#"><i class="fas fa-ambulance"></i>Emergency Care</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li><a href="tel:+8801777987654"><i class="fas fa-phone"></i>+880 1777-987654</a></li>
-                    <li><a href="mailto:info@petsrology.com"><i class="fas fa-envelope"></i>info@petsrology.com</a></li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i>123 Pet Street, Dhaka</a></li>
-                    <li><a href="#"><i class="fas fa-clock"></i>24/7 Emergency Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <ul>
-                    <li><a href="#"><i class="fab fa-facebook"></i>Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i>Twitter</a></li>
-                    <li><a href="#"><i class="fab fa-youtube"></i>YouTube</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 PETSROLOGY. All rights reserved. | Caring for your pets with love and expertise.</p>
-        </div>
-    </footer>
+    </div> <!-- Close page-container -->
     
+@endsection
+
+@section('scripts')
     <script>
         // Cart functionality
         let cart = [];
@@ -1666,5 +1528,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

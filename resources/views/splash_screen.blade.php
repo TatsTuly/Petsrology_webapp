@@ -123,9 +123,9 @@
             .splash-title { font-size: 2rem; }
             .loader { width: 38px; height: 38px; }
         }
-    </style>
-</head>
-<body>
+@endsection
+
+@section('content')
     <div class="splash-container">
         <div class="custom-logo">
             <svg width="54" height="54" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,6 +142,7 @@
         </div>
         <div class="loader"></div>
     </div>
+    
     <script>
         setTimeout(function() {
             window.location.href = "{{ url('/landing') }}";
