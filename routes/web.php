@@ -125,8 +125,7 @@ Route::post('/adoption-form', function (Illuminate\Http\Request $request) {
     if (!session('user_authenticated')) {
         return redirect('/landing');
     }
-    
-    // Validate the form data
+
     $validated = $request->validate([
         'firstName' => 'required|string|max:255',
         'lastName' => 'required|string|max:255',
@@ -144,13 +143,32 @@ Route::post('/adoption-form', function (Illuminate\Http\Request $request) {
         'financialCommitment' => 'required|string',
         'agreements' => 'required|array|min:5',
     ]);
-    
-    // In a real application, you would save this to a database
-    // For now, we'll just simulate success and redirect
-    
+
+    $userId = session('user_id');
+    $adoptionPostId = $request->get('adoption_post_id'); // Optional, if form includes post id
+
+    \App\Models\AdoptionRequest::create([
+        'adoption_post_id' => $adoptionPostId,
+        'user_id' => $userId,
+        'firstName' => $request->firstName,
+        'lastName' => $request->lastName,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'age' => $request->age,
+        'address' => $request->address,
+        'city' => $request->city,
+        'housingType' => $request->housingType,
+        'ownRent' => $request->ownRent,
+        'currentPets' => $request->currentPets,
+        'previousPets' => $request->previousPets,
+        'reasonForAdoption' => $request->reasonForAdoption,
+        'veterinaryCare' => $request->veterinaryCare,
+        'financialCommitment' => $request->financialCommitment,
+        'agreements' => json_encode($request->agreements),
+        'status' => 'pending',
+    ]);
+
     session()->flash('success', 'Your adoption application has been submitted successfully! We will contact you within 2-3 business days.');
-    
-    // Redirect back to the pet details page
     $petName = $request->get('pet', 'milo');
     return redirect('/adoption-details?pet=' . urlencode($petName));
 })->name('adoption.form.submit');
