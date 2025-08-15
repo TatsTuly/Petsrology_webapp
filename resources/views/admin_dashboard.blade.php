@@ -473,7 +473,7 @@
                     </div>
                     <span>Order Management</span>
                 </a>
-                <a href="#" class="action-btn adoption-management">
+                <a href="{{ route('admin.adoption.management') }}" class="action-btn adoption-management">
                     <div class="action-icon">
                         <i class="fas fa-heart"></i>
                     </div>

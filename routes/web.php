@@ -1,7 +1,50 @@
+
 <?php
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AdoptionManagementController;
+
+// Admin Adoption Management
+Route::get('/admin/adoption-management', [AdoptionManagementController::class, 'index'])->name('admin.adoption.management');
+Route::post('/admin/adoption-management/store', [AdoptionManagementController::class, 'store'])->name('admin.adoption.store');
+
+// AJAX search for adoption post by adoption number
+Route::get('/admin/adoption-management/search/{adoption_number}', function($adoption_number) {
+    $post = \App\Models\AdoptionPost::where('adoption_number', $adoption_number)->first();
+    return $post ? response()->json($post) : response()->json(['error' => 'Not found'], 404);
+});
+
+// Update adoption post
+Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\Request $request, $id) {
+    $post = \App\Models\AdoptionPost::findOrFail($id);
+    $validated = $request->validate([
+        'adoption_number' => 'required|unique:adoption_posts,adoption_number,' . $id,
+        'title' => 'required',
+        'pet_name' => 'required',
+        'pet_age' => 'required|integer',
+        'gender' => 'required',
+        'character' => 'required',
+        'description' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+    if ($request->hasFile('image')) {
+        if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+        $imagePath = $request->file('image')->store('adoption_images', 'public');
+        $validated['image'] = $imagePath;
+    }
+    $post->update($validated);
+    return redirect()->back()->with('success', 'Adoption post updated successfully!');
+});
+
+// Delete adoption post
+Route::post('/admin/adoption-management/delete/{id}', function($id) {
+    $post = \App\Models\AdoptionPost::findOrFail($id);
+    if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+    $post->delete();
+    return redirect()->back()->with('success', 'Adoption post deleted successfully!');
+});
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ContactController;  // Add this line at the top
 
 /*
 |--------------------------------------------------------------------------
@@ -93,12 +136,8 @@ Route::get('/vaccination-booking', function () {
     return view('vaccination_booking');
 })->name('vaccination.booking');
 
-Route::get('/adopt-home', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('adopt_home');
-});
+use App\Http\Controllers\AdoptHomeController;
+Route::get('/adopt-home', [AdoptHomeController::class, 'index'])->name('adopt.home');
 
 Route::get('/first-time-adopter', function () {
     if (!session('user_authenticated')) {
@@ -107,19 +146,12 @@ Route::get('/first-time-adopter', function () {
     return view('first_time_adopter');
 })->name('first.time.adopter');
 
-Route::get('/adoption-details', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('adoption_details');
-});
+use App\Http\Controllers\AdoptionDetailsController;
+Route::get('/adoption-details', [AdoptionDetailsController::class, 'show'])->name('adoption.details');
 
-Route::get('/adoption-form', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('adoption_form');
-});
+
+use App\Http\Controllers\AdoptionFormController;
+Route::get('/adoption-form', [AdoptionFormController::class, 'show'])->name('adoption.form');
 
 Route::post('/adoption-form', function (Illuminate\Http\Request $request) {
     if (!session('user_authenticated')) {

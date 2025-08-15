@@ -773,11 +773,15 @@
         <div class="page-header">
             <p class="page-subtitle">All information is confidential and will be used solely for the purpose of pet placement.</p>
             
-            <div class="pet-info-banner" id="petInfoBanner">
-                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format" alt="Pet" id="petBannerImage">
+            <div class="pet-info-banner">
+                <img src="{{ isset($adoptionPost) && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format' }}" alt="Pet">
                 <div class="pet-banner-content">
-                    <h3 id="petBannerName">Milo</h3>
-                    <p id="petBannerDetails">Mixed Breed • Female • 1 year old</p>
+                    <h3>{{ $adoptionPost->pet_name ?? 'Milo' }}</h3>
+                    <p>
+                        {{ $adoptionPost->breed ?? 'Mixed Breed' }}
+                        • {{ $adoptionPost->gender ?? 'Female' }}
+                        • {{ $adoptionPost->age ?? '1 year old' }}
+                    </p>
                 </div>
             </div>
 
@@ -795,7 +799,8 @@
             <div class="application-form">
                 <form id="adoptionForm" action="{{ route('adoption.form.submit') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="pet" id="petNameHidden" value="">
+                    <input type="hidden" name="pet" value="{{ $adoptionPost->pet_name ?? 'milo' }}">
+                    <input type="hidden" name="adoption_post_id" value="{{ $adoptionPost->id ?? '' }}">
                     
                     <!-- Personal Information -->
                     <div class="form-section">
@@ -1251,159 +1256,50 @@
     <script>
         // Form validation and interaction
         document.addEventListener('DOMContentLoaded', function() {
-            // Load pet information from URL parameters
-            loadPetInfo();
-            
             // Form validation
             setupFormValidation();
-            
             // Dynamic form behavior
             setupDynamicBehavior();
         });
 
-        function loadPetInfo() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const petName = urlParams.get('pet') || 'Milo';
-            
-            // Pet database for form integration
-            const petDatabase = {
-                'milo': {
-                    name: 'Milo',
-                    image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format',
-                    details: 'Mixed Breed • Female • 1 year old'
-                },
-                'sir whiskerlot': {
-                    name: 'Sir Whiskerlot',
-                    image: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=80&h=80&fit=crop&auto=format',
-                    details: 'Maine Coon • Female • 2 years old'
-                },
-                'buddy': {
-                    name: 'Buddy',
-                    image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=80&h=80&fit=crop&auto=format',
-                    details: 'Golden Retriever • Male • 2 years old'
-                },
-                'luna': {
-                    name: 'Luna',
-                    image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=80&h=80&fit=crop&auto=format',
-                    details: 'Labrador • Female • 1.5 years old'
-                },
-                'charlie': {
-                    name: 'Charlie',
-                    image: 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=80&h=80&fit=crop&auto=format',
-                    details: 'Parakeet • Male • 6 months old'
-                },
-                'mochi': {
-                    name: 'Mochi',
-                    image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=80&h=80&fit=crop&auto=format',
-                    details: 'Persian Cat • Female • 3 years old'
-                },
-                'snowball': {
-                    name: 'Snowball',
-                    image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=80&h=80&fit=crop&auto=format',
-                    details: 'Holland Lop Rabbit • Female • 8 months old'
-                },
-                'max': {
-                    name: 'Max',
-                    image: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=80&h=80&fit=crop&auto=format',
-                    details: 'Beagle • Male • 10 months old'
-                },
-                'whiskers': {
-                    name: 'Whiskers',
-                    image: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=80&h=80&fit=crop&auto=format',
-                    details: 'Tabby Cat • Male • 8 months old'
-                },
-                'bella': {
-                    name: 'Bella',
-                    image: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=80&h=80&fit=crop&auto=format',
-                    details: 'German Shepherd • Female • 5 years old'
-                },
-                'sunny': {
-                    name: 'Sunny',
-                    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=80&h=80&fit=crop&auto=format',
-                    details: 'Cockatiel • Female • 2 years old'
-                },
-                'spike': {
-                    name: 'Spike',
-                    image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=80&h=80&fit=crop&auto=format',
-                    details: 'Guinea Pig • Male • 1.5 years old'
-                },
-                'shadow': {
-                    name: 'Shadow',
-                    image: 'https://images.unsplash.com/photo-1561948955-570b270e7c36?w=80&h=80&fit=crop&auto=format',
-                    details: 'Black Cat • Male • 2.5 years old'
-                },
-                'ruby': {
-                    name: 'Ruby',
-                    image: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=80&h=80&fit=crop&auto=format',
-                    details: 'Toy Poodle • Female • 9 months old'
-                },
-                'nibbles': {
-                    name: 'Nibbles',
-                    image: 'https://images.unsplash.com/photo-1681141289794-ff2f3b2002c3?w=80&h=80&fit=crop&auto=format',
-                    details: 'Syrian Hamster • Male • 4 months old'
-                }
-            };
-
-            const pet = petDatabase[petName.toLowerCase()] || petDatabase['milo'];
-            
-            document.getElementById('petBannerImage').src = pet.image;
-            document.getElementById('petBannerName').textContent = pet.name;
-            document.getElementById('petBannerDetails').textContent = pet.details;
-            
-            // Set the hidden field value
-            document.getElementById('petNameHidden').value = petName.toLowerCase();
-            
-            // Update the back button URL to include the pet parameter
-            const backBtn = document.getElementById('backToPetBtn');
-            backBtn.href = `/adoption-details?pet=${encodeURIComponent(petName.toLowerCase())}`;
-        }
-
         function setupFormValidation() {
             const form = document.getElementById('adoptionForm');
             const requiredFields = form.querySelectorAll('[required]');
-            
             // Real-time validation
             requiredFields.forEach(field => {
                 field.addEventListener('blur', function() {
                     validateField(this);
                 });
-                
                 field.addEventListener('input', function() {
                     if (this.classList.contains('error')) {
                         validateField(this);
                     }
                 });
             });
-            
             // Form submission
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
                 let isValid = true;
                 requiredFields.forEach(field => {
                     if (!validateField(field)) {
                         isValid = false;
                     }
                 });
-                
                 // Check agreements
                 const requiredAgreements = document.querySelectorAll('input[name="agreements[]"][required]');
                 const agreementError = document.getElementById('agreementError');
                 let allAgreed = true;
-                
                 requiredAgreements.forEach(checkbox => {
                     if (!checkbox.checked) {
                         allAgreed = false;
                     }
                 });
-                
                 if (!allAgreed) {
                     agreementError.style.display = 'block';
                     isValid = false;
                 } else {
                     agreementError.style.display = 'none';
                 }
-                
                 if (isValid) {
                     submitApplication();
                 } else {
@@ -1419,16 +1315,13 @@
         function validateField(field) {
             const errorMessage = field.parentNode.querySelector('.error-message');
             let isValid = true;
-            
             // Remove existing error state
             field.classList.remove('error', 'success');
             if (errorMessage) errorMessage.style.display = 'none';
-            
             // Check if field is required and empty
             if (field.hasAttribute('required') && !field.value.trim()) {
                 isValid = false;
             }
-            
             // Specific validations
             if (field.type === 'email' && field.value) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1436,12 +1329,10 @@
                     isValid = false;
                 }
             }
-            
             if (field.type === 'number' && field.value) {
                 const min = field.getAttribute('min');
                 const max = field.getAttribute('max');
                 const value = parseInt(field.value);
-                
                 if (min && value < parseInt(min)) {
                     isValid = false;
                 }
@@ -1449,7 +1340,6 @@
                     isValid = false;
                 }
             }
-            
             // Apply validation state
             if (isValid && field.value.trim()) {
                 field.classList.add('success');
@@ -1457,7 +1347,6 @@
                 field.classList.add('error');
                 if (errorMessage) errorMessage.style.display = 'block';
             }
-            
             return isValid;
         }
 
@@ -1465,7 +1354,6 @@
             // Show/hide landlord info based on own/rent selection
             const ownRentSelect = document.getElementById('ownRent');
             const landlordInfo = document.getElementById('landlordInfo');
-            
             ownRentSelect.addEventListener('change', function() {
                 if (this.value === 'rent') {
                     landlordInfo.style.display = 'block';
@@ -1473,11 +1361,9 @@
                     landlordInfo.style.display = 'none';
                 }
             });
-            
             // Show/hide current pets details
             const currentPetsRadios = document.querySelectorAll('input[name="currentPets"]');
             const currentPetsDetails = document.getElementById('currentPetsDetails');
-            
             currentPetsRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.value === 'yes') {
@@ -1487,11 +1373,9 @@
                     }
                 });
             });
-            
             // Show/hide previous pets details
             const previousPetsRadios = document.querySelectorAll('input[name="previousPets"]');
             const previousPetsDetails = document.getElementById('previousPetsDetails');
-            
             previousPetsRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.value === 'yes') {
@@ -1506,10 +1390,8 @@
         function saveDraft() {
             const formData = new FormData(document.getElementById('adoptionForm'));
             const data = Object.fromEntries(formData);
-            
             // Save to localStorage
             localStorage.setItem('adoptionFormDraft', JSON.stringify(data));
-            
             // Show confirmation
             alert('Draft saved successfully! You can continue filling the form later.');
         }
@@ -1519,7 +1401,6 @@
             if (savedData) {
                 const data = JSON.parse(savedData);
                 const form = document.getElementById('adoptionForm');
-                
                 Object.keys(data).forEach(key => {
                     const field = form.querySelector(`[name="${key}"]`);
                     if (field) {
@@ -1539,10 +1420,8 @@
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
             submitBtn.disabled = true;
-            
             // Clear draft on successful submission
             localStorage.removeItem('adoptionFormDraft');
-            
             // Submit the form normally - Laravel will handle the rest
             document.getElementById('adoptionForm').submit();
         }

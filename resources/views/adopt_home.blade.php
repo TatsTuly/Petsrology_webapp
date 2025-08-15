@@ -2,6 +2,7 @@
 
 @section('title', 'Adopt a Pet - PETSROLOGY')
 
+
 @section('styles')
         /* Enhanced Header */
         header {
@@ -1146,335 +1147,30 @@
                     <p class="section-subtitle">Meet our wonderful animals looking for their forever homes</p>
                 </div>
                 <div class="pets-grid grid-view" id="petsGrid">
-                    <div class="pet-card" data-category="cats" data-age="adult" data-gender="female" data-name="milo" data-breed="mixed">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=160&h=160&fit=crop&auto=format" alt="Milo" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Milo</h3>
-                            <p class="pet-breed">Mixed Breed</p>
-                            <p class="pet-details">Female • 1 year old • Vaccinated</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Friendly</span>
-                                <span class="pet-tag">Indoor</span>
-                                <span class="pet-tag">Playful</span>
+                    @foreach($adoptionPosts as $post)
+                        <div class="pet-card"
+                            data-category="{{ strtolower($post->character) ?? 'other' }}"
+                            data-age="{{ $post->pet_age < 1 ? 'young' : ($post->pet_age < 3 ? 'adult' : 'senior') }}"
+                            data-gender="{{ strtolower($post->gender) }}"
+                            data-name="{{ strtolower($post->pet_name) }}"
+                            data-breed="{{ strtolower($post->title) ?? 'unknown' }}">
+                            <div class="pet-image">
+                                <img src="{{ $post->image ? asset('storage/'.$post->image) : 'https://placehold.co/160x160?text=No+Image' }}" alt="{{ $post->pet_name }}" />
                             </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Milo')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="cats" data-age="adult" data-gender="female" data-name="sir whiskerlot" data-breed="maine coon">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=160&h=160&fit=crop&auto=format" alt="Sir Whiskerlot" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Sir Whiskerlot</h3>
-                            <p class="pet-breed">Maine Coon</p>
-                            <p class="pet-details">Female • 2 years old • Spayed</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Calm</span>
-                                <span class="pet-tag">Large</span>
-                                <span class="pet-tag">Gentle</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Sir Whiskerlot')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
+                            <div class="pet-info">
+                                <h3>{{ $post->pet_name }}</h3>
+                                <p class="pet-breed">{{ $post->title }}</p>
+                                <p class="pet-details">{{ ucfirst($post->gender) }} • {{ $post->pet_age }} year{{ $post->pet_age == 1 ? '' : 's' }} old</p>
+                                <div class="pet-tags">
+                                    <span class="pet-tag">{{ $post->character }}</span>
+                                </div>
+                                <div class="pet-actions">
+                                    <a class="adopt-btn" href="{{ url('/adoption-details?pet=' . urlencode(strtolower($post->pet_name))) }}">Adopt Me</a>
+                                    <button class="favorite-btn" onclick="toggleFavorite(this)"><i class="far fa-heart"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="pet-card" data-category="cats" data-age="senior" data-gender="female" data-name="mochi" data-breed="persian">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=160&h=160&fit=crop&auto=format" alt="Mochi" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Mochi</h3>
-                            <p class="pet-breed">Persian Cat</p>
-                            <p class="pet-details">Female • 3 years old • Special needs</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Quiet</span>
-                                <span class="pet-tag">Cuddly</span>
-                                <span class="pet-tag">Senior</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Mochi')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="dogs" data-age="adult" data-gender="male" data-name="buddy" data-breed="golden retriever">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=160&h=160&fit=crop&auto=format" alt="Buddy" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Buddy</h3>
-                            <p class="pet-breed">Golden Retriever</p>
-                            <p class="pet-details">Male • 2 years old • Trained</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Active</span>
-                                <span class="pet-tag">Large</span>
-                                <span class="pet-tag">Family-friendly</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Buddy')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="dogs" data-age="adult" data-gender="female" data-name="luna" data-breed="labrador">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=160&h=160&fit=crop&auto=format" alt="Luna" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Luna</h3>
-                            <p class="pet-breed">Labrador</p>
-                            <p class="pet-details">Female • 1.5 years old • Energetic</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Playful</span>
-                                <span class="pet-tag">Medium</span>
-                                <span class="pet-tag">Swimming</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Luna')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="birds" data-age="young" data-gender="male" data-name="charlie" data-breed="parakeet">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=160&h=160&fit=crop&auto=format" alt="Charlie" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Charlie</h3>
-                            <p class="pet-breed">Parakeet</p>
-                            <p class="pet-details">Male • 6 months old • Talkative</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Vocal</span>
-                                <span class="pet-tag">Small</span>
-                                <span class="pet-tag">Colorful</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Charlie')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="other" data-age="young" data-gender="female" data-name="snowball" data-breed="rabbit">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=160&h=160&fit=crop&auto=format" alt="Snowball" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Snowball</h3>
-                            <p class="pet-breed">Holland Lop Rabbit</p>
-                            <p class="pet-details">Female • 8 months old • Litter trained</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Quiet</span>
-                                <span class="pet-tag">Small</span>
-                                <span class="pet-tag">Soft</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Snowball')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="dogs" data-age="young" data-gender="male" data-name="max" data-breed="beagle">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1551717743-49959800b1f6?w=160&h=160&fit=crop&auto=format" alt="Max" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Max</h3>
-                            <p class="pet-breed">Beagle</p>
-                            <p class="pet-details">Male • 10 months old • House trained</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Curious</span>
-                                <span class="pet-tag">Medium</span>
-                                <span class="pet-tag">Good with kids</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Max')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="cats" data-age="young" data-gender="male" data-name="whiskers" data-breed="tabby">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=160&h=160&fit=crop&auto=format" alt="Whiskers" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Whiskers</h3>
-                            <p class="pet-breed">Tabby Cat</p>
-                            <p class="pet-details">Male • 8 months old • Neutered</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Affectionate</span>
-                                <span class="pet-tag">Indoor</span>
-                                <span class="pet-tag">Quiet</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Whiskers')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="dogs" data-age="senior" data-gender="female" data-name="bella" data-breed="german shepherd">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=160&h=160&fit=crop&auto=format" alt="Bella" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Bella</h3>
-                            <p class="pet-breed">German Shepherd</p>
-                            <p class="pet-details">Female • 5 years old • Well-trained</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Loyal</span>
-                                <span class="pet-tag">Large</span>
-                                <span class="pet-tag">Protective</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Bella')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="birds" data-age="adult" data-gender="female" data-name="sunny" data-breed="cockatiel">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=160&h=160&fit=crop&auto=format" alt="Sunny" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Sunny</h3>
-                            <p class="pet-breed">Cockatiel</p>
-                            <p class="pet-details">Female • 2 years old • Sings beautifully</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Musical</span>
-                                <span class="pet-tag">Small</span>
-                                <span class="pet-tag">Social</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Sunny')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="other" data-age="adult" data-gender="male" data-name="spike" data-breed="guinea pig">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=160&h=160&fit=crop&auto=format" alt="Spike" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Spike</h3>
-                            <p class="pet-breed">Guinea Pig</p>
-                            <p class="pet-details">Male • 1.5 years old • Very social</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Gentle</span>
-                                <span class="pet-tag">Small</span>
-                                <span class="pet-tag">Cuddly</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Spike')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="cats" data-age="adult" data-gender="male" data-name="shadow" data-breed="black cat">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?w=160&h=160&fit=crop&auto=format" alt="Shadow" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Shadow</h3>
-                            <p class="pet-breed">Black Cat</p>
-                            <p class="pet-details">Male • 2.5 years old • Independent</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Independent</span>
-                                <span class="pet-tag">Indoor/Outdoor</span>
-                                <span class="pet-tag">Mysterious</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Shadow')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="dogs" data-age="young" data-gender="female" data-name="ruby" data-breed="poodle">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1551717743-49959800b1f6?w=160&h=160&fit=crop&auto=format" alt="Ruby" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Ruby</h3>
-                            <p class="pet-breed">Toy Poodle</p>
-                            <p class="pet-details">Female • 9 months old • Hypoallergenic</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Smart</span>
-                                <span class="pet-tag">Small</span>
-                                <span class="pet-tag">Fluffy</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Ruby')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pet-card" data-category="other" data-age="young" data-gender="male" data-name="nibbles" data-breed="hamster">
-                        <div class="pet-image">
-                            <img src="https://images.unsplash.com/photo-1681141289794-ff2f3b2002c3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cGV0cyUyMEhhbXN0ZXJ8ZW58MHx8MHx8fDA%3D" alt="Nibbles" />
-                        </div>
-                        <div class="pet-info">
-                            <h3>Nibbles</h3>
-                            <p class="pet-breed">Syrian Hamster</p>
-                            <p class="pet-details">Male • 4 months old • Playful</p>
-                            <div class="pet-tags">
-                                <span class="pet-tag">Active</span>
-                                <span class="pet-tag">Tiny</span>
-                                <span class="pet-tag">Adorable</span>
-                            </div>
-                            <div class="pet-actions">
-                                <button class="adopt-btn" onclick="adoptPet('Nibbles')">Adopt Me</button>
-                                <button class="favorite-btn" onclick="toggleFavorite(this)">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <div class="no-pets-message" id="noPetsMessage" style="display: none;">

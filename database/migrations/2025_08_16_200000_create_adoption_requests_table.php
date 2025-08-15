@@ -15,7 +15,14 @@ return new class extends Migration
     {
         Schema::create('adoption_requests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('adoption_post_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('status')->default('pending');
+            $table->text('message')->nullable();
             $table->timestamps();
+
+            $table->foreign('adoption_post_id')->references('id')->on('adoption_posts')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
