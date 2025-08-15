@@ -954,9 +954,10 @@
             <div class="header-nav">
                 <div class="user-info">
                     <div class="user-avatar">
-                        {{ substr(Auth::user()->name ?? 'User', 0, 1) }}
+                        {{ isset($user) ? substr($user->name, 0, 1) : 'U' }}
                     </div>
                     <span>{{ Auth::user()->name ?? 'User Name' }}</span>
+                <span>{{ isset($user) ? $user->name : 'User Name' }}</span>
                 </div>
                 <a href="{{ url('/welcome') }}" class="back-btn">
                     <i class="fas fa-arrow-left"></i>
@@ -999,13 +1000,12 @@
             </h3>
             <div class="profile-header">
                 <div class="profile-avatar">
-                    {{ substr(Auth::user()->name ?? 'Shafin', 0, 1) }}
+                    {{ isset($user) ? substr($user->name, 0, 1) : 'U' }}
                 </div>
                 <div class="profile-info">
-                    <h3>{{ Auth::user()->name ?? 'Tanjid Ahammed Shafin' }}</h3>
-                    <p><i class="fas fa-envelope"></i> {{ Auth::user()->email ?? 'shaf1501@example.com' }}</p>
-                    <p><i class="fas fa-calendar"></i> Member since January 2024</p>
-                    <p><i class="fas fa-map-marker-alt"></i>DIU, Bangladesh</p>
+                    <h3>{{ isset($user) ? $user->name : '' }}</h3>
+                    <p><i class="fas fa-envelope"></i> {{ isset($user) ? $user->email : '' }}</p>
+                    <p><i class="fas fa-calendar"></i> Member since {{ isset($user) && $user->created_at ? $user->created_at->format('F Y') : '' }}</p>
                 </div>
             </div>
             <div class="profile-stats">

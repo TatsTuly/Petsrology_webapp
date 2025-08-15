@@ -286,39 +286,31 @@
     <div class="page-container">
         <div class="login-container">
             <div class="login-header">
+            @if($errors->any())
+                <div style="color: #fff; background: #ff6f61; padding: 12px 20px; border-radius: 8px; margin-bottom: 18px; text-align: center; font-weight: bold;">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+            @if(session('success'))
+                <div style="color: #fff; background: #28a745; padding: 12px 20px; border-radius: 8px; margin-bottom: 18px; text-align: center; font-weight: bold;">
+                    {{ session('success') }}
+                </div>
+            @endif
                 <h2>Welcome Back</h2>
                 <p>Please sign in to access your PETSROLOGY account</p>
             </div>
             <form class="login-form" method="POST" action="{{ route('login.submit') }}">
                 @csrf
-                
-                <label for="role">Login As</label>
-                <div class="role-selection">
-                    <input type="radio" id="customer" name="role" value="customer" {{ request('role') !== 'vet' ? 'checked' : '' }}>
-                    <label for="customer" class="role-label">
-                        <i class="fas fa-user"></i>
-                        Customer
-                    </label>
-                    
-                    <input type="radio" id="vet" name="role" value="vet" {{ request('role') === 'vet' ? 'checked' : '' }}>
-                    <label for="vet" class="role-label">
-                        <i class="fas fa-stethoscope"></i>
-                        Veterinarian
-                    </label>
-                </div>
-                
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="you@email.com">
                     <span class="input-icon"><i class="fas fa-envelope"></i></span>
                 </div>
-
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required placeholder="Your password">
                     <span class="input-icon"><i class="fas fa-lock"></i></span>
                 </div>
-
                 <button type="submit" class="btn">Sign In</button>
             </form>
             <div style="margin: 30px 0 20px 0; text-align: center; color: #aaa; font-size: 1rem; position: relative;">

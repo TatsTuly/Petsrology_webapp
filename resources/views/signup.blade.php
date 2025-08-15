@@ -289,27 +289,29 @@
     <div class="page-container">
         <div class="signup-container">
             <div class="signup-header">
+            @if(session('alert'))
+                <div style="color: #fff; background: #ff6f61; padding: 12px 20px; border-radius: 8px; margin-bottom: 18px; text-align: center; font-weight: bold;">
+                    {{ session('alert') }}
+                </div>
+            @endif
                 <h2>Join Us Today</h2>
                 <p>Create your PETSROLOGY account to start your pet journey</p>
             </div>
             <form class="signup-form" method="POST" action="{{ route('signup.submit') }}">
                 @csrf
-                
                 <label for="role">Sign Up As</label>
                 <div class="role-selection">
-                    <input type="radio" id="customer" name="role" value="customer" checked>
-                    <label for="customer" class="role-label">
+                    <input type="radio" id="user" name="role" value="user" checked>
+                    <label for="user" class="role-label">
                         <i class="fas fa-user"></i>
-                        Customer
+                        User
                     </label>
-                    
                     <input type="radio" id="vet" name="role" value="vet">
                     <label for="vet" class="role-label">
                         <i class="fas fa-stethoscope"></i>
                         Veterinarian
                     </label>
                 </div>
-                
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required placeholder="Your Name">
@@ -317,7 +319,6 @@
                         <i class="fas fa-user"></i>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="you@email.com">
@@ -325,7 +326,6 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required placeholder="Create a password">
@@ -333,10 +333,9 @@
                         <i class="fas fa-lock"></i>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label for="password_confirmation">Confirm Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="Repeat your password">
+                    <label for="confirmed_password">Confirm Password</label>
+                    <input type="password" id="confirmed_password" name="confirmed_password" required placeholder="Repeat your password">
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
                     </div>
