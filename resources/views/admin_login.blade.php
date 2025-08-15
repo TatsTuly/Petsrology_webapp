@@ -298,11 +298,16 @@
                 <p>Secure login for PETSROLOGY administrators</p>
             </div>
             <form class="login-form" method="POST" action="{{ route('admin.login.submit') }}">
+                @if($errors->any())
+                    <div style="color: #fff; background: #ff6f61; padding: 12px 20px; border-radius: 8px; margin-bottom: 18px; text-align: center; font-weight: bold;">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
                 @csrf
                 
                 <div class="form-group">
-                    <label for="admin_email">Admin Email</label>
-                    <input type="email" id="admin_email" name="admin_email" required placeholder="admin@petsrology.com">
+                    <label for="admin_username">Admin Username</label>
+                    <input type="text" id="admin_username" name="admin_username" required placeholder="Enter admin username">
                     <span class="input-icon"><i class="fas fa-user-shield"></i></span>
                 </div>
 

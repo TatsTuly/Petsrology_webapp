@@ -203,26 +203,33 @@ Route::get('/user/dashboard', function () {
 })->name('user.dashboard');
 
 // Admin Routes
+use App\Models\AdoptionPost;
+use App\Models\AdoptionRequest;
+use Illuminate\Support\Facades\Storage;
 Route::get('/admin/login', function () {
     return view('admin_login');
 })->name('admin.login');
 
 Route::post('/admin/login', function (Illuminate\Http\Request $request) {
-    // Simple demo admin authentication - in real app, you'd validate against admin table
-    if ($request->filled('admin_email') && $request->filled('admin_password')) {
-        // For demo purposes, accept any admin credentials
-        // In production, you'd validate against a secure admin database
+    $request->validate([
+        'admin_username' => 'required|string',
+        'admin_password' => 'required|string',
+    ]);
+
+    $admin = \App\Models\AdminLogin::where('username', $request->admin_username)
+        ->where('password', $request->admin_password)
+        ->first();
+
+    if ($admin) {
         session([
-            'admin_authenticated' => true, 
-            'admin_email' => $request->admin_email,
+            'admin_authenticated' => true,
+            'admin_username' => $admin->username,
             'admin_role' => 'admin'
         ]);
-        
-        // Redirect to admin dashboard (you'll create this later)
         return redirect('/admin/dashboard');
     }
-    
-    return back()->withErrors(['admin_email' => 'Invalid admin credentials']);
+
+    return back()->withErrors(['admin_username' => 'Invalid admin credentials']);
 })->name('admin.login.submit');
 
 Route::post('/admin/logout', function () {
@@ -234,7 +241,45 @@ Route::get('/admin/dashboard', function () {
     if (!session('admin_authenticated')) {
         return redirect('/admin/login');
     }
-    // For now, just return a simple view - you can create admin dashboard later
-    return view('admin_dashboard');
+    $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
+    return view('admin_dashboard', compact('adoptionPosts'));
+
+
+// Admin Adoption Management Actions
+Route::post('/admin/adoption-post', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'title' => 'required',
+        'pet_name' => 'required',
+        'description' => 'required',
+        'image' => 'nullable|image|max:2048',
+    ]);
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('adoptions', 'public');
+    }
+    AdoptionPost::create([
+        'title' => $request->title,
+        'pet_name' => $request->pet_name,
+        'description' => $request->description,
+        'image' => $imagePath,
+    ]);
+    return redirect()->back()->with('success', 'Adoption post created!');
+});
+
+Route::post('/admin/adoption-post/{id}/delete', function ($id) {
+    $post = AdoptionPost::findOrFail($id);
+    if ($post->image) {
+        Storage::disk('public')->delete($post->image);
+    }
+    $post->delete();
+    return redirect()->back()->with('success', 'Adoption post deleted!');
+});
+
+Route::post('/admin/adoption-request/{id}/approve', function ($id) {
+    $req = AdoptionRequest::findOrFail($id);
+    $req->status = 'approved';
+    $req->save();
+    return redirect()->back()->with('success', 'Adoption request approved!');
+});
 })->name('admin.dashboard');
 

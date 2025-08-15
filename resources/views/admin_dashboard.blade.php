@@ -461,54 +461,35 @@
                     </div>
                     <span>User Management</span>
                 </a>
-                
-                <a href="{{ url('/login?role=vet') }}" class="action-btn vet-management">
+                <a href="#" class="action-btn vet-management">
                     <div class="action-icon">
                         <i class="fas fa-user-md"></i>
                     </div>
                     <span>Vet Management</span>
                 </a>
-                
-                <a href="#" class="action-btn project-management">
+                <a href="#" class="action-btn order-management">
                     <div class="action-icon">
-                        <i class="fas fa-project-diagram"></i>
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
-                    <span>Project Management</span>
+                    <span>Order Management</span>
                 </a>
-                
-                <a href="#" class="action-btn">
+                <a href="#" class="action-btn adoption-management">
                     <div class="action-icon">
-                        <i class="fas fa-paw"></i>
+                        <i class="fas fa-heart"></i>
                     </div>
-                    <span>Pet Management</span>
+                    <span>Adoption Management</span>
                 </a>
-                
-                <a href="#" class="action-btn">
+                <a href="#" class="action-btn supplies-management">
                     <div class="action-icon">
-                        <i class="fas fa-chart-bar"></i>
+                        <i class="fas fa-box-open"></i>
                     </div>
-                    <span>Analytics</span>
+                    <span>Supplies Management</span>
                 </a>
-                
-                <a href="#" class="action-btn">
+                <a href="#" class="action-btn settings-management">
                     <div class="action-icon">
                         <i class="fas fa-cog"></i>
                     </div>
-                    <span>System Settings</span>
-                </a>
-                
-                <a href="#" class="action-btn">
-                    <div class="action-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <span>Security</span>
-                </a>
-                
-                <a href="#" class="action-btn">
-                    <div class="action-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <span>Reports</span>
+                    <span>Settings</span>
                 </a>
             </div>
         </section>
