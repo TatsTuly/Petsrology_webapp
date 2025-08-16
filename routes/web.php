@@ -1,12 +1,24 @@
-
 <?php
-// Admin Adoption Management store (create new post)
-Route::post('/admin/adoption-management/store', [AdoptionManagementController::class, 'store'])->name('admin.adoption.store');
-
+// Search adoption post by ID for admin update/delete
+Route::get('/admin/adoption-management/search-by-id/{id}', function($id) {
+    $post = \App\Models\AdoptionPost::find($id);
+    if (!$post) {
+        return response()->json(['error' => 'Not found'], 404);
+    }
+    // Return only fillable fields to match what the JS expects
+    $data = $post->only($post->getFillable());
+    $data['id'] = $post->id;
+    return response()->json($data);
+});
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AdoptionManagementController;
 use App\Models\AdoptionRequest;
 use App\Models\AdoptionPost;
+
+// Edit adoption post form
+Route::get('/admin/adoption-management/edit/{id}', [AdoptionManagementController::class, 'edit'])->name('admin.adoption.edit');
+// Admin Adoption Management store (create new post)
+Route::post('/admin/adoption-management/store', [AdoptionManagementController::class, 'store'])->name('admin.adoption.store');
 
 // Admin Adoption Management main page
 Route::get('/admin/adoption-management', [AdoptionManagementController::class, 'index'])->name('admin.adoption.management');
@@ -47,11 +59,46 @@ Route::get('/admin/adoption-request/{id}/cancel', function ($id) {
     }
     return redirect()->back()->with('success', 'Adoption request cancelled and pet marked as available!');
 });
+// POST routes for adoption request confirm/cancel (for form submissions)
+Route::post('/admin/adoption-request/{id}/confirm', function ($id) {
+    $req = AdoptionRequest::findOrFail($id);
+    $req->status = 1; // 1 = confirmed
+    $req->save();
+    $petUpdated = false;
+    if ($req->adoption_id) {
+        $pet = AdoptionPost::find($req->adoption_id);
+        if ($pet) {
+            $pet->status = 'adopted';
+            $petUpdated = $pet->save();
+        }
+    }
+    if (!$petUpdated) {
+        \Log::error('Pet status not updated for adoption request ID: ' . $id);
+    }
+    return redirect()->back()->with('success', 'Adoption request confirmed and pet marked as adopted!');
+});
+
+Route::post('/admin/adoption-request/{id}/cancel', function ($id) {
+    $req = AdoptionRequest::findOrFail($id);
+    $req->status = 2; // 2 = cancelled
+    $req->save();
+    $petUpdated = false;
+    if ($req->adoption_id) {
+        $pet = AdoptionPost::find($req->adoption_id);
+        if ($pet) {
+            $pet->status = 'active';
+            $petUpdated = $pet->save();
+        }
+    }
+    if (!$petUpdated) {
+        \Log::error('Pet status not updated for adoption request ID: ' . $id);
+    }
+    return redirect()->back()->with('success', 'Adoption request cancelled and pet marked as available!');
+});
 // ...existing code...
 Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\Request $request, $id) {
     $post = \App\Models\AdoptionPost::findOrFail($id);
     $validated = $request->validate([
-        'adoption_number' => 'required|unique:adoption_posts,adoption_number,' . $id,
         'title' => 'required',
         'pet_name' => 'required',
         'pet_age' => 'required|integer',

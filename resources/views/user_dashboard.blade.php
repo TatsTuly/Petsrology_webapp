@@ -1071,14 +1071,6 @@
                     <a href="#" class="action-btn">Edit Profile</a>
                 </div>
                 
-                <div class="action-card community">
-                    <div class="action-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h4 class="action-title">Join Community</h4>
-                    <p class="action-desc">Connect with fellow pet owners, share experiences and get advice</p>
-                    <a href="#community-feed" class="action-btn">Join Now</a>
-                </div>
                 
                 <div class="action-card personalization">
                     <div class="action-icon">
@@ -1118,10 +1110,12 @@
                         <div class="history-desc">Application for adoption. Reason: {{ $req->reasonForAdoption }}</div>
                         <div class="history-meta">
                             <span class="history-date">Applied on {{ $req->created_at->format('F d, Y') }}</span>
-                            @if($req->status === 'confirmed')
-                                <span class="history-status status-completed">Confirmed</span>
-                            @elseif($req->status === 'pending')
+                            @if($req->status == 1)
+                                <span class="history-status status-completed">Confirmed by Admin</span>
+                            @elseif($req->status == 0)
                                 <span class="history-status status-pending">Pending</span>
+                            @elseif($req->status == 2)
+                                <span class="history-status status-cancelled">Cancelled by Admin</span>
                             @else
                                 <span class="history-status">{{ ucfirst($req->status) }}</span>
                             @endif
@@ -1201,200 +1195,6 @@
         </section>
 
         <!-- User Feed -->
-        <section class="user-feed" id="community-feed">
-            <div class="feed-header-section">
-                <h3 class="section-title">
-                    <i class="fas fa-newspaper"></i>
-                    Community Feed
-                </h3>
-                <button class="create-post-btn" onclick="showCreatePost()">
-                    <i class="fas fa-plus"></i>
-                    Create Post
-                </button>
-            </div>
-            
-            <div class="feed-filters">
-                <button class="filter-btn active" onclick="filterFeed('all')">All Posts</button>
-                <button class="filter-btn" onclick="filterFeed('featured')">Featured</button>
-                <button class="filter-btn" onclick="filterFeed('trending')">Trending</button>
-                <button class="filter-btn" onclick="filterFeed('questions')">Questions</button>
-                <button class="filter-btn" onclick="filterFeed('success')">Success Stories</button>
-            </div>
-            
-            <div class="feed-item featured">
-                <div class="feed-avatar">
-                    {{ substr(Auth::user()->name ?? 'User', 0, 1) }}
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">{{ Auth::user()->name ?? 'You' }} <i class="fas fa-star" style="color: #f39c12; font-size: 0.8rem; margin-left: 5px;" title="Featured Post"></i></span>
-                        <span class="feed-time">2 hours ago</span>
-                    </div>
-                    <div class="feed-text">
-                        Just completed Max's first vet checkup since adoption! Dr. Johnson was amazing and Max is in perfect health. So grateful for this platform connecting us with such caring professionals. 🐕❤️ #PetLove #VetCare #AdoptionSuccess
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action liked">
-                            <i class="fas fa-heart"></i> 24 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 8 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="feed-item trending">
-                <div class="feed-avatar">
-                    S
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">Sarah Mitchell <i class="fas fa-fire" style="color: #f39c12; font-size: 0.8rem; margin-left: 5px;" title="Trending Post"></i></span>
-                        <span class="feed-time">4 hours ago</span>
-                    </div>
-                    <div class="feed-text">
-                        🔥 TRENDING: Looking for recommendations for the best dog parks in the NYC area! Luna needs more socialization and I want to find a safe, clean environment for her to play with other dogs! Drop your favorite spots below! 🏃‍♀️🐕 #DogParks #NYC #Socialization
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action">
-                            <i class="fas fa-heart"></i> 18 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 32 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="feed-item">
-                <div class="feed-avatar">
-                    M
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">Mike Johnson <i class="fas fa-question-circle" style="color: #3498db; font-size: 0.8rem; margin-left: 5px;" title="Question"></i></span>
-                        <span class="feed-time">6 hours ago</span>
-                    </div>
-                    <div class="feed-text">
-                        Emergency vet visit last night for Rocky - he's fine now! 🚨 Special thanks to Dr. Amanda at 24/7 Pet Emergency for taking such good care of us. Having access to emergency services through this platform is a lifesaver! Any other emergency vet recommendations? #EmergencyVet #PetCare #Question
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action">
-                            <i class="fas fa-heart"></i> 35 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 12 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="feed-item featured">
-                <div class="feed-avatar">
-                    A
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">Amanda Foster <i class="fas fa-trophy" style="color: #f39c12; font-size: 0.8rem; margin-left: 5px;" title="Success Story"></i></span>
-                        <span class="feed-time">1 day ago</span>
-                    </div>
-                    <div class="feed-text">
-                        🎉 SUCCESS STORY: Celebrating 1 year anniversary with Charlie! From a scared shelter pup to the most confident, loving companion. Adoption changes lives - both theirs and ours. Thank you to everyone who supported our journey! Special thanks to the Petsrology community for all the advice! 🐾❤️ #AdoptionSuccess #OneTogether #CommunitySupport
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action">
-                            <i class="fas fa-heart"></i> 67 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 28 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="feed-item">
-                <div class="feed-avatar">
-                    L
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">Lisa Chen</span>
-                        <span class="feed-time">2 days ago</span>
-                    </div>
-                    <div class="feed-text">
-                        Just discovered this amazing pet training technique! 🎾 Teaching your dog the "place" command has been a game-changer for Buddy. Now he has his own special spot to relax while I work from home. Anyone else tried this? #DogTraining #WorkFromHome #Tips
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action">
-                            <i class="fas fa-heart"></i> 21 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 15 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="feed-item">
-                <div class="feed-avatar">
-                    D
-                </div>
-                <div class="feed-content">
-                    <div class="feed-header">
-                        <span class="feed-user">David Rodriguez</span>
-                        <span class="feed-time">3 days ago</span>
-                    </div>
-                    <div class="feed-text">
-                        Milo's first beach day was a huge success! 🏖️ He was a bit nervous at first but ended up loving the sand and waves. Already planning our next beach adventure. Beach safety tips for first-time dog beach visitors welcome! #BeachDog #FirstTime #Adventure
-                    </div>
-                    <div class="feed-actions">
-                        <span class="feed-action">
-                            <i class="fas fa-heart"></i> 14 likes
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-comment"></i> 9 comments
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-share"></i> Share
-                        </span>
-                        <span class="feed-action">
-                            <i class="fas fa-bookmark"></i> Save
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <script>

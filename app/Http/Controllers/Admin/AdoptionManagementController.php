@@ -8,6 +8,11 @@ use App\Models\AdoptionPost;
 
 class AdoptionManagementController extends Controller
 {
+    public function edit($id)
+    {
+        $post = AdoptionPost::findOrFail($id);
+        return view('admin_adoption_edit', compact('post'));
+    }
     public function index(Request $request)
     {
         $adoptionPosts = AdoptionPost::orderBy('created_at', 'desc')->get();

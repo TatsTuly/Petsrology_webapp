@@ -285,15 +285,15 @@
         </div>
         <div class="admin-tab-content" id="tab-content-update" style="display:none;">
             <form method="GET" action="" id="searchUpdateForm" style="margin-bottom:18px;display:flex;gap:12px;align-items:center;">
-                <input type="text" class="form-control" name="update_adoption_number" id="update_adoption_number" placeholder="Enter Adoption Number" required style="max-width:220px;">
-                <button type="button" class="btn-primary" onclick="searchAdoptionPost('update')">Search</button>
+                <input type="text" class="form-control" name="update_adoption_id" id="update_adoption_id" placeholder="Enter Adoption Post ID" required style="max-width:220px;">
+                <button type="button" class="btn-primary" onclick="searchAdoptionPostById('update')">Search</button>
             </form>
             <div id="updateFormContainer"></div>
         </div>
         <div class="admin-tab-content" id="tab-content-delete" style="display:none;">
             <form method="GET" action="" id="searchDeleteForm" style="margin-bottom:18px;display:flex;gap:12px;align-items:center;">
-                <input type="text" class="form-control" name="delete_adoption_number" id="delete_adoption_number" placeholder="Enter Adoption Number" required style="max-width:220px;">
-                <button type="button" class="btn-primary" style="background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);" onclick="searchAdoptionPost('delete')">Search</button>
+                <input type="text" class="form-control" name="delete_adoption_id" id="delete_adoption_id" placeholder="Enter Adoption Post ID" required style="max-width:220px;">
+                <button type="button" class="btn-primary" style="background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);" onclick="searchAdoptionPostById('delete')">Search</button>
             </form>
             <div id="deleteFormContainer"></div>
         </div>
@@ -430,6 +430,15 @@
                         <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->location }}</td>
                         <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->gender }}</td>
                         <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->category }}</td>
+                <td style="padding:8px 12px;border:1px solid #ddd;">
+                    @if($post->status === 'adopted')
+                        <span class="status-badge status-confirmed">Adopted</span>
+                    @elseif($post->status === 'active')
+                        <span class="status-badge status-pending">Available</span>
+                    @else
+                        <span class="status-badge">{{ ucfirst($post->status) }}</span>
+                    @endif
+                </td>
                     </tr>
                 @empty
                     <tr><td colspan="6" style="text-align:center;padding:16px;">No pets found.</td></tr>
@@ -440,18 +449,18 @@
         </div>
     </div>
     <script>
-        // AJAX search and form rendering for update/delete
-        function searchAdoptionPost(type) {
-            const adoptionNumber = document.getElementById(type + '_adoption_number').value;
-            if (!adoptionNumber) return;
-            fetch(`/admin/adoption-management/search/${adoptionNumber}`)
+        // AJAX search and form rendering for update/delete by ID
+        function searchAdoptionPostById(type) {
+            const adoptionId = document.getElementById(type + '_adoption_id').value;
+            if (!adoptionId) return;
+            fetch(`/admin/adoption-management/search-by-id/${adoptionId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.id) {
                         if (type === 'update') renderUpdateForm(data);
                         else renderDeleteForm(data);
                     } else {
-                        document.getElementById(type + 'FormContainer').innerHTML = `<div style='color:#e74c3c;font-weight:700;'>No adoption post found for this number.</div>`;
+                        document.getElementById(type + 'FormContainer').innerHTML = `<div style='color:#e74c3c;font-weight:700;'>No adoption post found for this ID.</div>`;
                     }
                 })
                 .catch(() => {
@@ -463,7 +472,6 @@
             document.getElementById('updateFormContainer').innerHTML = `
                 <form action="/admin/adoption-management/update/${post.id}" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
                     <input type='hidden' name='_token' value='${document.querySelector('input[name=_token]').value}'>
-                    <div class='form-group'><label class='form-label'>Adoption Number</label><input type='text' class='form-control' name='adoption_number' value='${post.adoption_number}' required></div>
                     <div class='form-group'><label class='form-label'>Title</label><input type='text' class='form-control' name='title' value='${post.title}' required></div>
                     <div class='form-group'><label class='form-label'>Pet Name</label><input type='text' class='form-control' name='pet_name' value='${post.pet_name}' required></div>
                     <div class='form-group'><label class='form-label'>Pet Age</label><input type='number' class='form-control' name='pet_age' value='${post.pet_age}' required></div>
@@ -481,7 +489,7 @@
                 <div style='margin-bottom:12px;font-weight:700;'>Are you sure you want to delete this post?</div>
                 <form action="/admin/adoption-management/delete/${post.id}" method="POST" style="margin-top:10px;">
                     <input type='hidden' name='_token' value='${document.querySelector('input[name=_token]').value}'>
-                    <div class='form-group'><label class='form-label'>Adoption Number</label><input type='text' class='form-control' value='${post.adoption_number}' readonly></div>
+                    <div class='form-group'><label class='form-label'>Post ID</label><input type='text' class='form-control' value='${post.id}' readonly></div>
                     <div class='form-group'><label class='form-label'>Pet Name</label><input type='text' class='form-control' value='${post.pet_name}' readonly></div>
                     <button type='submit' class='btn-primary' style='background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);'>Delete Post</button>
                 </form>

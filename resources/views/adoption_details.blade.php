@@ -913,6 +913,14 @@
                         <i class="fas fa-calendar"></i>
                         Schedule a Visit
                     </a>
+                    @if(auth()->check() && auth()->user()->role === 'admin')
+                    <form method="POST" action="{{ url('/admin/adoption-request/' . ($adoptionRequest->id ?? $adoptionPost->id ?? 1) . '/confirm') }}" style="display:inline; margin-top:10px;">
+                        @csrf
+                        <button type="submit" class="btn btn-success" style="margin-top:10px;">
+                            <i class="fas fa-check"></i> Confirm Adoption
+                        </button>
+                    </form>
+                    @endif
                 </div>
             </div>
 
