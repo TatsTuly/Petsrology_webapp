@@ -755,95 +755,89 @@
         <!-- Pet Details Section -->
         <div class="pet-details">
             <div class="pet-header">
-                <img src="{{ $adoptionPost && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=280&h=280&fit=crop&auto=format' }}" alt="{{ $adoptionPost->pet_name ?? 'Milo' }}" class="pet-image-large">
+                <img src="{{ $adoptionPost && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : '' }}" alt="{{ $adoptionPost->pet_name ?? '' }}" class="pet-image-large">
                 <div class="pet-info-main">
-                    <h1 class="pet-name">{{ $adoptionPost->pet_name ?? 'Milo' }}</h1>
-                    <p class="pet-breed">{{ $adoptionPost->breed ?? 'Mixed Breed Cat' }}</p>
-                    <span class="status-badge">{{ $adoptionPost->status ?? 'Available' }}</span>
+                    <h1 class="pet-name">{{ $adoptionPost->pet_name ?? '' }}</h1>
+                    @if(!empty($adoptionPost->breed))
+                        <p class="pet-breed">{{ $adoptionPost->breed }}</p>
+                    @endif
+                    @if(!empty($adoptionPost->status))
+                        <span class="status-badge">{{ $adoptionPost->status }}</span>
+                    @endif
                     <div class="pet-basic-info">
                         <div class="info-item">
                             <div class="info-label">Age</div>
-                            <div class="info-value">{{ $adoptionPost->age ?? '1 Year Old' }}</div>
+                            <div class="info-value">{{ $adoptionPost->age ?? ($adoptionPost->pet_age ?? '') }}</div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Gender</div>
-                            <div class="info-value">{{ $adoptionPost->gender ?? 'Female' }}</div>
+                            <div class="info-value">{{ $adoptionPost->gender ?? '' }}</div>
                         </div>
+                        @if(!empty($adoptionPost->weight))
                         <div class="info-item">
                             <div class="info-label">Weight</div>
-                            <div class="info-value">{{ $adoptionPost->weight ?? '4.2 kg' }}</div>
+                            <div class="info-value">{{ $adoptionPost->weight }}</div>
                         </div>
+                        @endif
+                        @if(!empty($adoptionPost->location))
                         <div class="info-item">
                             <div class="info-label">Location</div>
-                            <div class="info-value">{{ $adoptionPost->location ?? 'Dhaka Center' }}</div>
+                            <div class="info-value">{{ $adoptionPost->location }}</div>
                         </div>
+                        @endif
                     </div>
+                    @if(!empty($adoptionPost->tags))
                     <div class="pet-tags">
-                        @php
-                            $tags = $adoptionPost && $adoptionPost->tags ? explode(',', $adoptionPost->tags) : ['Friendly', 'Indoor Cat', 'Playful', 'Good with Kids'];
-                        @endphp
-                        @foreach($tags as $tag)
+                        @foreach(explode(',', $adoptionPost->tags) as $tag)
                             <span class="pet-tag">{{ trim($tag) }}</span>
                         @endforeach
                     </div>
+                    @endif
                 </div>
             </div>
 
             <!-- Pet Description -->
+            @if(!empty($adoptionPost->description))
             <div class="pet-description">
                 <h3 class="section-title">
                     <i class="fas fa-heart"></i>
-                    About {{ $adoptionPost->pet_name ?? 'Milo' }}
+                    About {{ $adoptionPost->pet_name }}
                 </h3>
                 <div class="description-text">
-                    {{ $adoptionPost->description ?? 'Milo is a sweet and affectionate mixed breed cat who loves to play and cuddle. She has been with us for 3 months and has shown incredible resilience and love for humans. Milo is perfect for families with children and gets along well with other cats. She enjoys interactive toys, sunny windowsills, and gentle pets. This beautiful girl is looking for a loving forever home where she can share all the love she has to give.' }}
+                    {{ $adoptionPost->description }}
                 </div>
             </div>
+            @endif
 
             <!-- Health Information -->
+            @if(!empty($adoptionPost->health_info))
             <div class="health-info">
                 <h3 class="section-title">
                     <i class="fas fa-stethoscope"></i>
                     Health & Medical Information
                 </h3>
                 <div class="health-grid">
-                    <div class="health-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Vaccinated</span>
-                    </div>
-                    <div class="health-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Spayed</span>
-                    </div>
-                    <div class="health-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Microchipped</span>
-                    </div>
-                    <div class="health-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Dewormed</span>
-                    </div>
-                    <div class="health-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Health Check Complete</span>
-                    </div>
-                    <div class="health-item pending">
-                        <i class="fas fa-clock"></i>
-                        <span>Dental Cleaning Scheduled</span>
-                    </div>
+                    @foreach(explode('|', $adoptionPost->health_info) as $health)
+                        <div class="health-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>{{ $health }}</span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
+            @endif
 
+            @if(!empty($adoptionPost->special_care))
             <div class="highlight-box">
                 <h4 style="color: #ff6f61; margin-bottom: 10px;">
                     <i class="fas fa-info-circle"></i>
                     Special Care Notes
                 </h4>
                 <p style="margin: 0; color: #5a6c7d;">
-                    {{-- Dummy special care info, can be made dynamic if needed --}}
-                    Milo prefers quiet environments and may need a few days to adjust to her new home. She's very food-motivated and responds well to treats during training sessions.
+                    {{ $adoptionPost->special_care }}
                 </p>
             </div>
+            @endif
 
             <!-- Contact Information -->
             <div class="pet-contact-section">
@@ -905,8 +899,10 @@
                     Adoption Fee
                 </h3>
                 <div class="adoption-fee">
-                    <div class="fee-amount">{{ $adoptionPost->fee ?? '৳2,500' }}</div>
-                    <div class="fee-includes">Includes vaccinations, spaying, and microchip</div>
+                    <div class="fee-amount">{{ $adoptionPost->fee ?? '' }}</div>
+                    @if(!empty($adoptionPost->fee_includes))
+                        <div class="fee-includes">{{ $adoptionPost->fee_includes }}</div>
+                    @endif
                 </div>
                 <div class="action-buttons">
                     <a href="#" class="btn-primary" onclick="startAdoptionProcess()">

@@ -59,6 +59,7 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'user_name' => $user->name,
                 'user_role' => $user->role,
+                'user_email' => $user->email,
             ]);
             // Redirect to welcome page after successful login
             return redirect('/welcome');

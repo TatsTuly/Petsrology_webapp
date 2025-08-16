@@ -8,16 +8,25 @@ use App\Models\AdoptionPost;
 
 class AdoptionManagementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin_adoption_management');
+        $adoptionPosts = AdoptionPost::orderBy('created_at', 'desc')->get();
+        return view('admin_adoption_management', compact('adoptionPosts'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'adoption_number' => 'required|unique:adoption_posts,adoption_number',
+            'category' => 'required',
             'title' => 'required',
+            'breed' => 'nullable',
+            'weight' => 'nullable',
+            'location' => 'nullable',
+            'tags' => 'nullable',
+            'health_info' => 'nullable',
+            'special_care' => 'nullable',
+            'fee' => 'nullable',
+            'fee_includes' => 'nullable',
             'pet_name' => 'required',
             'pet_age' => 'required|integer',
             'gender' => 'required',
@@ -31,8 +40,11 @@ class AdoptionManagementController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        AdoptionPost::create($validated);
-
-        return redirect()->back()->with('success', 'Adoption post created successfully!');
+        try {
+            AdoptionPost::create($validated);
+            return redirect()->back()->with('success', 'Adoption post created successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Error creating adoption post: ' . $e->getMessage());
+        }
     }
 }

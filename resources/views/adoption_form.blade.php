@@ -776,11 +776,11 @@
             <div class="pet-info-banner">
                 <img src="{{ isset($adoptionPost) && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format' }}" alt="Pet">
                 <div class="pet-banner-content">
-                    <h3>{{ $adoptionPost->pet_name ?? 'Milo' }}</h3>
+                    <h3>{{ $adoptionPost->pet_name ?? 'Unknown' }}</h3>
                     <p>
-                        {{ $adoptionPost->breed ?? 'Mixed Breed' }}
-                        • {{ $adoptionPost->gender ?? 'Female' }}
-                        • {{ $adoptionPost->age ?? '1 year old' }}
+                        {{ $adoptionPost->breed ?? 'Unknown Breed' }}
+                        • {{ $adoptionPost->gender ?? 'Unknown' }}
+                        • {{ isset($adoptionPost->pet_age) ? $adoptionPost->pet_age . ' year' . ($adoptionPost->pet_age == 1 ? '' : 's') . ' old' : 'Unknown age' }}
                     </p>
                 </div>
             </div>
@@ -800,7 +800,7 @@
                 <form id="adoptionForm" action="{{ route('adoption.form.submit') }}" method="POST">
                     @csrf
                     <input type="hidden" name="pet" value="{{ $adoptionPost->pet_name ?? 'milo' }}">
-                    <input type="hidden" name="adoption_post_id" value="{{ $adoptionPost->id ?? '' }}">
+                    <input type="hidden" name="adoption_id" value="{{ $adoptionPost->id ?? '' }}">
                     
                     <!-- Personal Information -->
                     <div class="form-section">
@@ -825,7 +825,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email Address <span class="required">*</span></label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" value="{{ old('email', session('user_email')) }}" readonly required>
                                 <div class="error-message">Please enter a valid email address</div>
                             </div>
                             <div class="form-group">

@@ -1098,52 +1098,47 @@
                 History & Details
             </h3>
             <div class="history-tabs">
-                <button class="tab-btn active" onclick="showTab('adoptions')">Adoption History</button>
+                <button class="tab-btn active" onclick="showTab('adoptions')">Adoption Requests</button>
                 <button class="tab-btn" onclick="showTab('purchases')">Purchase History</button>
             </div>
-            
             <div id="adoptions" class="tab-content active">
+                @if(session('success'))
+                <div style="background:linear-gradient(135deg,#d4fc79 0%,#96e6a1 100%);color:#155724;padding:18px 24px;border-radius:12px;margin-bottom:22px;font-weight:700;box-shadow:0 2px 10px rgba(76,175,80,0.08);display:flex;align-items:center;gap:12px;">
+                    <i class="fas fa-check-circle" style="font-size:1.5rem;"></i>
+                    <span>{{ session('success') }} Thank you for your interest in adopting! You can track your request status below.</span>
+                </div>
+                @endif
+                @forelse($adoptionRequests as $req)
                 <div class="history-item adoption">
                     <div class="history-icon">
                         <i class="fas fa-heart"></i>
                     </div>
                     <div class="history-details">
-                        <div class="history-title">Max - Golden Retriever</div>
-                        <div class="history-desc">Successfully adopted from Happy Paws Rescue. Age: 3 years, Vaccinated, Neutered.</div>
+                        <div class="history-title">{{ $req->adoptionPost->pet_name ?? 'Unknown Pet' }} - {{ $req->adoptionPost->breed ?? '' }}</div>
+                        <div class="history-desc">Application for adoption. Reason: {{ $req->reasonForAdoption }}</div>
                         <div class="history-meta">
-                            <span class="history-date">Adopted on December 15, 2024</span>
-                            <span class="history-status status-completed">Completed</span>
+                            <span class="history-date">Applied on {{ $req->created_at->format('F d, Y') }}</span>
+                            @if($req->status === 'confirmed')
+                                <span class="history-status status-completed">Confirmed</span>
+                            @elseif($req->status === 'pending')
+                                <span class="history-status status-pending">Pending</span>
+                            @else
+                                <span class="history-status">{{ ucfirst($req->status) }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
-                
+                @empty
                 <div class="history-item adoption">
                     <div class="history-icon">
                         <i class="fas fa-heart"></i>
                     </div>
                     <div class="history-details">
-                        <div class="history-title">Bella - Labrador Mix</div>
-                        <div class="history-desc">Adopted from City Animal Shelter. Age: 2 years, Spayed, All shots up to date.</div>
-                        <div class="history-meta">
-                            <span class="history-date">Adopted on September 8, 2024</span>
-                            <span class="history-status status-completed">Completed</span>
-                        </div>
+                        <div class="history-title">No adoption requests yet</div>
+                        <div class="history-desc">You haven't submitted any adoption requests. Start your journey by adopting a pet!</div>
                     </div>
                 </div>
-                
-                <div class="history-item adoption">
-                    <div class="history-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="history-details">
-                        <div class="history-title">Luna - Persian Cat</div>
-                        <div class="history-desc">Application submitted for adoption. Waiting for home visit approval.</div>
-                        <div class="history-meta">
-                            <span class="history-date">Applied on January 10, 2025</span>
-                            <span class="history-status status-pending">Pending</span>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
             
             <div id="purchases" class="tab-content">

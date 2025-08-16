@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('adoption_posts', function (Blueprint $table) {
-            $table->string('adoption_number')->unique()->after('id');
+            // $table->string('adoption_number')->unique()->after('id'); // removed adoption_number
             $table->integer('pet_age')->after('pet_name');
             $table->string('gender')->after('pet_age');
             $table->string('character')->after('gender');
@@ -29,7 +29,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('adoption_posts', function (Blueprint $table) {
-            $table->dropColumn(['adoption_number', 'pet_age', 'gender', 'character']);
+            $table->dropColumn(['pet_age', 'gender', 'character']); // removed adoption_number from dropColumn
         });
     }
 };

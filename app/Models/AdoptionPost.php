@@ -10,21 +10,29 @@ class AdoptionPost extends Model
     use HasFactory;
 
     protected $fillable = [
-        'adoption_number',
         'pet_name',
-        'pet_age',
+        'breed',
+        'weight',
+        'location',
+        'tags',
+        'health_info',
+        'special_care',
+        'fee',
+        'fee_includes',
         'gender',
-        'character',
         'description',
         'image',
         'title',
         'status',
+        'category',
+        'pet_age',
+        'character',
     ];
     /**
      * Get the adoption requests for this post.
      */
     public function requests()
     {
-        return $this->hasMany(\App\Models\AdoptionRequest::class, 'adoption_post_id');
+        return $this->hasMany(\App\Models\AdoptionRequest::class, 'adoption_id');
     }
 }

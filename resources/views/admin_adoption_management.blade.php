@@ -181,22 +181,77 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
+        @if(session('error'))
+        <div style="background:linear-gradient(135deg,#f85032 0%,#e73827 100%);color:#fff;padding:18px 24px;border-radius:12px;margin-bottom:22px;font-weight:700;box-shadow:0 2px 10px rgba(231,56,39,0.08);display:flex;align-items:center;gap:12px;">
+            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;"></i>
+            <span>{{ session('error') }}</span>
+        </div>
+        @endif
+        @if($errors->any())
+        <div style="background:linear-gradient(135deg,#f85032 0%,#e73827 100%);color:#fff;padding:18px 24px;border-radius:12px;margin-bottom:22px;font-weight:700;box-shadow:0 2px 10px rgba(231,56,39,0.08);display:flex;align-items:center;gap:12px;">
+            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;"></i>
+            <span>
+                @foreach($errors->all() as $error)
+                    {{ $error }}<br>
+                @endforeach
+            </span>
+        </div>
+        @endif
         <div class="admin-tabs">
             <button class="admin-tab-btn active" onclick="showTab('create')" id="tab-create">Create Post</button>
             <button class="admin-tab-btn" onclick="showTab('update')" id="tab-update">Update Post</button>
             <button class="admin-tab-btn" onclick="showTab('delete')" id="tab-delete">Delete Post</button>
             <button class="admin-tab-btn" onclick="showTab('request')" id="tab-request">Adoption Requests</button>
+            <button class="admin-tab-btn" onclick="showTab('showall')" id="tab-showall">Show All Pets</button>
         </div>
         <div class="admin-tab-content" id="tab-content-create">
             <form action="{{ route('admin.adoption.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <!-- Removed Adoption Number field -->
                 <div class="form-group">
-                    <label for="adoption_number" class="form-label">Adoption Number</label>
-                    <input type="text" class="form-control" id="adoption_number" name="adoption_number" required>
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Bird">Bird</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="breed" class="form-label">Breed</label>
+                    <input type="text" class="form-control" id="breed" name="breed">
+                </div>
+                <div class="form-group">
+                    <label for="weight" class="form-label">Weight</label>
+                    <input type="text" class="form-control" id="weight" name="weight">
+                </div>
+                <div class="form-group">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="location">
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="form-label">Tags <span style="font-weight:400; color:#888;">(comma separated)</span></label>
+                    <input type="text" class="form-control" id="tags" name="tags">
+                </div>
+                <div class="form-group">
+                    <label for="health_info" class="form-label">Health Info <span style="font-weight:400; color:#888;">(separate items with | )</span></label>
+                    <input type="text" class="form-control" id="health_info" name="health_info">
+                </div>
+                <div class="form-group">
+                    <label for="special_care" class="form-label">Special Care Notes</label>
+                    <textarea class="form-control" id="special_care" name="special_care" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fee" class="form-label">Adoption Fee</label>
+                    <input type="text" class="form-control" id="fee" name="fee">
+                </div>
+                <div class="form-group">
+                    <label for="fee_includes" class="form-label">Fee Includes</label>
+                    <input type="text" class="form-control" id="fee_includes" name="fee_includes">
                 </div>
                 <div class="form-group">
                     <label for="pet_name" class="form-label">Pet Name</label>
@@ -243,7 +298,145 @@
             <div id="deleteFormContainer"></div>
         </div>
         <div class="admin-tab-content" id="tab-content-request" style="display:none;">
-            <!-- List adoption requests here -->
+            <h2 style="margin-bottom:18px;">Adoption Requests</h2>
+            <style>
+                .adoption-requests-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    background: #fff;
+                    box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+                    border-radius: 12px;
+                    overflow: hidden;
+                }
+                .adoption-requests-table th, .adoption-requests-table td {
+                    padding: 14px 18px;
+                    border-bottom: 1px solid #f0f0f0;
+                    text-align: left;
+                }
+                .adoption-requests-table th {
+                    background: #f8fafc;
+                    font-size: 1.05rem;
+                    font-weight: 700;
+                    color: #34495e;
+                    border-top: 1px solid #f0f0f0;
+                }
+                .adoption-requests-table tr:last-child td {
+                    border-bottom: none;
+                }
+                .status-badge {
+                    display: inline-block;
+                    padding: 4px 14px;
+                    border-radius: 16px;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                }
+                .status-pending { background: #fff3cd; color: #856404; }
+                .status-confirmed { background: #d4edda; color: #155724; }
+                .status-cancelled { background: #f8d7da; color: #721c24; }
+                .action-btn {
+                    border: none;
+                    border-radius: 18px;
+                    padding: 7px 18px;
+                    font-size: 0.97rem;
+                    font-weight: 600;
+                    margin-right: 6px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .action-confirm { background: linear-gradient(90deg,#27ae60,#2ecc71); color: #fff; }
+                .action-cancel { background: linear-gradient(90deg,#e74c3c,#c0392b); color: #fff; }
+                .action-btn:disabled { background: #eee; color: #aaa; cursor: not-allowed; }
+            </style>
+            <div style="overflow-x:auto;">
+            <table class="adoption-requests-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pet</th>
+                        <th>User Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @php $requests = \App\Models\AdoptionRequest::with('adoptionPost')->orderBy('created_at','desc')->get(); @endphp
+                @forelse($requests as $req)
+                    <tr>
+                        <td>{{ $req->id }}</td>
+                        <td>{{ optional($req->adoptionPost)->pet_name ?? '-' }}</td>
+                        <td>{{ $req->email }}</td>
+                        <td>{{ $req->firstName }} {{ $req->lastName }}</td>
+                        <td>{{ $req->phone }}</td>
+                        <td>
+                            @if($req->status == 0)
+                                <span class="status-badge status-pending">Pending</span>
+                            @elseif($req->status == 1)
+                                <span class="status-badge status-confirmed">Confirmed</span>
+                            @else
+                                <span class="status-badge status-cancelled">Cancelled</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($req->status == 0)
+                                <form method="POST" action="{{ url('/admin/adoption-request/'.$req->id.'/confirm') }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="action-btn action-confirm">Confirm</button>
+                                </form>
+                                <form method="POST" action="{{ url('/admin/adoption-request/'.$req->id.'/cancel') }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="action-btn action-cancel">Cancel</button>
+                                </form>
+                            @elseif($req->status == 1)
+                                <button class="action-btn action-confirm" disabled>Confirmed</button>
+                                <form method="POST" action="{{ url('/admin/adoption-request/'.$req->id.'/cancel') }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="action-btn action-cancel">Cancel</button>
+                                </form>
+                            @else
+                                <button class="action-btn action-cancel" disabled>Cancelled</button>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr><td colspan="7" style="text-align:center;padding:16px;">No adoption requests found.</td></tr>
+                @endforelse
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="admin-tab-content" id="tab-content-showall" style="display:none;">
+            <h2 style="margin-bottom:18px;">All Pets</h2>
+            <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f5f7fa;">
+                        <th style="padding:8px 12px;border:1px solid #ddd;">ID</th>
+                        <th style="padding:8px 12px;border:1px solid #ddd;">Name</th>
+                        <th style="padding:8px 12px;border:1px solid #ddd;">Age</th>
+                        <th style="padding:8px 12px;border:1px solid #ddd;">Location</th>
+                        <th style="padding:8px 12px;border:1px solid #ddd;">Gender</th>
+                        <th style="padding:8px 12px;border:1px solid #ddd;">Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @forelse($adoptionPosts as $post)
+                    <tr>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->id }}</td>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->pet_name }}</td>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->pet_age }}</td>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->location }}</td>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->gender }}</td>
+                        <td style="padding:8px 12px;border:1px solid #ddd;">{{ $post->category }}</td>
+                    </tr>
+                @empty
+                    <tr><td colspan="6" style="text-align:center;padding:16px;">No pets found.</td></tr>
+                @endforelse
+                </tbody>
+            </table>
+            </div>
         </div>
     </div>
     <script>
@@ -295,7 +488,7 @@
             `;
         }
         function showTab(tab) {
-            const tabs = ['create', 'update', 'delete', 'request'];
+            const tabs = ['create', 'update', 'delete', 'request', 'showall'];
             tabs.forEach(function(t) {
                 document.getElementById('tab-content-' + t).style.display = (t === tab) ? '' : 'none';
                 document.getElementById('tab-' + t).classList.toggle('active', t === tab);

@@ -10,7 +10,7 @@ class AdoptionRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'adoption_post_id',
+        'adoption_id',
         'user_id',
         'firstName',
         'lastName',
@@ -29,4 +29,12 @@ class AdoptionRequest extends Model
         'agreements',
         'status',
     ];
+
+    /**
+     * Get the adoption post for this request.
+     */
+    public function adoptionPost()
+    {
+        return $this->belongsTo(AdoptionPost::class, 'adoption_id');
+    }
 }

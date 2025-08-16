@@ -1067,56 +1067,56 @@
             </div>
         </section>
 
-        <section class="search-filter-section">
+    <section class="search-filter-section">
             <div class="search-filter-container">
-                <div class="search-bar">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" id="searchInput" placeholder="Search by name, breed, or type...">
-                </div>
-
-                <div class="filters-row">
-                    <div class="filter-group">
-                        <select class="filter-select" id="categoryFilter">
-                            <option value="">All Categories</option>
-                            <option value="cats">Cats</option>
-                            <option value="dogs">Dogs</option>
-                            <option value="birds">Birds</option>
-                            <option value="other">Other</option>
-                        </select>
+                <form method="GET" action="" id="filterForm">
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" name="search" value="{{ request('search') }}" placeholder="Search by name, breed, or type...">
                     </div>
-                    <div class="filter-group">
-                        <select class="filter-select" id="ageFilter">
-                            <option value="">All Ages</option>
-                            <option value="young">Young (Under 1 year)</option>
-                            <option value="adult">Adult (1-3 years)</option>
-                            <option value="senior">Senior (3+ years)</option>
-                        </select>
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <select class="filter-select" name="category" onchange="document.getElementById('filterForm').submit()">
+                                <option value="">All Categories</option>
+                                <option value="dog" {{ request('category') == 'dog' ? 'selected' : '' }}>Dog</option>
+                                <option value="cat" {{ request('category') == 'cat' ? 'selected' : '' }}>Cat</option>
+                                <option value="bird" {{ request('category') == 'bird' ? 'selected' : '' }}>Bird</option>
+                                <option value="other" {{ request('category') == 'other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <select class="filter-select" name="age" onchange="document.getElementById('filterForm').submit()">
+                                <option value="">All Ages</option>
+                                <option value="young" {{ request('age') == 'young' ? 'selected' : '' }}>Young (Under 1 year)</option>
+                                <option value="adult" {{ request('age') == 'adult' ? 'selected' : '' }}>Adult (1-3 years)</option>
+                                <option value="senior" {{ request('age') == 'senior' ? 'selected' : '' }}>Senior (3+ years)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <select class="filter-select" name="gender" onchange="document.getElementById('filterForm').submit()">
+                                <option value="">All Genders</option>
+                                <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ request('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button type="button" class="clear-filters-btn" onclick="window.location.href='{{ url()->current() }}'">
+                                <i class="fas fa-times"></i> Clear Filters
+                            </button>
+                        </div>
                     </div>
-                    <div class="filter-group">
-                        <select class="filter-select" id="genderFilter">
-                            <option value="">All Genders</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
+                    <div class="results-info">
+                        <div class="results-count">Showing {{ count($adoptionPosts) }} pet{{ count($adoptionPosts) == 1 ? '' : 's' }}</div>
+                        <div class="view-toggle">
+                            <button class="view-btn active" id="gridViewBtn" type="button" onclick="toggleView('grid')">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="view-btn" id="listViewBtn" type="button" onclick="toggleView('list')">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="filter-group">
-                        <button class="clear-filters-btn" onclick="clearAllFilters()">
-                            <i class="fas fa-times"></i> Clear Filters
-                        </button>
-                    </div>
-                </div>
-
-                <div class="results-info">
-                    <div class="results-count" id="resultsCount">Showing 16 of 16 pets</div>
-                    <div class="view-toggle">
-                        <button class="view-btn active" id="gridViewBtn" onclick="toggleView('grid')">
-                            <i class="fas fa-th-large"></i>
-                        </button>
-                        <button class="view-btn" id="listViewBtn" onclick="toggleView('list')">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
         </section>
 
@@ -1149,7 +1149,7 @@
                 <div class="pets-grid grid-view" id="petsGrid">
                     @foreach($adoptionPosts as $post)
                         <div class="pet-card"
-                            data-category="{{ strtolower($post->character) ?? 'other' }}"
+                            data-category="{{ strtolower($post->category) ?? 'other' }}"
                             data-age="{{ $post->pet_age < 1 ? 'young' : ($post->pet_age < 3 ? 'adult' : 'senior') }}"
                             data-gender="{{ strtolower($post->gender) }}"
                             data-name="{{ strtolower($post->pet_name) }}"
@@ -1165,7 +1165,11 @@
                                     <span class="pet-tag">{{ $post->character }}</span>
                                 </div>
                                 <div class="pet-actions">
-                                    <a class="adopt-btn" href="{{ url('/adoption-details?pet=' . urlencode(strtolower($post->pet_name))) }}">Adopt Me</a>
+                                    @if($post->status === 'adopted')
+                                        <span class="adopt-btn" style="background: #6c757d; cursor: not-allowed;">Adopted</span>
+                                    @else
+                                        <a class="adopt-btn" href="{{ url('/adoption-details?pet=' . urlencode(strtolower($post->pet_name))) }}">Adopt Me</a>
+                                    @endif
                                     <button class="favorite-btn" onclick="toggleFavorite(this)"><i class="far fa-heart"></i></button>
                                 </div>
                             </div>
@@ -1237,14 +1241,15 @@
                 petCards.forEach(card => {
                     const petName = card.dataset.name ? card.dataset.name.toLowerCase() : '';
                     const petBreed = card.dataset.breed ? card.dataset.breed.toLowerCase() : '';
-                    const petCategory = card.dataset.category || '';
-                    const petAge = card.dataset.age || '';
-                    const petGender = card.dataset.gender || '';
+                    const petCategory = card.dataset.category ? card.dataset.category.toLowerCase() : '';
+                    const petAge = card.dataset.age ? card.dataset.age.toLowerCase() : '';
+                    const petGender = card.dataset.gender ? card.dataset.gender.toLowerCase() : '';
 
+                    // Dynamic filtering using actual values from AdoptionPost table
                     const matchesSearch = !searchTerm || petName.includes(searchTerm) || petBreed.includes(searchTerm);
-                    const matchesCategory = !categoryValue || petCategory === categoryValue;
-                    const matchesAge = !ageValue || petAge === ageValue;
-                    const matchesGender = !genderValue || petGender === genderValue;
+                    const matchesCategory = !categoryValue || petCategory === categoryValue.toLowerCase();
+                    const matchesAge = !ageValue || petAge === ageValue.toLowerCase();
+                    const matchesGender = !genderValue || petGender === genderValue.toLowerCase();
                     const matchesFavorites = !showingFavorites || favorites.includes(card.dataset.name);
 
                     if (matchesSearch && matchesCategory && matchesAge && matchesGender && matchesFavorites) {
@@ -1480,16 +1485,33 @@
         }
 
         // Filter Button Actions for Category Cards
-        function filterPetsByCategory(category) {
+        // Now supports optional age and gender filtering
+        function filterPetsByCategory(category, age, gender, el) {
             const categoryFilter = document.getElementById('categoryFilter');
-            categoryFilter.value = category;
-            categoryFilter.dispatchEvent(new Event('change'));
-
+            const ageFilter = document.getElementById('ageFilter');
+            const genderFilter = document.getElementById('genderFilter');
+            if (categoryFilter) {
+                categoryFilter.value = category;
+            }
+            if (ageFilter && age) {
+                ageFilter.value = age;
+            } else if (ageFilter) {
+                ageFilter.value = '';
+            }
+            if (genderFilter && gender) {
+                genderFilter.value = gender;
+            } else if (genderFilter) {
+                genderFilter.value = '';
+            }
             // Update active category card
             document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
-            if (event && event.target) {
-                event.target.closest('.category-card').classList.add('active');
+            if (el) {
+                el.classList.add('active');
             }
+            // Trigger filter update
+            if (categoryFilter) categoryFilter.dispatchEvent(new Event('change'));
+            if (ageFilter && age) ageFilter.dispatchEvent(new Event('change'));
+            if (genderFilter && gender) genderFilter.dispatchEvent(new Event('change'));
         }
 
         // Initialize on page load
