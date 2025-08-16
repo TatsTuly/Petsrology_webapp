@@ -1,4 +1,13 @@
 <?php
+use App\Http\Controllers\VetJoinController;
+
+// Vet Join Page
+Route::get('/vet-join', function () {
+    return view('vet_join');
+})->name('vet.join');
+
+// Vet Join Form Submission
+Route::post('/vet-join', [VetJoinController::class, 'store'])->name('vet.join.submit');
 // Search adoption post by ID for admin update/delete
 Route::get('/admin/adoption-management/search-by-id/{id}', function($id) {
     $post = \App\Models\AdoptionPost::find($id);
@@ -153,6 +162,33 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+// Vet Home (for support button)
+Route::get('/vet-home', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    return view('vet_home');
+})->name('vet.home');
+
+// Vet Dashboard (main vet page after login)
+Route::get('/vet-dashboard', function () {
+    if (!session('user_authenticated') || session('user_role') !== 'vet') {
+        return redirect('/landing');
+    }
+    return view('vet_dashboard');
+})->name('vet.dashboard');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+// Login route with error handling
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+// Fallback route for 404 errors
+use Illuminate\Support\Facades\View;
+Route::fallback(function () {
+    return View::exists('errors.404')
+        ? response()->view('errors.404', [], 404)
+        : response('Page not found', 404);
+});
 Route::middleware('guest')->group(function () {
     Route::get('/signup', function () {
         return view('signup');
@@ -168,6 +204,17 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::post('/signup', [AuthController::class, 'register'])->name('signup.submit');
+
+// Vet Homepage (main vet page after login)
+Route::get('/vet-homepage', function () {
+    if (!session('user_authenticated')) {
+        return redirect('/landing');
+    }
+    if (session('user_role') !== 'vet') {
+        return redirect('/welcome');
+    }
+    return view('vet_homepage');
+});
 
 Route::post('/logout', function () {
     session()->forget(['user_authenticated', 'user_email', 'user_role']);

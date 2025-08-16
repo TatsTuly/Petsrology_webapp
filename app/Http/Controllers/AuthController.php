@@ -50,7 +50,6 @@ class AuthController extends Controller
 
         $user = AppUser::where('email', $request->email)
             ->where('password', $request->password)
-            ->where('role', 'user')
             ->first();
 
         if ($user) {
@@ -61,10 +60,14 @@ class AuthController extends Controller
                 'user_role' => $user->role,
                 'user_email' => $user->email,
             ]);
-            // Redirect to welcome page after successful login
-            return redirect('/welcome');
+            // Redirect based on role
+            if ($user->role === 'vet') {
+                return redirect('/vet-homepage');
+            } else {
+                return redirect('/welcome');
+            }
         } else {
-            return back()->withErrors(['email' => 'Invalid credentials or role']);
+            return back()->withErrors(['email' => 'Invalid credentials']);
         }
     }
 }
