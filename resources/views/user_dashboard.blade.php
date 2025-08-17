@@ -956,8 +956,8 @@
                     <div class="user-avatar">
                         {{ isset($user) ? substr($user->name, 0, 1) : 'U' }}
                     </div>
-                    <span>{{ Auth::user()->name ?? 'User Name' }}</span>
-                <span>{{ isset($user) ? $user->name : 'User Name' }}</span>
+                    <span>{{ Auth::user()->name ?? 'Username:' }}</span>
+                <span>{{ isset($user) ? $user->name : 'Username:' }}</span>
                 </div>
                 <a href="{{ url('/welcome') }}" class="back-btn">
                     <i class="fas fa-arrow-left"></i>

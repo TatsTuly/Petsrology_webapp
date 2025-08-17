@@ -233,6 +233,14 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::post('/signup', [AuthController::class, 'register'])->name('signup.submit');
 
+// Google Authentication Routes
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::post('/auth/google/signup', [AuthController::class, 'googleSignup'])->name('google.signup');
+
+// Debug route (remove in production)
+Route::get('/debug/google-config', [App\Http\Controllers\DebugController::class, 'checkGoogleConfig']);
+
 // Vet Homepage (main vet page after login)
 Route::get('/vet-homepage', function () {
     if (!session('user_authenticated')) {
@@ -303,7 +311,6 @@ Route::get('/first-time-adopter', function () {
 
 use App\Http\Controllers\AdoptionDetailsController;
 Route::get('/adoption-details', [AdoptionDetailsController::class, 'show'])->name('adoption.details');
-
 
 use App\Http\Controllers\AdoptionFormController;
 Route::get('/adoption-form', [AdoptionFormController::class, 'show'])->name('adoption.form');
@@ -449,7 +456,6 @@ Route::get('/admin/dashboard', function () {
     $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
     return view('admin_dashboard', compact('adoptionPosts'));
 
-
 // Admin Adoption Management Actions
 Route::post('/admin/adoption-post', function (Illuminate\Http\Request $request) {
     $request->validate([
@@ -517,4 +523,3 @@ Route::post('/admin/adoption-request/{id}/cancel', function ($id) {
     return redirect()->back()->with('success', 'Adoption request cancelled and pet marked as available!');
 });
 })->name('admin.dashboard');
-

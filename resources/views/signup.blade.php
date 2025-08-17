@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -348,15 +347,14 @@
                 <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 0 15px;">or sign up with</span>
             </div>
             <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
-                <a href="#" style="display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#fff;color:#444;border:1.5px solid #eee;border-radius:12px;text-decoration:none;transition:all 0.3s ease;box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" style="width:24px;height:24px;">
-                </a>
-                <a href="#" style="display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#1877f3;color:#fff;border:none;border-radius:12px;text-decoration:none;transition:all 0.3s ease;box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                    <i class="fab fa-facebook-f" style="font-size: 24px;"></i>
-                </a>
-                <a href="#" style="display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#24292f;color:#fff;border:none;border-radius:12px;text-decoration:none;transition:all 0.3s ease;box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                    <i class="fab fa-github" style="font-size: 24px;"></i>
-                </a>
+                <form method="POST" action="{{ route('google.signup') }}" style="margin: 0;">
+                    @csrf
+                    <input type="hidden" name="role" id="google-role" value="user">
+                    <button type="submit" style="display:flex;align-items:center;justify-content:center;width:200px;height:50px;background:#fff;color:#444;border:1.5px solid #eee;border-radius:12px;text-decoration:none;transition:all 0.3s ease;box-shadow: 0 2px 8px rgba(0,0,0,0.05);cursor:pointer;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" style="width:24px;height:24px;margin-right:10px;">
+                        <span style="font-weight:600;">Continue with Google</span>
+                    </button>
+                </form>
             </div>
             <a href="{{ url('/login') }}" class="login-link">Already have an account? Login</a>
         </div>
@@ -416,5 +414,20 @@
             </div>
         </div>
     </div>
+    <script>
+        // Update Google signup role when role selection changes
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleRadios = document.querySelectorAll('input[name="role"]');
+            const googleRoleInput = document.getElementById('google-role');
+            
+            roleRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        googleRoleInput.value = this.value;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
