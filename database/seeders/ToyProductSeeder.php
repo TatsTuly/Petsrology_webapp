@@ -13,7 +13,7 @@ class ToyProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $products = [
+    $products = [
             [
                 'title' => 'Interactive Dog Puzzle Toy',
                 'brand' => 'KONG',
@@ -28,7 +28,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Popular',
                 'rating' => 4.8,
                 'stock_quantity' => 75,
-                'features' => ['Durable', 'Interactive', 'Mental Stimulation']
+                'features' => ['Durable', 'Interactive', 'Mental Stimulation'],
+                'is_active' => true
             ],
             [
                 'title' => 'Cat Feather Teaser Wand',
@@ -44,7 +45,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'New',
                 'rating' => 4.6,
                 'stock_quantity' => 120,
-                'features' => ['Interactive', 'Safe', 'Exercise']
+                'features' => ['Interactive', 'Safe', 'Exercise'],
+                'is_active' => true
             ],
             [
                 'title' => 'Chew-Resistant Rope Toy',
@@ -60,7 +62,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Durable',
                 'rating' => 4.7,
                 'stock_quantity' => 90,
-                'features' => ['Durable', 'Teething', 'Exercise']
+                'features' => ['Durable', 'Teething', 'Exercise'],
+                'is_active' => true
             ],
             [
                 'title' => 'Bird Mirror & Bell Toy',
@@ -76,7 +79,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Interactive',
                 'rating' => 4.5,
                 'stock_quantity' => 150,
-                'features' => ['Interactive', 'Colorful', 'Stimulation']
+                'features' => ['Interactive', 'Colorful', 'Stimulation'],
+                'is_active' => true
             ],
             [
                 'title' => 'Rabbit Chew Sticks',
@@ -92,7 +96,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Natural',
                 'rating' => 4.4,
                 'stock_quantity' => 200,
-                'features' => ['Natural', 'Dental Health', 'Safe']
+                'features' => ['Natural', 'Dental Health', 'Safe'],
+                'is_active' => true
             ],
             [
                 'title' => 'Fish Tank Decorations',
@@ -108,7 +113,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Colorful',
                 'rating' => 4.3,
                 'stock_quantity' => 80,
-                'features' => ['Safe', 'Colorful', 'Environment']
+                'features' => ['Safe', 'Colorful', 'Environment'],
+                'is_active' => true
             ],
             [
                 'title' => 'Plush Cat Bed Toy',
@@ -124,7 +130,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Comfortable',
                 'rating' => 4.6,
                 'stock_quantity' => 60,
-                'features' => ['Soft', 'Comfortable', 'Multi-purpose']
+                'features' => ['Soft', 'Comfortable', 'Multi-purpose'],
+                'is_active' => true
             ],
             [
                 'title' => 'Dog Training Clicker',
@@ -140,7 +147,8 @@ class ToyProductSeeder extends Seeder
                 'badge' => 'Training',
                 'rating' => 4.9,
                 'stock_quantity' => 300,
-                'features' => ['Training', 'Professional', 'Effective']
+                'features' => ['Training', 'Professional', 'Effective'],
+                'is_active' => true
             ]
         ];
 
