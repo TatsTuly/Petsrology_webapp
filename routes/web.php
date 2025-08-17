@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\VetJoinController;
+use App\Http\Controllers\Admin\VetManagementController;
 
 // Vet Join Page
 Route::get('/vet-join', function () {
@@ -8,6 +9,33 @@ Route::get('/vet-join', function () {
 
 // Vet Join Form Submission
 Route::post('/vet-join', [VetJoinController::class, 'store'])->name('vet.join.submit');
+
+// Admin Vet Management Routes
+Route::prefix('admin')->group(function () {
+    // Main vet management page
+    Route::get('/vet-management', [VetManagementController::class, 'index'])->name('admin.vet.management');
+    
+    // Add new vet (admin)
+    Route::get('/vet-management/create', [VetManagementController::class, 'create'])->name('admin.vet.create');
+    Route::post('/vet-management/store', [VetManagementController::class, 'store'])->name('admin.vet.store');
+    
+    // Edit vet
+    Route::get('/vet-management/edit/{id}', [VetManagementController::class, 'edit'])->name('admin.vet.edit');
+    Route::put('/vet-management/update/{id}', [VetManagementController::class, 'update'])->name('admin.vet.update');
+    
+    // Delete vet
+    Route::delete('/vet-management/delete/{id}', [VetManagementController::class, 'destroy'])->name('admin.vet.destroy');
+    
+    // Vet requests (pending applications)
+    Route::get('/vet-management/requests', [VetManagementController::class, 'requests'])->name('admin.vet.requests');
+    
+    // Approve/Reject vet applications
+    Route::put('/vet-management/approve/{id}', [VetManagementController::class, 'approve'])->name('admin.vet.approve');
+    Route::put('/vet-management/reject/{id}', [VetManagementController::class, 'reject'])->name('admin.vet.reject');
+    
+    // Show all vets with pagination and filters
+    Route::get('/vet-management/show-all', [VetManagementController::class, 'showAll'])->name('admin.vet.showAll');
+});
 // Search adoption post by ID for admin update/delete
 Route::get('/admin/adoption-management/search-by-id/{id}', function($id) {
     $post = \App\Models\AdoptionPost::find($id);

@@ -479,6 +479,12 @@
                     </div>
                     <span>Adoption Management</span>
                 </a>
+                <a href="{{ route('admin.vet.management') }}" class="action-btn vet-management">
+                    <div class="action-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <span>Vet Management</span>
+                </a>
                 <a href="#" class="action-btn supplies-management">
                     <div class="action-icon">
                         <i class="fas fa-box-open"></i>
