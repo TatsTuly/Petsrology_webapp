@@ -485,11 +485,11 @@
                     </div>
                     <span>Vet Management</span>
                 </a>
-                <a href="#" class="action-btn supplies-management">
+                <a href="{{ route('admin.supply.management') }}" class="action-btn supplies-management">
                     <div class="action-icon">
-                        <i class="fas fa-box-open"></i>
+                        <i class="fas fa-boxes"></i>
                     </div>
-                    <span>Supplies Management</span>
+                    <span>Supply Management</span>
                 </a>
                 <a href="#" class="action-btn settings-management">
                     <div class="action-icon">

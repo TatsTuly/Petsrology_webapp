@@ -946,290 +946,63 @@
             </div>
 
             <div class="products-grid" id="productsGrid">
-                <!-- Dog Toys -->
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="chew" data-price="450">
-                    <div class="product-image">
-                        <img src="https://thepetslarder.co.uk/cdn/shop/files/kong-classic-red-small-dog-toys-251_700x700.jpg?v=1742774805" alt="Kong Classic Dog Toy">
-                        <div class="product-badge">Popular</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Kong</div>
-                        <div class="product-title">Classic Dog Toy - Red</div>
-                        <div class="product-description">Durable rubber chew toy that can be stuffed with treats for hours of entertainment.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Durable</span>
-                            <span class="feature-tag">Treat Dispenser</span>
-                            <span class="feature-tag">Medium Size</span>
+                @php
+                    $toyProducts = \App\Models\ToyProduct::where('is_active', true)->get();
+                @endphp
+                
+                @foreach($toyProducts as $product)
+                    <div class="product-card" data-pet="{{ $product->pet_type }}" data-age="{{ $product->age_group }}" data-type="{{ $product->toy_type }}" data-price="{{ $product->price }}">
+                        <div class="product-image">
+                            @if($product->image)
+                                @if(Str::startsWith($product->image, 'http'))
+                                    <img src="{{ $product->image }}" alt="{{ $product->title }}">
+                                @else
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}">
+                                @endif
+                            @else
+                                <div style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #999;">
+                                    <i class="fas fa-image" style="font-size: 2rem;"></i>
+                                </div>
+                            @endif
+                            @if($product->badge)
+                                <div class="product-badge">{{ $product->badge }}</div>
+                            @endif
                         </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳450</span>
-                                <span class="old-price">৳520</span>
+                        <div class="product-info">
+                            <div class="product-brand">{{ $product->brand }}</div>
+                            <div class="product-title">{{ $product->title }}</div>
+                            <div class="product-description">{{ $product->description }}</div>
+                            <div class="product-features">
+                                @if($product->features)
+                                    @foreach($product->features as $feature)
+                                        <span class="feature-tag">{{ $feature }}</span>
+                                    @endforeach
+                                @endif
                             </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.8</span>
+                            <div class="product-price">
+                                <div>
+                                    <span class="price">৳{{ number_format($product->price, 0) }}</span>
+                                    @if($product->old_price)
+                                        <span class="old-price">৳{{ number_format($product->old_price, 0) }}</span>
+                                    @endif
+                                </div>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>{{ $product->rating }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="cat" data-age="adult" data-type="interactive" data-price="380">
-                    <div class="product-image">
-                        <img src="https://m.media-amazon.com/images/I/817-OldoaEL.jpg" alt="Cat Activity Center">
-                        <div class="product-badge">Interactive</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Catit</div>
-                        <div class="product-title">Cat Activity Center</div>
-                        <div class="product-description">Interactive play center with balls, tracks, and hiding spots to stimulate your cat's hunting instincts.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Interactive</span>
-                            <span class="feature-tag">Multi-level</span>
-                            <span class="feature-tag">Easy Assembly</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳5080</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.6</span>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Add to Cart
+                                </button>
+                                <button class="wishlist-btn">
+                                    <i class="fas fa-heart"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
                     </div>
-                </div>
-
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="puzzle" data-price="650">
-                    <div class="product-image">
-                        <img src="https://www.shutterstock.com/image-photo/corgi-dog-bent-over-interactive-600nw-2340907407.jpg" alt="Dog Puzzle Toy">
-                        <div class="product-badge">Smart</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Nina Ottosson</div>
-                        <div class="product-title">Dog Puzzle Toy - Level 2</div>
-                        <div class="product-description">Mental stimulation puzzle that challenges your dog to find hidden treats by sliding and lifting pieces.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Mental Stimulation</span>
-                            <span class="feature-tag">Treat Puzzle</span>
-                            <span class="feature-tag">Level 2</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳650</span>
-                                <span class="old-price">৳720</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.9</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="cat" data-age="puppy" data-type="plush" data-price="280">
-                    <div class="product-image">
-                        <img src="https://i5.walmartimages.com/asr/5c81c4cc-3215-4216-856a-d9ec337b1ecc.f7aceeda5a8f086c324229f18eaecc40.jpeg" alt="Catnip Toy">
-                        <div class="product-badge">Soft</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Yeowww!</div>
-                        <div class="product-title">Catnip Banana Toy</div>
-                        <div class="product-description">Organic catnip-filled banana toy that drives cats crazy with excitement and playfulness.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Organic Catnip</span>
-                            <span class="feature-tag">Soft Fabric</span>
-                            <span class="feature-tag">Banana Shape</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳280</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.7</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="dog" data-age="puppy" data-type="ball" data-price="320">
-                    <div class="product-image">
-                        <img src="https://m.media-amazon.com/images/I/71qm5PTt+9L.jpg" alt="Dog Ball Toy">
-                        <div class="product-badge">Bouncy</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Chuckit!</div>
-                        <div class="product-title">Ultra Ball - Medium</div>
-                        <div class="product-description">High-bounce rubber ball perfect for fetch games. Floats in water and glows in the dark.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">High Bounce</span>
-                            <span class="feature-tag">Waterproof</span>
-                            <span class="feature-tag">Glow in Dark</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳320</span>
-                                <span class="old-price">৳380</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.5</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="bird" data-age="adult" data-type="interactive" data-price="420">
-                    <div class="product-image">
-                        <img src="https://m.media-amazon.com/images/I/71ExvqD4yML.jpg" alt="Bird Foraging Toy">
-                        <div class="product-badge">Bird Safe</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Super Bird Creations</div>
-                        <div class="product-title">Bird Foraging Toy</div>
-                        <div class="product-description">Natural wood foraging toy that encourages birds to work for their treats, promoting natural behaviors.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Natural Wood</span>
-                            <span class="feature-tag">Foraging</span>
-                            <span class="feature-tag">Bird Safe</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳420</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.4</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="rope" data-price="350">
-                    <div class="product-image">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnX6tRisUYlcYZa7pXq_odU7fdpM-shSYVnw&s" alt="Rope Tug Toy">
-                        <div class="product-badge">Tug Toy</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Mammoth</div>
-                        <div class="product-title">Rope Tug Toy - Large</div>
-                        <div class="product-description">Heavy-duty cotton rope toy perfect for tug-of-war games and dental health. Made from natural materials.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Cotton Rope</span>
-                            <span class="feature-tag">Dental Health</span>
-                            <span class="feature-tag">Large Size</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳350</span>
-                                <span class="old-price">৳400</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.6</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="hamster" data-age="adult" data-type="puzzle" data-price="280">
-                    <div class="product-image">
-                        <img src="https://m.media-amazon.com/images/I/61wgYz70IdL._UF1000,1000_QL80_.jpg" alt="Hamster Activity Ball">
-                        <div class="product-badge">Small Pet</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Kaytee</div>
-                        <div class="product-title">Hamster Activity Ball</div>
-                        <div class="product-description">Exercise ball for hamsters to run around safely while exploring their environment.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Exercise</span>
-                            <span class="feature-tag">Safe Design</span>
-                            <span class="feature-tag">Ventilated</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳280</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.3</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     

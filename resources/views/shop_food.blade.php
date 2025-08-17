@@ -304,21 +304,7 @@
             line-height: 1.5;
         }
         
-        .product-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .feature-tag {
-            background: #f8f9fa;
-            color: #666;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            border: 1px solid #e9ecef;
-        }
+
         
         .product-price {
             display: flex;
@@ -937,290 +923,59 @@
             </div>
 
             <div class="products-grid" id="productsGrid">
-                <!-- Dog Food Products -->
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="dry" data-price="850">
-                    <div class="product-image">
-                        <img src="https://shop.royalcanin.ca/cdn/shop/products/n5ue7pedongc7yiawvq0.jpg?v=1609254626&width=1500" alt="Royal Canin Adult Dog Food">
-                        <div class="product-badge">Popular</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Royal Canin</div>
-                        <div class="product-title">Adult Dog Food - Chicken & Rice</div>
-                        <div class="product-description">Complete nutrition for adult dogs with high-quality protein and essential nutrients.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">High Protein</span>
-                            <span class="feature-tag">Natural</span>
-                            <span class="feature-tag">2kg</span>
+                @php
+                    $foodProducts = \App\Models\FoodProduct::where('is_active', true)->get();
+                @endphp
+                
+                @foreach($foodProducts as $product)
+                    <div class="product-card" data-pet="{{ $product->pet_type }}" data-age="{{ $product->age_group }}" data-type="{{ $product->food_type }}" data-price="{{ $product->price }}">
+                        <div class="product-image">
+                            @if($product->image)
+                                @if(Str::startsWith($product->image, 'http'))
+                                    <img src="{{ $product->image }}" alt="{{ $product->title }}">
+                                @else
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}">
+                                @endif
+                            @else
+                                <div style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #999;">
+                                    <i class="fas fa-image" style="font-size: 2rem;"></i>
+                                </div>
+                            @endif
+                            @if($product->badge)
+                                <div class="product-badge">{{ $product->badge }}</div>
+                            @endif
                         </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳850</span>
-                                <span class="old-price">৳950</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.8</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                        <div class="product-info">
+                            <div class="product-brand">{{ $product->brand }}</div>
+                            <div class="product-title">{{ $product->title }}</div>
+                            <div class="product-description">{{ $product->description }}</div>
 
-                <div class="product-card" data-pet="cat" data-age="adult" data-type="wet" data-price="450">
-                    <div class="product-image">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqvJIF9kBdHPQT5CoA69Z2zq1pBoHnfqgKkw&s" alt="Whiskas Cat Food">
-                        <div class="product-badge">New</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Whiskas</div>
-                        <div class="product-title">Cat Food - Tuna in Gravy</div>
-                        <div class="product-description">Delicious wet food with real tuna pieces in savory gravy, perfect for adult cats.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Real Fish</span>
-                            <span class="feature-tag">Gravy</span>
-                            <span class="feature-tag">400g</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳450</span>
+                            <div class="product-price">
+                                <div>
+                                    <span class="price">৳{{ number_format($product->price, 0) }}</span>
+                                    @if($product->old_price)
+                                        <span class="old-price">৳{{ number_format($product->old_price, 0) }}</span>
+                                    @endif
+                                </div>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>{{ $product->rating }}</span>
+                                </div>
                             </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.6</span>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Add to Cart
+                                </button>
+                                <button class="wishlist-btn">
+                                    <i class="fas fa-heart"></i>
+                                </button>
                             </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
-                <div class="product-card" data-pet="dog" data-age="puppy" data-type="dry" data-price="1200">
-                    <div class="product-image">
-                        <img src="https://m.media-amazon.com/images/I/81HfEtQtIDL._UF1000,1000_QL80_.jpg" alt="Pedigree Puppy Food">
-                        <div class="product-badge">Premium</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Pedigree</div>
-                        <div class="product-title">Puppy Food - Chicken & Milk</div>
-                        <div class="product-description">Specially formulated for growing puppies with calcium and DHA for healthy development.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Puppy Formula</span>
-                            <span class="feature-tag">Calcium+</span>
-                            <span class="feature-tag">3kg</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳1,200</span>
-                                <span class="old-price">৳1,350</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.7</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="product-card" data-pet="bird" data-age="adult" data-type="treats" data-price="320">
-                    <div class="product-image">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbwYG54uIkxneJ3nyqOfPmkcHBO6W1AB7K8Q&s" alt="Bird Seed Mix">
-                        <div class="product-badge">Organic</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Vitakraft</div>
-                        <div class="product-title">Bird Seed Mix - Premium Blend</div>
-                        <div class="product-description">Natural seed mix with sunflower seeds, millet, and dried fruits for all bird types.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Natural</span>
-                            <span class="feature-tag">Mixed Seeds</span>
-                            <span class="feature-tag">500g</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳320</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.5</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="cat" data-age="senior" data-type="dry" data-price="950">
-                    <div class="product-image">
-                        <img src="https://pxmshare.colgatepalmolive.com/JPEG_1500/R1smRgNvhXECmYV_qdHdo.jpg" alt="Senior Cat Food">
-                        <div class="product-badge">Senior</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Hill's Science Diet</div>
-                        <div class="product-title">Senior Cat Food - Chicken</div>
-                        <div class="product-description">Specially formulated for senior cats with easy-to-digest ingredients and joint support.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Senior Formula</span>
-                            <span class="feature-tag">Joint Care</span>
-                            <span class="feature-tag">1.5kg</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳950</span>
-                                <span class="old-price">৳1,100</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.9</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="rabbit" data-age="adult" data-type="dry" data-price="680">
-                    <div class="product-image">
-                        <img src="https://images-cdn.ubuy.co.id/65b4a8dfd4f9a162d5662ca8-menu-premium-rabbit-food-timothy-hay.jpg" alt="Rabbit Pellets">
-                        <div class="product-badge">Natural</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Oxbow</div>
-                        <div class="product-title">Rabbit Pellets - Timothy Hay</div>
-                        <div class="product-description">High-fiber pellets made from timothy hay, perfect for adult rabbit nutrition.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">High Fiber</span>
-                            <span class="feature-tag">Timothy Hay</span>
-                            <span class="feature-tag">1kg</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳680</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.4</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="dog" data-age="adult" data-type="treats" data-price="380">
-                    <div class="product-image">
-                        <img src="https://images.albertsons-media.com/is/image/ABS/960225872?$ng-ecom-pdp-desktop$&defaultImage=Not_Available" alt="Dog Dental Treats">
-                        <div class="product-badge">Bestseller</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Pedigree</div>
-                        <div class="product-title">Dentastix - Dental Treats</div>
-                        <div class="product-description">Daily dental care treats that help reduce tartar buildup and freshen breath.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Dental Care</span>
-                            <span class="feature-tag">Fresh Breath</span>
-                            <span class="feature-tag">28 Sticks</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳380</span>
-                                <span class="old-price">৳420</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.6</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-pet="fish" data-age="adult" data-type="dry" data-price="280">
-                    <div class="product-image">
-                        <img src="https://static-01.daraz.com.bd/p/692b29da77a63c12c2d2a1b6d403bb48.jpg" alt="Fish Food Flakes">
-                        <div class="product-badge">Aquatic</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">Tetra</div>
-                        <div class="product-title">Tropical Fish Flakes</div>
-                        <div class="product-description">Complete nutrition for tropical fish with enhanced colors and vitality.</div>
-                        <div class="product-features">
-                            <span class="feature-tag">Color Enhancing</span>
-                            <span class="feature-tag">Tropical</span>
-                            <span class="feature-tag">200g</span>
-                        </div>
-                        <div class="product-price">
-                            <div>
-                                <span class="price">৳280</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.3</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="add-to-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-                            <button class="wishlist-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     

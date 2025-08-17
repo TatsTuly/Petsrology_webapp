@@ -448,6 +448,32 @@ Route::get('/admin/dashboard', function () {
     }
     $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
     return view('admin_dashboard', compact('adoptionPosts'));
+})->name('admin.dashboard');
+
+// Admin Food Products Management Routes
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/food-products', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'index'])->name('admin.food.products.index');
+    Route::get('/admin/supply-management', [App\Http\Controllers\Admin\SupplyManagementController::class, 'index'])->name('admin.supply.management');
+    Route::get('/admin/food-products/create', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'create'])->name('admin.food.products.create');
+    Route::post('/admin/food-products', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'store'])->name('admin.food.products.store');
+    Route::get('/admin/food-products/{product}', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'show'])->name('admin.food.products.show');
+    Route::get('/admin/food-products/{product}/edit', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'edit'])->name('admin.food.products.edit');
+    Route::put('/admin/food-products/{product}', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'update'])->name('admin.food.products.update');
+    Route::delete('/admin/food-products/{product}', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'destroy'])->name('admin.food.products.destroy');
+    Route::patch('/admin/food-products/{product}/toggle-status', [App\Http\Controllers\Admin\AdminFoodProductController::class, 'toggleStatus'])->name('admin.food.products.toggle-status');
+});
+
+// Admin Toy Products Management Routes
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/toy-products', [App\Http\Controllers\Admin\AdminToyProductController::class, 'index'])->name('admin.toy.products.index');
+    Route::get('/admin/toy-products/create', [App\Http\Controllers\Admin\AdminToyProductController::class, 'create'])->name('admin.toy.products.create');
+    Route::post('/admin/toy-products', [App\Http\Controllers\Admin\AdminToyProductController::class, 'store'])->name('admin.toy.products.store');
+    Route::get('/admin/toy-products/{product}', [App\Http\Controllers\Admin\AdminToyProductController::class, 'show'])->name('admin.toy.products.show');
+    Route::get('/admin/toy-products/{product}/edit', [App\Http\Controllers\Admin\AdminToyProductController::class, 'edit'])->name('admin.toy.products.edit');
+    Route::put('/admin/toy-products/{product}', [App\Http\Controllers\Admin\AdminToyProductController::class, 'update'])->name('admin.toy.products.update');
+    Route::delete('/admin/toy-products/{product}', [App\Http\Controllers\Admin\AdminToyProductController::class, 'destroy'])->name('admin.toy.products.destroy');
+    Route::patch('/admin/toy-products/{product}/toggle-status', [App\Http\Controllers\Admin\AdminToyProductController::class, 'toggleStatus'])->name('admin.toy.products.toggle-status');
+});
 
 
 // Admin Adoption Management Actions
@@ -516,5 +542,4 @@ Route::post('/admin/adoption-request/{id}/cancel', function ($id) {
     }
     return redirect()->back()->with('success', 'Adoption request cancelled and pet marked as available!');
 });
-})->name('admin.dashboard');
 
