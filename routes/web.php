@@ -233,6 +233,14 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::post('/signup', [AuthController::class, 'register'])->name('signup.submit');
 
+// Google Authentication Routes
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::post('/auth/google/signup', [AuthController::class, 'googleSignup'])->name('google.signup');
+
+// Debug route (remove in production)
+Route::get('/debug/google-config', [App\Http\Controllers\DebugController::class, 'checkGoogleConfig']);
+
 // Vet Homepage (main vet page after login)
 Route::get('/vet-homepage', function () {
     if (!session('user_authenticated')) {
@@ -303,7 +311,6 @@ Route::get('/first-time-adopter', function () {
 
 use App\Http\Controllers\AdoptionDetailsController;
 Route::get('/adoption-details', [AdoptionDetailsController::class, 'show'])->name('adoption.details');
-
 
 use App\Http\Controllers\AdoptionFormController;
 Route::get('/adoption-form', [AdoptionFormController::class, 'show'])->name('adoption.form');
@@ -474,7 +481,6 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin/toy-products/{product}', [App\Http\Controllers\Admin\AdminToyProductController::class, 'destroy'])->name('admin.toy.products.destroy');
     Route::patch('/admin/toy-products/{product}/toggle-status', [App\Http\Controllers\Admin\AdminToyProductController::class, 'toggleStatus'])->name('admin.toy.products.toggle-status');
 });
-
 
 // Admin Adoption Management Actions
 Route::post('/admin/adoption-post', function (Illuminate\Http\Request $request) {

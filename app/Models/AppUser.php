@@ -18,5 +18,7 @@ class AppUser extends Model
         'confirmed_password',
         'role',
         'registration_time',
+        'google_id',
+        'avatar',
     ];
 }
