@@ -303,6 +303,10 @@
             background: linear-gradient(90deg, #f39c12, #e67e22);
         }
         
+        .action-btn.order-management::before {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+        
         .action-btn:hover::before {
             left: 0;
         }
@@ -327,6 +331,11 @@
         .action-btn.project-management:hover {
             background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
             box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3);
+        }
+        
+        .action-btn.order-management:hover {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
         }
         
         .action-icon {
@@ -362,6 +371,11 @@
         .action-btn.project-management .action-icon {
             background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
             box-shadow: 0 5px 15px rgba(243, 156, 18, 0.2);
+        }
+        
+        .action-btn.order-management .action-icon {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.2);
         }
         
         @media (max-width: 768px) {
@@ -481,7 +495,7 @@
                     </div>
                     <span>User Management</span>
                 </a>
-                <a href="#" class="action-btn order-management">
+                <a href="{{ route('admin.orders.index') }}" class="action-btn order-management">
                     <div class="action-icon">
                         <i class="fas fa-shopping-cart"></i>
                     </div>

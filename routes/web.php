@@ -3,7 +3,6 @@ use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\VetDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\VetManagementController;
-use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CheckoutController;
 
@@ -13,6 +12,7 @@ Route::post('/contact', [ContactMessageController::class, 'store'])->name('conta
 // Checkout Routes
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 // Payment Routes
 Route::get('/payment/bkash', [CheckoutController::class, 'bkashPayment'])->name('payment.bkash');
@@ -57,6 +57,16 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     
     // Show all vets with pagination and filters
     Route::get('/vet-management/show-all', [VetManagementController::class, 'showAll'])->name('admin.vet.showAll');
+
+    // Order Management Routes
+    Route::prefix('order-management')->group(function () {
+        Route::get('/', [OrderManagementController::class, 'index'])->name('admin.orders.index');
+        Route::get('/show/{id}', [OrderManagementController::class, 'show'])->name('admin.orders.show');
+        Route::put('/update-status/{id}', [OrderManagementController::class, 'updateStatus'])->name('admin.orders.update-status');
+        Route::put('/update-payment-status/{id}', [OrderManagementController::class, 'updatePaymentStatus'])->name('admin.orders.update-payment-status');
+        Route::delete('/delete/{id}', [OrderManagementController::class, 'destroy'])->name('admin.orders.destroy');
+        Route::get('/stats', [OrderManagementController::class, 'stats'])->name('admin.orders.stats');
+    });
 });
 // Search adoption post by ID for admin update/delete
 Route::get('/admin/adoption-management/search-by-id/{id}', function($id) {
