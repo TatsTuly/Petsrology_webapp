@@ -379,7 +379,7 @@
                 </div>
                 <h3>Application Not Approved</h3>
                 <p>Your application was not approved. Please contact support for more information.</p>
-                <a href="{{ route('contact') }}" class="btn-dashboard">
+                <a href="{{ route('vet.contact') }}" class="btn-dashboard">
                     <i class="fas fa-envelope"></i> Contact Support
                 </a>
             </div>
@@ -441,7 +441,7 @@
             <div class="stat-icon revenue">
                 <i class="fas fa-chart-line"></i>
             </div>
-            <div class="stat-number">{{ $appointments->where('status', 'confirmed')->count() }}</div>
+            <div class="stat-number" id="confirmedAppointments">{{ $appointments->where('status', 'confirmed')->count() }}</div>
             <div class="stat-label">Confirmed Appointments</div>
             <div class="stat-trend trend-up">
                 <i class="fas fa-check-circle"></i>
@@ -675,9 +675,11 @@
     });
 
     function loadDashboardData() {
-        animateNumber('todayAppointments', 12);
-        animateNumber('totalPatients', 247);
-        animateNumber('emergencyCases', 3);
+        // Use actual dynamic values from the database instead of dummy values
+        animateNumber('todayAppointments', {{ $todayAppointments->count() }});
+        animateNumber('totalPatients', {{ $appointments->count() }});
+        animateNumber('emergencyCases', {{ $appointments->where('urgency_level', 'emergency')->count() }});
+        animateNumber('confirmedAppointments', {{ $appointments->where('status', 'confirmed')->count() }});
     }
 
     function animateNumber(elementId, targetNumber) {

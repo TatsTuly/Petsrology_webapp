@@ -402,19 +402,19 @@
         <section class="stats-section">
             <div class="stats-container">
                 <div class="stat-item">
-                    <span class="stat-number">500+</span>
+                    <span class="stat-number" data-target="{{ $petsAdopted }}">0</span>
                     <span class="stat-label">Pets Adopted</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">150+</span>
+                    <span class="stat-number" data-target="{{ $verifiedVets }}">0</span>
                     <span class="stat-label">Verified Vets</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">1000+</span>
+                    <span class="stat-number" data-target="{{ $totalCustomers }}">0</span>
                     <span class="stat-label">Happy Customers</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">24/7</span>
+                    <span class="stat-number" data-special="24/7">24/7</span>
                     <span class="stat-label">Support Available</span>
                 </div>
             </div>
@@ -450,4 +450,71 @@
                 <a href="{{ route('pet.supplies') }}" class="feature-btn">Shop Now</a>
             </div>
         </section>
+
+<script>
+// Counter Animation for Welcome Page
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number[data-target]');
+    const specialCounters = document.querySelectorAll('.stat-number[data-special]');
+    
+    // Handle regular counters with dynamic data
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            // Format numbers appropriately
+            if (target >= 1000) {
+                const displayValue = Math.floor(current / 100) / 10;
+                counter.textContent = displayValue.toFixed(1) + 'K+';
+            } else if (target >= 100) {
+                counter.textContent = Math.floor(current) + '+';
+            } else if (target > 0) {
+                counter.textContent = Math.floor(current) + '+';
+            } else {
+                counter.textContent = Math.floor(current);
+            }
+        }, 16);
+    });
+    
+    // Handle special counters (like 24/7)
+    specialCounters.forEach(counter => {
+        const specialValue = counter.getAttribute('data-special');
+        // Add a subtle animation effect
+        counter.style.transform = 'scale(1.1)';
+        counter.style.transition = 'transform 0.3s ease';
+        setTimeout(() => {
+            counter.style.transform = 'scale(1)';
+        }, 300);
+    });
+}
+
+// Trigger animation when stats section comes into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(animateCounters, 800); // Delay to sync with CSS animation
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.5
+});
+
+// Start observing when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+});
+</script>
 @endsection

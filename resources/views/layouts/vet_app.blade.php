@@ -254,7 +254,7 @@
                         <a href="{{ url('/vet-dashboard') }}" class="nav-link">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ route('vet.contact') }}" class="nav-link">Contact</a>
                     </li>
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}" style="display: inline; margin: 0;">

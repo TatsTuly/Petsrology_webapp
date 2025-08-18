@@ -1046,20 +1046,50 @@
                 <div class="greeting-header">
                     <div class="user-info">
                         <div class="user-avatar">
-                            <img src="{{ asset('assets/user_image/pic1.png') }}" alt="User Avatar" />
+                            @if($currentUser && $currentUser->avatar)
+                                <img src="{{ asset('storage/' . $currentUser->avatar) }}" alt="User Avatar" />
+                            @else
+                                {{ $currentUser ? strtoupper(substr($currentUser->name ?? 'U', 0, 1)) : 'U' }}
+                            @endif
                         </div>
                         <div class="greeting-text">
-                            <h2>Hi, Shaf</h2>
-                            <p>Ready to find your new best friend?</p>
+                            <h2>Hi, {{ $currentUser ? $currentUser->name ?? 'Guest' : 'Guest' }}!</h2>
+                            <p>
+                                @if($currentUser)
+                                    @php
+                                        $hour = date('H');
+                                        $timeGreeting = '';
+                                        if ($hour < 12) {
+                                            $timeGreeting = 'Good morning! ';
+                                        } elseif ($hour < 17) {
+                                            $timeGreeting = 'Good afternoon! ';
+                                        } else {
+                                            $timeGreeting = 'Good evening! ';
+                                        }
+                                        
+                                        // Check if user has previous adoption requests
+                                        $userAdoptions = \App\Models\AdoptionRequest::where('user_id', $currentUser->id)->count();
+                                        
+                                        if ($userAdoptions > 0) {
+                                            $message = $timeGreeting . "Welcome back! Looking for another furry friend?";
+                                        } else {
+                                            $message = $timeGreeting . "Ready to find your new best friend?";
+                                        }
+                                    @endphp
+                                    {{ $message }}
+                                @else
+                                    Ready to find your new best friend?
+                                @endif
+                            </p>
                         </div>
                     </div>
                     <div class="stats-summary">
                         <div class="stat-item">
-                            <span class="stat-number" id="totalPets">16</span>
+                            <span class="stat-number" data-target="{{ $totalAvailablePets }}" id="totalPets">0</span>
                             <div class="stat-label">Available Pets</div>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">25</span>
+                            <span class="stat-number" data-target="{{ $totalHappyAdoptions }}">0</span>
                             <div class="stat-label">Happy Adoptions</div>
                         </div>
                     </div>
@@ -1522,15 +1552,15 @@
             const gridBtn = document.getElementById('gridViewBtn');
             if (gridBtn) gridBtn.classList.add('active');
 
-            // Initialize stats
-            const totalPetsElement = document.getElementById('totalPets');
-            const petCards = document.querySelectorAll('.pet-card');
-            if (totalPetsElement) {
-                totalPetsElement.textContent = petCards.length;
-            }
+            // Initialize stats with animation
+            animateStatCounters();
+            
+            // Update total pets count dynamically based on visible cards
+            updateTotalPetsCount();
 
             // Initialize results count
             const resultsCount = document.getElementById('resultsCount');
+            const petCards = document.querySelectorAll('.pet-card');
             if (resultsCount) {
                 resultsCount.textContent = `Showing ${petCards.length} of ${petCards.length} pets`;
             }
@@ -1538,5 +1568,39 @@
             // Load favorites from localStorage
             loadFavorites();
         });
+
+        // Animate stat counters
+        function animateStatCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-target]');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 1500; // 1.5 seconds
+                const increment = target / (duration / 16); // 60fps
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    // Update counter display
+                    counter.textContent = Math.floor(current);
+                }, 16);
+            });
+        }
+
+        // Update total pets count when filters change
+        function updateTotalPetsCount() {
+            const petCards = document.querySelectorAll('.pet-card');
+            const totalPetsElement = document.getElementById('totalPets');
+            
+            if (totalPetsElement && !totalPetsElement.hasAttribute('data-target')) {
+                // Only update if not using dynamic data
+                totalPetsElement.textContent = petCards.length;
+            }
+        }
     </script>
 @endsection
