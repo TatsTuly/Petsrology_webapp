@@ -18,7 +18,7 @@
 
     /* Welcome Section */
     .welcome-section {
-        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        background: linear-gradient(135deg, #ff6f61 0%, #f8f9fa 100%);
         padding: 2rem;
         border-radius: 15px;
         margin-bottom: 2rem;
@@ -405,11 +405,11 @@
             <div class="stat-icon appointments">
                 <i class="fas fa-calendar-check"></i>
             </div>
-            <div class="stat-number" id="todayAppointments">12</div>
+            <div class="stat-number" id="todayAppointments">{{ $todayAppointments->count() }}</div>
             <div class="stat-label">Today's Appointments</div>
             <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>+15% from yesterday</span>
+                <i class="fas fa-clock"></i>
+                <span>{{ $upcomingAppointments->count() }} upcoming</span>
             </div>
         </div>
 
@@ -417,23 +417,23 @@
             <div class="stat-icon patients">
                 <i class="fas fa-paw"></i>
             </div>
-            <div class="stat-number" id="totalPatients">247</div>
-            <div class="stat-label">Total Patients</div>
+            <div class="stat-number" id="totalPatients">{{ $appointments->count() }}</div>
+            <div class="stat-label">Total Appointments</div>
             <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>+8% this month</span>
+                <i class="fas fa-calendar"></i>
+                <span>{{ $appointments->where('status', 'pending')->count() }} pending</span>
             </div>
         </div>
 
         <div class="stat-card">
             <div class="stat-icon emergency">
-                <i class="fas fa-ambulance"></i>
+                <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <div class="stat-number" id="emergencyCases">3</div>
+            <div class="stat-number" id="emergencyCases">{{ $appointments->where('urgency_level', 'emergency')->count() }}</div>
             <div class="stat-label">Emergency Cases</div>
-            <div class="stat-trend trend-down">
-                <i class="fas fa-arrow-down"></i>
-                <span>-20% from last week</span>
+            <div class="stat-trend trend-warning">
+                <i class="fas fa-ambulance"></i>
+                <span>{{ $appointments->where('urgency_level', 'urgent')->count() }} urgent</span>
             </div>
         </div>
 
@@ -441,14 +441,169 @@
             <div class="stat-icon revenue">
                 <i class="fas fa-chart-line"></i>
             </div>
-            <div class="stat-number">৳45,280</div>
-            <div class="stat-label">Monthly Revenue</div>
+            <div class="stat-number">{{ $appointments->where('status', 'confirmed')->count() }}</div>
+            <div class="stat-label">Confirmed Appointments</div>
             <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>+12% from last month</span>
+                <i class="fas fa-check-circle"></i>
+                <span>{{ $appointments->where('status', 'completed')->count() }} completed</span>
             </div>
         </div>
     </section>
+
+    @if($vetApplication && $vetApplication->status === 'approved')
+    <!-- Today's Appointments Section -->
+    <section class="appointments-section" style="margin-bottom: 2rem;">
+        <h3 style="color: #2c3e50; font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-calendar-day" style="color: #3498db;"></i>
+            Today's Appointments
+        </h3>
+        
+        @if($todayAppointments->count() > 0)
+            <div class="appointments-grid" style="display: grid; gap: 1rem;">
+                @foreach($todayAppointments as $appointment)
+                <div class="appointment-card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid {{ $appointment->status == 'confirmed' ? '#27ae60' : '#f39c12' }};">
+                    <div style="display: flex; justify-content: between; align-items: flex-start; gap: 1rem;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <h4 style="color: #2c3e50; font-weight: 600; margin: 0;">{{ $appointment->pet_name }}</h4>
+                                <span style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">
+                                    {{ ucfirst($appointment->pet_type) }}
+                                </span>
+                            </div>
+                            <p style="color: #7f8c8d; margin: 4px 0;"><i class="fas fa-user"></i> {{ $appointment->owner_name }}</p>
+                            <p style="color: #7f8c8d; margin: 4px 0;"><i class="fas fa-phone"></i> {{ $appointment->owner_phone }}</p>
+                            <p style="color: #7f8c8d; margin: 4px 0;"><i class="fas fa-stethoscope"></i> {{ ucfirst(str_replace('-', ' ', $appointment->service_type)) }}</p>
+                            @if($appointment->symptoms)
+                                <p style="color: #e74c3c; margin: 8px 0; font-weight: 500;"><i class="fas fa-exclamation-circle"></i> {{ $appointment->symptoms }}</p>
+                            @endif
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.2rem; font-weight: 700; color: #2c3e50; margin-bottom: 4px;">
+                                {{ \Carbon\Carbon::parse($appointment->preferred_time)->format('g:i A') }}
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                @if($appointment->status == 'pending')
+                                    <span style="background: #f39c12; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 500;">Pending</span>
+                                @elseif($appointment->status == 'confirmed')
+                                    <span style="background: #27ae60; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 500;">Confirmed</span>
+                                @endif
+                            </div>
+                            @if($appointment->urgency_level != 'routine')
+                                <div>
+                                    <span style="background: {{ $appointment->urgency_level == 'emergency' ? '#e74c3c' : '#f39c12' }}; color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.75rem;">
+                                        {{ ucfirst($appointment->urgency_level) }}
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    @if($appointment->status == 'pending')
+                        <div style="margin-top: 1rem; display: flex; gap: 8px;">
+                            <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'confirmed')" 
+                                    style="background: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                                <i class="fas fa-check"></i> Confirm
+                            </button>
+                            <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'cancelled')" 
+                                    style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+        @else
+            <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <i class="fas fa-calendar-check" style="font-size: 3rem; color: #bdc3c7; margin-bottom: 1rem;"></i>
+                <h4 style="color: #7f8c8d; margin: 0;">No appointments scheduled for today</h4>
+                <p style="color: #95a5a6; margin-top: 0.5rem;">Enjoy your free day!</p>
+            </div>
+        @endif
+    </section>
+
+    <!-- All Appointments Section -->
+    <section class="appointments-section" style="margin-bottom: 2rem;">
+        <h3 style="color: #2c3e50; font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-calendar-alt" style="color: #e74c3c;"></i>
+            All Appointments
+        </h3>
+        
+        @if($appointments->count() > 0)
+            <div class="appointments-list" style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+                @foreach($appointments->take(10) as $appointment)
+                <div style="padding: 1rem 1.5rem; border-bottom: 1px solid #ecf0f1; {{ $loop->last ? 'border-bottom: none;' : '' }}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h5 style="margin: 0 0 4px 0; color: #2c3e50;">{{ $appointment->pet_name }} - {{ $appointment->owner_name }}</h5>
+                            <div style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 8px;">
+                                <span><i class="fas fa-calendar"></i> {{ $appointment->preferred_date->format('M d, Y') }}</span>
+                                <span style="margin-left: 1rem;"><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($appointment->preferred_time)->format('g:i A') }}</span>
+                                <span style="margin-left: 1rem;"><i class="fas fa-stethoscope"></i> {{ ucfirst(str_replace('-', ' ', $appointment->service_type)) }}</span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: #7f8c8d;">
+                                <span><i class="fas fa-phone"></i> {{ $appointment->owner_phone }}</span>
+                                @if($appointment->symptoms)
+                                    <span style="margin-left: 1rem; color: #e74c3c;"><i class="fas fa-exclamation-circle"></i> {{ Str::limit($appointment->symptoms, 50) }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <div>
+                                @if($appointment->status == 'pending')
+                                    <span style="background: #f39c12; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem;">Pending</span>
+                                @elseif($appointment->status == 'confirmed')
+                                    <span style="background: #27ae60; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem;">Confirmed</span>
+                                @elseif($appointment->status == 'completed')
+                                    <span style="background: #3498db; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem;">Completed</span>
+                                @elseif($appointment->status == 'cancelled')
+                                    <span style="background: #e74c3c; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem;">Cancelled</span>
+                                @endif
+                            </div>
+                            
+                            @if($appointment->status == 'pending')
+                                <div style="display: flex; gap: 6px;">
+                                    <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'confirmed')" 
+                                            style="background: #27ae60; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">
+                                        <i class="fas fa-check"></i> Confirm
+                                    </button>
+                                    <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'cancelled')" 
+                                            style="background: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            @elseif($appointment->status == 'confirmed')
+                                <div style="display: flex; gap: 6px;">
+                                    <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'completed')" 
+                                            style="background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">
+                                        <i class="fas fa-check-double"></i> Complete
+                                    </button>
+                                    <button onclick="updateAppointmentStatus('{{ $appointment->id }}', 'cancelled')" 
+                                            style="background: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                
+                @if($appointments->count() > 10)
+                    <div style="padding: 1rem 1.5rem; text-align: center; background: #f8f9fa;">
+                        <p style="margin: 0; color: #7f8c8d;">Showing 10 of {{ $appointments->count() }} appointments</p>
+                    </div>
+                @endif
+            </div>
+        @else
+            <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <i class="fas fa-calendar-times" style="font-size: 3rem; color: #bdc3c7; margin-bottom: 1rem;"></i>
+                <h4 style="color: #7f8c8d; margin: 0;">No appointments yet</h4>
+                <p style="color: #95a5a6; margin-top: 0.5rem;">Appointments will appear here once patients book with you.</p>
+            </div>
+        @endif
+    </section>
+    @endif
 
     <section class="quick-actions">
         <h3>Quick Actions</h3>
@@ -511,9 +666,7 @@
         </div>
     </section>
 </div>
-@endsection
 
-@section('scripts')
 <script>
     // Dashboard functionality
     document.addEventListener('DOMContentLoaded', function() {
@@ -565,6 +718,46 @@
 
     function generateReports() {
         alert('Reports Generator loading...');
+    }
+
+    function updateAppointmentStatus(appointmentId, status) {
+        console.log('Updating appointment status:', appointmentId, status);
+        
+        if (confirm(`Are you sure you want to ${status} this appointment?`)) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            console.log('CSRF Token:', csrfToken);
+            
+            fetch(`/appointments/${appointmentId}/status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success response:', data);
+                if (data.success) {
+                    alert(`Appointment ${status} successfully!`);
+                    location.reload();
+                } else {
+                    alert(`Failed to ${status} appointment: ${data.message || 'Please try again.'}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the appointment. Please try again.');
+            });
+        }
     }
 </script>
 @endsection

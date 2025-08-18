@@ -25,6 +25,34 @@ class VetDashboardController extends Controller
             ->orWhere('user_id', $userId)
             ->first();
 
-        return view('vet_dashboard', compact('vetApplication'));
+        // Get vet's appointments if approved
+        $appointments = collect();
+        $upcomingAppointments = collect();
+        $todayAppointments = collect();
+        
+        if ($vetApplication && $vetApplication->status === 'approved') {
+            $appointments = \App\Models\Appointment::with('user')
+                ->where('vet_id', $vetApplication->id)
+                ->orderBy('preferred_date', 'desc')
+                ->orderBy('preferred_time', 'desc')
+                ->get();
+                
+            $upcomingAppointments = \App\Models\Appointment::with('user')
+                ->where('vet_id', $vetApplication->id)
+                ->where('preferred_date', '>=', today())
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->orderBy('preferred_date', 'asc')
+                ->orderBy('preferred_time', 'asc')
+                ->get();
+                
+            $todayAppointments = \App\Models\Appointment::with('user')
+                ->where('vet_id', $vetApplication->id)
+                ->whereDate('preferred_date', today())
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->orderBy('preferred_time', 'asc')
+                ->get();
+        }
+
+        return view('vet_dashboard', compact('vetApplication', 'appointments', 'upcomingAppointments', 'todayAppointments'));
     }
 }

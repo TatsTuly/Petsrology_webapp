@@ -301,12 +301,29 @@ Route::get('/vet-home', function () {
     return view('vet_home');
 });
 
-Route::get('/book-appointment', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('book_appointment');
-})->name('book.appointment');
+Route::get('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'index'])->name('book.appointment');
+Route::post('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'store'])->name('appointment.store');
+
+// Appointment management routes
+Route::get('/appointments/user', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments'])->name('appointments.user');
+Route::get('/appointments/vet/{vetId}', [App\Http\Controllers\AppointmentController::class, 'getVetAppointments'])->name('appointments.vet');
+Route::post('/appointments/{id}/status', [App\Http\Controllers\AppointmentController::class, 'updateStatus'])->name('appointment.update.status');
+Route::post('/appointments/{id}/cancel', [App\Http\Controllers\AppointmentController::class, 'cancel'])->name('appointment.cancel');
+// Public appointment routes (no auth required for AJAX)
+Route::get('/appointments/available-slots', [App\Http\Controllers\AppointmentController::class, 'getAvailableSlots'])->name('appointment.available.slots');
+
+// Test route for debugging
+Route::get('/test/slots', function(\Illuminate\Http\Request $request) {
+    return response()->json([
+        'status' => 'working',
+        'date' => $request->get('date'),
+        'slots' => [
+            '09:00' => '9:00 AM',
+            '10:00' => '10:00 AM',
+            '14:00' => '2:00 PM'
+        ]
+    ]);
+});
 
 Route::get('/all-vets', [App\Http\Controllers\VetController::class, 'allVets'])->name('all.vets');
 
@@ -436,11 +453,13 @@ Route::get('/user/dashboard', function () {
     }
     $user = null;
     $adoptionRequests = collect();
+    $appointments = collect();
     if (session('user_id')) {
         $user = \App\Models\AppUser::find(session('user_id'));
         $adoptionRequests = \App\Models\AdoptionRequest::with('adoptionPost')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $appointments = \App\Models\Appointment::with('vet')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
     }
-    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests]);
+    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests, 'appointments' => $appointments]);
 })->name('user.dashboard');
 
 // Admin Routes
