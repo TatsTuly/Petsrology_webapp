@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\OrderManagementController;
 use App\Http\Controllers\VetDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\VetManagementController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CheckoutController;
 

@@ -1046,14 +1046,14 @@
                 <div class="greeting-header">
                     <div class="user-info">
                         <div class="user-avatar">
-                            @if($currentUser && $currentUser->profilePicture)
-                                <img src="{{ asset('storage/' . $currentUser->profilePicture) }}" alt="User Avatar" />
+                            @if($currentUser && $currentUser->avatar)
+                                <img src="{{ asset('storage/' . $currentUser->avatar) }}" alt="User Avatar" />
                             @else
-                                {{ $currentUser ? strtoupper(substr($currentUser->firstName ?? 'U', 0, 1)) : 'U' }}
+                                {{ $currentUser ? strtoupper(substr($currentUser->name ?? 'U', 0, 1)) : 'U' }}
                             @endif
                         </div>
                         <div class="greeting-text">
-                            <h2>Hi, {{ $currentUser ? $currentUser->firstName ?? 'Guest' : 'Guest' }}!</h2>
+                            <h2>Hi, {{ $currentUser ? $currentUser->name ?? 'Guest' : 'Guest' }}!</h2>
                             <p>
                                 @if($currentUser)
                                     @php

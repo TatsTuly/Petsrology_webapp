@@ -58,7 +58,7 @@ class AdoptHomeController extends Controller
         
         // Get current user information
         $currentUser = null;
-        if (session('user_id')) {
+        if (session('user_authenticated') && session('user_id')) {
             $currentUser = AppUser::find(session('user_id'));
         }
         
