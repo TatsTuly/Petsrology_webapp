@@ -1,6 +1,10 @@
 <?php
 use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\Admin\VetManagementController;
+use App\Http\Controllers\ContactMessageController;
+
+// Contact Message Route
+Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
 
 // Vet Join Page
 Route::get('/vet-join', function () {

@@ -457,21 +457,31 @@
             <div class="success-message" id="successMessage">
                 Thank you for your message! We'll get back to you soon.
             </div>
-            <form id="contactForm" onsubmit="return validateForm(event)">
+            <form id="contactForm" action="{{ route('contact.store') }}" method="POST">
+                @csrf
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" placeholder="Full Name" required>
-                    <div class="error-message" id="nameError"></div>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                    @error('name')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
-                    <div class="error-message" id="emailError"></div>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                    @error('email')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
+                    @error('subject')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" id="message" rows="6" placeholder="Your Message" required></textarea>
-                    <div class="error-message" id="messageError"></div>
+                    <textarea class="form-control" id="message" name="message" rows="6" placeholder="Your Message" required></textarea>
+                    @error('message')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </div>
                 <button type="submit" class="btn-submit">Send Message</button>
             </form>
