@@ -239,19 +239,19 @@
     <!-- Statistics -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-number">{{ $orders->total() }}</div>
+            <div class="stat-number">{{ $stats['total_orders'] }}</div>
             <div class="stat-label">Total Orders</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">{{ $orders->where('order_status', 'pending')->count() }}</div>
+            <div class="stat-number">{{ $stats['pending_orders'] }}</div>
             <div class="stat-label">Pending Orders</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">{{ $orders->where('order_status', 'confirmed')->count() }}</div>
+            <div class="stat-number">{{ $stats['confirmed_orders'] }}</div>
             <div class="stat-label">Confirmed Orders</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">৳{{ number_format($orders->where('payment_status', 'paid')->sum('total_amount'), 2) }}</div>
+            <div class="stat-number">৳{{ number_format($stats['total_revenue'], 2) }}</div>
             <div class="stat-label">Total Revenue</div>
         </div>
     </div>

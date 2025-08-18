@@ -44,7 +44,16 @@ class OrderManagementController extends Controller
 
         $orders = $query->paginate(20);
 
-        return view('admin.orders.index', compact('orders'));
+        // Calculate statistics for all orders (not just filtered ones)
+        $allOrders = Order::all();
+        $stats = [
+            'total_orders' => $allOrders->count(),
+            'pending_orders' => $allOrders->where('order_status', 'pending')->count(),
+            'confirmed_orders' => $allOrders->where('order_status', 'confirmed')->count(),
+            'total_revenue' => $allOrders->where('payment_status', 'paid')->sum('total_amount'),
+        ];
+
+        return view('admin.orders.index', compact('orders', 'stats'));
     }
 
     /**
