@@ -626,8 +626,124 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
             submitBtn.disabled = true;
             
-            // Submit form
-            form.submit();
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            formData.append('payment_method', 'nagad');
+            formData.append('order_data', JSON.stringify(orderData));
+            formData.append('nagad_number', nagadNumber);
+            formData.append('nagad_pin', nagadPin);
+            
+            // Send AJAX request
+            fetch('{{ route("payment.process") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success popup
+                    showOrderConfirmationPopup(data);
+                    
+                    // Clear cart data
+                    localStorage.removeItem('cart');
+                    sessionStorage.removeItem('orderData');
+                    
+                    // Redirect to success page after popup
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url;
+                    }, 3000);
+                } else {
+                    throw new Error(data.message || 'Payment failed');
+                }
+            })
+            .catch(error => {
+                console.error('Payment error:', error);
+                alert('Payment failed: ' + error.message);
+                
+                // Reset button state
+                submitBtn.classList.remove('loading');
+                submitBtn.innerHTML = '<i class="fas fa-wallet"></i> Pay with Nagad';
+                submitBtn.disabled = false;
+            });
+        }
+
+        function showOrderConfirmationPopup(data) {
+            // Create popup HTML
+            const popupHTML = `
+                <div id="orderConfirmationPopup" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 40px;
+                        border-radius: 20px;
+                        text-align: center;
+                        max-width: 500px;
+                        width: 90%;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <div style="color: #28a745; font-size: 60px; margin-bottom: 20px;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 style="color: #333; margin-bottom: 10px; font-size: 28px;">Order Confirmed!</h2>
+                        <p style="color: #666; margin-bottom: 20px; font-size: 16px;">
+                            Your payment has been processed successfully.
+                        </p>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <div style="margin-bottom: 10px;">
+                                <strong>Order Number:</strong> <span style="color: #ff6600;">${data.order_number}</span>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <strong>Payment Reference:</strong> <span style="color: #ff6600;">${data.payment_reference}</span>
+                            </div>
+                            <div>
+                                <strong>Total Amount:</strong> <span style="color: #28a745; font-size: 18px;">৳${data.total_amount.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <p style="color: #666; font-size: 14px; margin-top: 15px;">
+                            You will be redirected to the order details page shortly...
+                        </p>
+                        <div style="margin-top: 20px;">
+                            <div style="width: 100%; height: 4px; background: #e9ecef; border-radius: 2px; overflow: hidden;">
+                                <div style="width: 0%; height: 100%; background: #28a745; border-radius: 2px; animation: progressBar 3s linear forwards;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(30px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    @keyframes progressBar {
+                        from { width: 0%; }
+                        to { width: 100%; }
+                    }
+                </style>
+            `;
+            
+            // Add popup to page
+            document.body.insertAdjacentHTML('beforeend', popupHTML);
         }
     </script>
 @endsection

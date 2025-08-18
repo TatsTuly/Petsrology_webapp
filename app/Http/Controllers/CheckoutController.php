@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FoodProduct;
-use Illuminate\Support\Facades\Session;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -37,34 +40,100 @@ class CheckoutController extends Controller
             return redirect()->route('shop.food')->with('error', 'Your cart is empty!');
         }
 
-        // Calculate total
-        $total = 0;
-        foreach ($cartData as $item) {
-            $total += $item['price'] * $item['quantity'];
+        try {
+            // Start database transaction
+            DB::beginTransaction();
+
+            // Calculate totals
+            $subtotal = 0;
+            foreach ($cartData as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            
+            $deliveryFee = 50;
+            $total = $subtotal + $deliveryFee;
+
+            // Create order
+            $order = Order::create([
+                'order_number' => Order::generateOrderNumber(),
+                'customer_first_name' => $request->first_name,
+                'customer_last_name' => $request->last_name,
+                'customer_email' => $request->email,
+                'customer_phone' => $request->phone,
+                'delivery_address' => $request->address,
+                'delivery_city' => $request->city,
+                'delivery_postal_code' => $request->postal_code,
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total_amount' => $total,
+                'payment_method' => $request->payment_method,
+                'payment_status' => $request->payment_method === 'cash_on_delivery' ? 'pending' : 'pending',
+                'order_status' => 'pending',
+                'cart_data' => $cartData,
+            ]);
+
+            // Create order items
+            foreach ($cartData as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'product_type' => 'food', // Assuming all items are food products
+                    'product_title' => $item['title'],
+                    'product_brand' => $item['brand'] ?? 'Unknown Brand',
+                    'product_description' => $item['description'] ?? '',
+                    'product_image' => $item['image'] ?? null,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'total_price' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            // Update order status for cash on delivery
+            if ($request->payment_method === 'cash_on_delivery') {
+                $order->update(['order_status' => 'confirmed']);
+            }
+
+            // Commit transaction
+            DB::commit();
+
+            // Prepare order data for success page
+            $orderData = [
+                'order_id' => $order->formatted_order_number,
+                'order_number' => $order->order_number,
+                'customer' => [
+                    'first_name' => $order->customer_first_name,
+                    'last_name' => $order->customer_last_name,
+                    'email' => $order->customer_email,
+                    'phone' => $order->customer_phone,
+                ],
+                'address' => [
+                    'address' => $order->delivery_address,
+                    'city' => $order->delivery_city,
+                    'postal_code' => $order->delivery_postal_code,
+                ],
+                'items' => $cartData,
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total' => $total,
+                'payment_method' => $order->payment_method,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+                'created_at' => $order->created_at->format('Y-m-d H:i:s'),
+            ];
+
+            return view('checkout-success', compact('orderData'));
+
+        } catch (\Exception $e) {
+            // Rollback transaction
+            DB::rollback();
+            
+            // Log error
+            Log::error('Order creation failed: ' . $e->getMessage());
+            
+            return redirect()->back()
+                ->withErrors(['error' => 'Failed to process order. Please try again.'])
+                ->withInput();
         }
-        
-        // Add delivery fee
-        $deliveryFee = 50;
-        $total += $deliveryFee;
-
-        // Here you would typically:
-        // 1. Create an order record in the database
-        // 2. Process payment if needed
-        // 3. Send confirmation emails
-        // 4. Clear the cart
-
-        // For now, we'll just simulate success
-        $orderData = [
-            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
-            'customer' => $request->only(['first_name', 'last_name', 'email', 'phone']),
-            'address' => $request->only(['address', 'city', 'postal_code']),
-            'items' => $cartData,
-            'total' => $total,
-            'payment_method' => $request->payment_method,
-            'status' => 'confirmed'
-        ];
-
-        return view('checkout-success', compact('orderData'));
     }
 
     public function bkashPayment()
@@ -106,85 +175,354 @@ class CheckoutController extends Controller
     {
         // Validate bKash specific fields
         $request->validate([
-            'bkash_number' => 'required|string',
-            'bkash_pin' => 'required|string|min:4',
+            'bkash_number' => 'required|string|min:10|max:11',
+            'bkash_pin' => 'required|string|size:4',
         ]);
 
-        // Here you would integrate with bKash API
-        // For demo purposes, we'll simulate success
+        try {
+            DB::beginTransaction();
 
-        $finalOrderData = [
-            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
-            'customer' => $orderData['customer'],
-            'address' => $orderData['address'],
-            'items' => $orderData['cart'],
-            'total' => $orderData['total'],
-            'payment_method' => 'bkash',
-            'payment_details' => [
-                'bkash_number' => $request->bkash_number,
-                'transaction_id' => 'BKT' . time(),
-            ],
-            'status' => 'confirmed'
-        ];
+            // Calculate totals
+            $subtotal = 0;
+            foreach ($orderData['cart'] as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            
+            $deliveryFee = 50;
+            $total = $subtotal + $deliveryFee;
 
-        return view('checkout-success', ['orderData' => $finalOrderData]);
+            // Create order
+            $order = Order::create([
+                'order_number' => Order::generateOrderNumber(),
+                'customer_first_name' => $orderData['customer']['first_name'],
+                'customer_last_name' => $orderData['customer']['last_name'],
+                'customer_email' => $orderData['customer']['email'],
+                'customer_phone' => $orderData['customer']['phone'],
+                'delivery_address' => $orderData['address']['address'],
+                'delivery_city' => $orderData['address']['city'],
+                'delivery_postal_code' => $orderData['address']['postal_code'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total_amount' => $total,
+                'payment_method' => 'bkash',
+                'payment_status' => 'paid', // Assuming payment is successful
+                'payment_reference' => 'BKT' . time() . rand(1000, 9999),
+                'order_status' => 'confirmed',
+                'cart_data' => $orderData['cart'],
+            ]);
+
+            // Create order items
+            foreach ($orderData['cart'] as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'product_type' => 'food',
+                    'product_title' => $item['title'],
+                    'product_brand' => $item['brand'] ?? 'Unknown Brand',
+                    'product_description' => $item['description'] ?? '',
+                    'product_image' => $item['image'] ?? null,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'total_price' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            DB::commit();
+
+            // Return JSON response for AJAX requests
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Order confirmed successfully!',
+                    'order_number' => $order->formatted_order_number,
+                    'payment_reference' => $order->payment_reference,
+                    'total_amount' => $total,
+                    'redirect_url' => route('checkout.success', ['order' => $order->order_number])
+                ]);
+            }
+
+            // Prepare final order data for regular requests
+            $finalOrderData = [
+                'order_id' => $order->formatted_order_number,
+                'order_number' => $order->order_number,
+                'customer' => $orderData['customer'],
+                'address' => $orderData['address'],
+                'items' => $orderData['cart'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total' => $total,
+                'payment_method' => 'bkash',
+                'payment_reference' => $order->payment_reference,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+                'created_at' => $order->created_at->format('Y-m-d H:i:s'),
+            ];
+
+            return view('checkout-success', ['orderData' => $finalOrderData]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('bKash payment failed: ' . $e->getMessage());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Payment processing failed. Please try again. Error: ' . $e->getMessage()
+                ], 422);
+            }
+            
+            return redirect()->back()
+                ->withErrors(['error' => 'Payment processing failed. Please try again.'])
+                ->withInput();
+        }
     }
 
     private function processNagadPayment($request, $orderData)
     {
         // Validate Nagad specific fields
         $request->validate([
-            'nagad_number' => 'required|string',
-            'nagad_pin' => 'required|string|min:4',
+            'nagad_number' => 'required|string|min:10|max:11',
+            'nagad_pin' => 'required|string|size:4',
         ]);
 
-        // Here you would integrate with Nagad API
-        // For demo purposes, we'll simulate success
+        try {
+            DB::beginTransaction();
 
-        $finalOrderData = [
-            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
-            'customer' => $orderData['customer'],
-            'address' => $orderData['address'],
-            'items' => $orderData['cart'],
-            'total' => $orderData['total'],
-            'payment_method' => 'nagad',
-            'payment_details' => [
-                'nagad_number' => $request->nagad_number,
-                'transaction_id' => 'NGD' . time(),
-            ],
-            'status' => 'confirmed'
-        ];
+            // Calculate totals
+            $subtotal = 0;
+            foreach ($orderData['cart'] as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            
+            $deliveryFee = 50;
+            $total = $subtotal + $deliveryFee;
 
-        return view('checkout-success', ['orderData' => $finalOrderData]);
+            // Create order
+            $order = Order::create([
+                'order_number' => Order::generateOrderNumber(),
+                'customer_first_name' => $orderData['customer']['first_name'],
+                'customer_last_name' => $orderData['customer']['last_name'],
+                'customer_email' => $orderData['customer']['email'],
+                'customer_phone' => $orderData['customer']['phone'],
+                'delivery_address' => $orderData['address']['address'],
+                'delivery_city' => $orderData['address']['city'],
+                'delivery_postal_code' => $orderData['address']['postal_code'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total_amount' => $total,
+                'payment_method' => 'nagad',
+                'payment_status' => 'paid',
+                'payment_reference' => 'NGD' . time() . rand(1000, 9999),
+                'order_status' => 'confirmed',
+                'cart_data' => $orderData['cart'],
+            ]);
+
+            // Create order items
+            foreach ($orderData['cart'] as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'product_type' => 'food',
+                    'product_title' => $item['title'],
+                    'product_brand' => $item['brand'] ?? 'Unknown Brand',
+                    'product_description' => $item['description'] ?? '',
+                    'product_image' => $item['image'] ?? null,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'total_price' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            DB::commit();
+
+            // Return JSON response for AJAX requests
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Order confirmed successfully!',
+                    'order_number' => $order->formatted_order_number,
+                    'payment_reference' => $order->payment_reference,
+                    'total_amount' => $total,
+                    'redirect_url' => route('checkout.success', ['order' => $order->order_number])
+                ]);
+            }
+
+            // Prepare final order data for regular requests
+            $finalOrderData = [
+                'order_id' => $order->formatted_order_number,
+                'order_number' => $order->order_number,
+                'customer' => $orderData['customer'],
+                'address' => $orderData['address'],
+                'items' => $orderData['cart'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total' => $total,
+                'payment_method' => 'nagad',
+                'payment_reference' => $order->payment_reference,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+                'created_at' => $order->created_at->format('Y-m-d H:i:s'),
+            ];
+
+            return view('checkout-success', ['orderData' => $finalOrderData]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Nagad payment failed: ' . $e->getMessage());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Payment processing failed. Please try again.'
+                ], 422);
+            }
+            
+            return redirect()->back()
+                ->withErrors(['error' => 'Payment processing failed. Please try again.'])
+                ->withInput();
+        }
     }
 
     private function processCardPayment($request, $orderData)
     {
         // Validate Card specific fields
         $request->validate([
-            'card_number' => 'required|string|size:16',
-            'card_name' => 'required|string',
-            'expiry_date' => 'required|string',
-            'cvv' => 'required|string|size:3',
+            'card_number' => 'required|string|min:13|max:19',
+            'card_holder' => 'required|string|max:255',
+            'expiry_month' => 'required|string|size:2',
+            'expiry_year' => 'required|string|size:2',
+            'cvv' => 'required|string|min:3|max:4',
         ]);
 
-        // Here you would integrate with payment gateway
-        // For demo purposes, we'll simulate success
+        try {
+            DB::beginTransaction();
 
-        $finalOrderData = [
-            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
-            'customer' => $orderData['customer'],
-            'address' => $orderData['address'],
-            'items' => $orderData['cart'],
-            'total' => $orderData['total'],
-            'payment_method' => 'card',
-            'payment_details' => [
-                'card_last_four' => substr($request->card_number, -4),
-                'transaction_id' => 'CRD' . time(),
+            // Calculate totals
+            $subtotal = 0;
+            foreach ($orderData['cart'] as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            
+            $deliveryFee = 50;
+            $total = $subtotal + $deliveryFee;
+
+            // Create order
+            $order = Order::create([
+                'order_number' => Order::generateOrderNumber(),
+                'customer_first_name' => $orderData['customer']['first_name'],
+                'customer_last_name' => $orderData['customer']['last_name'],
+                'customer_email' => $orderData['customer']['email'],
+                'customer_phone' => $orderData['customer']['phone'],
+                'delivery_address' => $orderData['address']['address'],
+                'delivery_city' => $orderData['address']['city'],
+                'delivery_postal_code' => $orderData['address']['postal_code'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total_amount' => $total,
+                'payment_method' => 'card',
+                'payment_status' => 'paid',
+                'payment_reference' => 'CRD' . time() . rand(1000, 9999),
+                'order_status' => 'confirmed',
+                'cart_data' => $orderData['cart'],
+            ]);
+
+            // Create order items
+            foreach ($orderData['cart'] as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'product_type' => 'food',
+                    'product_title' => $item['title'],
+                    'product_brand' => $item['brand'] ?? 'Unknown Brand',
+                    'product_description' => $item['description'] ?? '',
+                    'product_image' => $item['image'] ?? null,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'total_price' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            DB::commit();
+
+            // Return JSON response for AJAX requests
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Order confirmed successfully!',
+                    'order_number' => $order->formatted_order_number,
+                    'payment_reference' => $order->payment_reference,
+                    'total_amount' => $total,
+                    'redirect_url' => route('checkout.success', ['order' => $order->order_number])
+                ]);
+            }
+
+            // Prepare final order data for regular requests
+            $finalOrderData = [
+                'order_id' => $order->formatted_order_number,
+                'order_number' => $order->order_number,
+                'customer' => $orderData['customer'],
+                'address' => $orderData['address'],
+                'items' => $orderData['cart'],
+                'subtotal' => $subtotal,
+                'delivery_fee' => $deliveryFee,
+                'total' => $total,
+                'payment_method' => 'card',
+                'payment_reference' => $order->payment_reference,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+                'created_at' => $order->created_at->format('Y-m-d H:i:s'),
+            ];
+
+            return view('checkout-success', ['orderData' => $finalOrderData]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Card payment failed: ' . $e->getMessage());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Payment processing failed. Please try again.'
+                ], 422);
+            }
+            
+            return redirect()->back()
+                ->withErrors(['error' => 'Payment processing failed. Please try again.'])
+                ->withInput();
+        }
+    }
+
+    public function success($orderNumber)
+    {
+        // Find the order by order number
+        $order = Order::where('order_number', $orderNumber)->firstOrFail();
+        
+        // Prepare order data for the view
+        $orderData = [
+            'order_id' => $order->formatted_order_number,
+            'order_number' => $order->order_number,
+            'customer' => [
+                'first_name' => $order->customer_first_name,
+                'last_name' => $order->customer_last_name,
+                'email' => $order->customer_email,
+                'phone' => $order->customer_phone,
             ],
-            'status' => 'confirmed'
+            'address' => [
+                'address' => $order->delivery_address,
+                'city' => $order->delivery_city,
+                'postal_code' => $order->delivery_postal_code,
+            ],
+            'items' => $order->cart_data,
+            'subtotal' => $order->subtotal,
+            'delivery_fee' => $order->delivery_fee,
+            'total' => $order->total_amount,
+            'payment_method' => $order->payment_method,
+            'payment_reference' => $order->payment_reference,
+            'order_status' => $order->order_status,
+            'payment_status' => $order->payment_status,
+            'created_at' => $order->created_at->format('Y-m-d H:i:s'),
         ];
 
-        return view('checkout-success', ['orderData' => $finalOrderData]);
+        return view('checkout-success', compact('orderData'));
     }
 }
