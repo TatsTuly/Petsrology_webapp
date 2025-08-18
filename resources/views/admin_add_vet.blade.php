@@ -349,7 +349,7 @@
             @endif
             
             <h2>Veterinarian Information</h2>
-            <form method="POST" action="{{ route('admin.vet.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.vet.store') }}" enctype="multipart/form-data" onsubmit="return validateForm()">
                 @csrf
                 <div class="form-row">
                     <div class="form-group">
@@ -358,6 +358,30 @@
                             <small style="color: #e74c3c;">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address *" value="{{ old('email') }}" required>
+                        @error('email')
+                            <small style="color: #e74c3c;">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password *" required>
+                        @error('password')
+                            <small style="color: #e74c3c;">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="confirmed_password" name="confirmed_password" placeholder="Confirm Password *" required>
+                        @error('confirmed_password')
+                            <small style="color: #e74c3c;">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                
+                <div class="form-row">
                     <div class="form-group">
                         <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number *" value="{{ old('phone') }}" required>
                         @error('phone')
@@ -520,6 +544,44 @@
                 preview.innerHTML = '';
             }
         }
+        
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirmedPassword = document.getElementById('confirmed_password').value;
+            const confirmField = document.getElementById('confirmed_password');
+            
+            if (password !== confirmedPassword) {
+                confirmField.style.borderColor = '#e74c3c';
+                confirmField.style.boxShadow = '0 0 5px rgba(231, 76, 60, 0.3)';
+                return false;
+            } else {
+                confirmField.style.borderColor = '#27ae60';
+                confirmField.style.boxShadow = '0 0 5px rgba(39, 174, 96, 0.3)';
+                return true;
+            }
+        }
+        
+        function validateForm() {
+            const isPasswordValid = validatePasswords();
+            
+            if (!isPasswordValid) {
+                alert('Passwords do not match. Please check your password fields.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Initialize password validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmPasswordField = document.getElementById('confirmed_password');
+            const passwordField = document.getElementById('password');
+            
+            if (confirmPasswordField && passwordField) {
+                confirmPasswordField.addEventListener('input', validatePasswords);
+                passwordField.addEventListener('input', validatePasswords);
+            }
+        });
         
         // Initialize price fields on page load
         document.addEventListener('DOMContentLoaded', function() {

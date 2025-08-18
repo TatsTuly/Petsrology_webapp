@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\VetJoinController;
+use App\Http\Controllers\VetDashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\VetManagementController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CheckoutController;
@@ -18,9 +20,7 @@ Route::get('/payment/card', [CheckoutController::class, 'cardPayment'])->name('p
 Route::post('/payment/process', [CheckoutController::class, 'processPayment'])->name('payment.process');
 
 // Vet Join Page
-Route::get('/vet-join', function () {
-    return view('vet_join');
-})->name('vet.join');
+Route::get('/vet-join', [VetJoinController::class, 'show'])->name('vet.join');
 
 // Vet Join Form Submission
 Route::post('/vet-join', [VetJoinController::class, 'store'])->name('vet.join.submit');
@@ -214,14 +214,8 @@ Route::get('/vet-home', function () {
 })->name('vet.home');
 
 // Vet Dashboard (main vet page after login)
-Route::get('/vet-dashboard', function () {
-    if (!session('user_authenticated') || session('user_role') !== 'vet') {
-        return redirect('/landing');
-    }
-    return view('vet_dashboard');
-})->name('vet.dashboard');
+Route::get('/vet-dashboard', [VetDashboardController::class, 'index'])->name('vet.dashboard');
 
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 // Login route with error handling
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
@@ -241,10 +235,6 @@ Route::middleware('guest')->group(function () {
         return view('login');
     });
 });
-
-use App\Http\Controllers\AuthController;
-
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::post('/signup', [AuthController::class, 'register'])->name('signup.submit');
 
@@ -277,13 +267,6 @@ Route::get('/vet-home', function () {
         return redirect('/landing');
     }
     return view('vet_home');
-});
-
-Route::get('/vet-dashboard', function () {
-    if (!session('user_authenticated') || session('user_role') !== 'vet') {
-        return redirect('/landing');
-    }
-    return view('vet_dashboard');
 });
 
 Route::get('/book-appointment', function () {

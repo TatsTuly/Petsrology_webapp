@@ -632,7 +632,7 @@
                                 <td style="font-weight: 700; color: #2c3e50;">#{{ $vet->id }}</td>
                                 <td>
                                     @if($vet->profile_image)
-                                        <img src="{{ asset('storage/' . $vet->profile_image) }}" alt="Profile" class="vet-image">
+                                        <img src="{{ $vet->getProfileImageUrl() }}" alt="Profile" class="vet-image">
                                     @else
                                         <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #bdc3c7, #95a5a6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
                                             {{ substr($vet->name, 0, 1) }}
