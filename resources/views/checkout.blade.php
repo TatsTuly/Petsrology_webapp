@@ -508,6 +508,129 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Order Confirmation Popup */
+        .confirmation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-popup.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .popup-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .confirmation-popup.show .popup-content {
+            transform: translateY(0);
+        }
+
+        .popup-header {
+            background: linear-gradient(135deg, #28a745 0%, #40c057 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .popup-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2.5rem;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .popup-message {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .popup-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .popup-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .popup-btn-primary {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+        }
+
+        .popup-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,111,97,0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .popup-btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .popup-btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            color: #333;
+            text-decoration: none;
+        }
     </style>
 @endsection
 
@@ -662,7 +785,7 @@
                     <!-- Submit Button -->
                     <button type="submit" class="submit-btn" id="submitBtn">
                         <i class="fas fa-shopping-bag"></i>
-                        Complete Order
+                        <span id="submitBtnText">Complete Order</span>
                     </button>
                 </form>
             </div>
@@ -693,6 +816,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Order Confirmation Popup -->
+    <div class="confirmation-popup" id="confirmationPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <div class="popup-icon">
+                    <span>✅</span>
+                </div>
+                <div class="popup-title">Order Confirmed!</div>
+                <div class="popup-message">Your order has been successfully placed</div>
+            </div>
+            <div class="popup-body">
+                <p>Thank you for your purchase! Your order is being processed and you will receive a confirmation email shortly.</p>
+                <div class="popup-actions">
+                    <a href="/shop-food" class="popup-btn popup-btn-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                        Continue Shopping
+                    </a>
+                    <a href="#" class="popup-btn popup-btn-secondary" onclick="closeConfirmationPopup()">
+                        <i class="fas fa-times"></i>
+                        Close
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -718,6 +867,15 @@
                 e.preventDefault();
                 processCheckout();
             });
+
+            // Update button text based on payment method selection
+            const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+            paymentMethods.forEach(method => {
+                method.addEventListener('change', updateSubmitButton);
+            });
+
+            // Initialize button text
+            updateSubmitButton();
         });
 
         function displayOrderSummary() {
@@ -757,24 +915,109 @@
             document.getElementById('total').textContent = `৳${total.toLocaleString()}`;
         }
 
+        function updateSubmitButton() {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            const submitBtnText = document.getElementById('submitBtnText');
+            const submitBtn = document.getElementById('submitBtn');
+
+            switch(selectedPaymentMethod) {
+                case 'cash_on_delivery':
+                    submitBtnText.innerHTML = 'Complete Order';
+                    submitBtn.style.background = 'linear-gradient(135deg, #ff6f61 0%, #ff9472 100%)';
+                    break;
+                case 'bkash':
+                    submitBtnText.innerHTML = 'Pay with bKash';
+                    submitBtn.style.background = 'linear-gradient(135deg, #e2136e 0%, #ff69b4 100%)';
+                    break;
+                case 'nagad':
+                    submitBtnText.innerHTML = 'Pay with Nagad';
+                    submitBtn.style.background = 'linear-gradient(135deg, #eb5b2c 0%, #ff6f4a 100%)';
+                    break;
+                case 'card':
+                    submitBtnText.innerHTML = 'Pay with Card';
+                    submitBtn.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
+                    break;
+            }
+        }
+
         function processCheckout() {
             const form = document.getElementById('checkoutForm');
             const submitBtn = document.getElementById('submitBtn');
             
+            // Get selected payment method
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            
+            // Validate form
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
             // Show loading state
             submitBtn.classList.add('loading');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Order...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             submitBtn.disabled = true;
 
-            // Create FormData with cart information
-            const formData = new FormData(form);
-            
-            // Add cart data to form
-            formData.append('cart_data', JSON.stringify(cart));
-            
-            // Submit form using standard form submission
-            form.appendChild(createHiddenInput('cart_data', JSON.stringify(cart)));
-            form.submit();
+            // Prepare order data
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + deliveryFee;
+            const orderData = {
+                cart: cart,
+                customer: {
+                    first_name: document.getElementById('first_name').value,
+                    last_name: document.getElementById('last_name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                },
+                address: {
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    postal_code: document.getElementById('postal_code').value,
+                },
+                payment_method: paymentMethod,
+                total: total
+            };
+
+            // Store order data for payment page
+            sessionStorage.setItem('orderData', JSON.stringify(orderData));
+
+            // Redirect to appropriate payment page based on payment method
+            setTimeout(() => {
+                switch(paymentMethod) {
+                    case 'cash_on_delivery':
+                        // For Cash on Delivery, submit form directly
+                        const formData = new FormData(form);
+                        formData.append('cart_data', JSON.stringify(cart));
+                        form.appendChild(createHiddenInput('cart_data', JSON.stringify(cart)));
+                        form.submit();
+                        break;
+                    case 'bkash':
+                        window.location.href = '/payment/bkash';
+                        break;
+                    case 'nagad':
+                        window.location.href = '/payment/nagad';
+                        break;
+                    case 'card':
+                        window.location.href = '/payment/card';
+                        break;
+                    default:
+                        alert('Please select a payment method');
+                        resetSubmitButton(submitBtn);
+                }
+            }, 500); // Small delay for better UX
+        }
+
+        function resetSubmitButton(submitBtn) {
+            submitBtn.classList.remove('loading');
+            submitBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Complete Order';
+            submitBtn.disabled = false;
+        }
+
+        function showConfirmationPopup() {
+            document.getElementById('confirmationPopup').classList.add('show');
+        }
+
+        function closeConfirmationPopup() {
+            document.getElementById('confirmationPopup').classList.remove('show');
         }
 
         function createHiddenInput(name, value) {

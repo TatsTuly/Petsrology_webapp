@@ -13,6 +13,12 @@ Route::post('/contact', [ContactMessageController::class, 'store'])->name('conta
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
+// Payment Routes
+Route::get('/payment/bkash', [CheckoutController::class, 'bkashPayment'])->name('payment.bkash');
+Route::get('/payment/nagad', [CheckoutController::class, 'nagadPayment'])->name('payment.nagad');
+Route::get('/payment/card', [CheckoutController::class, 'cardPayment'])->name('payment.card');
+Route::post('/payment/process', [CheckoutController::class, 'processPayment'])->name('payment.process');
+
 // Vet Join Page
 Route::get('/vet-join', [VetJoinController::class, 'show'])->name('vet.join');
 
