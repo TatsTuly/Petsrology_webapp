@@ -461,12 +461,6 @@
                     </div>
                     <span>User Management</span>
                 </a>
-                <a href="#" class="action-btn vet-management">
-                    <div class="action-icon">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <span>Vet Management</span>
-                </a>
                 <a href="#" class="action-btn order-management">
                     <div class="action-icon">
                         <i class="fas fa-shopping-cart"></i>

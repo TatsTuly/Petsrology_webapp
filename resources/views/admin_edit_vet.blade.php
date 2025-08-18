@@ -523,7 +523,7 @@
                 <div class="form-group">
                     <div class="current-image">
                         <p>Current Profile Image:</p>
-                        <img src="{{ asset('storage/' . $vet->profile_image) }}" alt="Current Profile">
+                        <img src="{{ $vet->getProfileImageUrl() }}" alt="Current Profile">
                     </div>
                 </div>
                 @endif
