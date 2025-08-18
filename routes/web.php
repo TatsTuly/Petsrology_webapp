@@ -2,9 +2,14 @@
 use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\Admin\VetManagementController;
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\CheckoutController;
 
 // Contact Message Route
 Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
+
+// Checkout Routes
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
 // Vet Join Page
 Route::get('/vet-join', function () {
