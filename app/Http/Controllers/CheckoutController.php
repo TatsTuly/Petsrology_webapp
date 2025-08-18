@@ -66,4 +66,125 @@ class CheckoutController extends Controller
 
         return view('checkout-success', compact('orderData'));
     }
+
+    public function bkashPayment()
+    {
+        return view('payment.bkash');
+    }
+
+    public function nagadPayment()
+    {
+        return view('payment.nagad');
+    }
+
+    public function cardPayment()
+    {
+        return view('payment.card');
+    }
+
+    public function processPayment(Request $request)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:bkash,nagad,card',
+            'order_data' => 'required|json',
+        ]);
+
+        $orderData = json_decode($request->order_data, true);
+        
+        // Process payment based on method
+        switch($request->payment_method) {
+            case 'bkash':
+                return $this->processBkashPayment($request, $orderData);
+            case 'nagad':
+                return $this->processNagadPayment($request, $orderData);
+            case 'card':
+                return $this->processCardPayment($request, $orderData);
+        }
+    }
+
+    private function processBkashPayment($request, $orderData)
+    {
+        // Validate bKash specific fields
+        $request->validate([
+            'bkash_number' => 'required|string',
+            'bkash_pin' => 'required|string|min:4',
+        ]);
+
+        // Here you would integrate with bKash API
+        // For demo purposes, we'll simulate success
+
+        $finalOrderData = [
+            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
+            'customer' => $orderData['customer'],
+            'address' => $orderData['address'],
+            'items' => $orderData['cart'],
+            'total' => $orderData['total'],
+            'payment_method' => 'bkash',
+            'payment_details' => [
+                'bkash_number' => $request->bkash_number,
+                'transaction_id' => 'BKT' . time(),
+            ],
+            'status' => 'confirmed'
+        ];
+
+        return view('checkout-success', ['orderData' => $finalOrderData]);
+    }
+
+    private function processNagadPayment($request, $orderData)
+    {
+        // Validate Nagad specific fields
+        $request->validate([
+            'nagad_number' => 'required|string',
+            'nagad_pin' => 'required|string|min:4',
+        ]);
+
+        // Here you would integrate with Nagad API
+        // For demo purposes, we'll simulate success
+
+        $finalOrderData = [
+            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
+            'customer' => $orderData['customer'],
+            'address' => $orderData['address'],
+            'items' => $orderData['cart'],
+            'total' => $orderData['total'],
+            'payment_method' => 'nagad',
+            'payment_details' => [
+                'nagad_number' => $request->nagad_number,
+                'transaction_id' => 'NGD' . time(),
+            ],
+            'status' => 'confirmed'
+        ];
+
+        return view('checkout-success', ['orderData' => $finalOrderData]);
+    }
+
+    private function processCardPayment($request, $orderData)
+    {
+        // Validate Card specific fields
+        $request->validate([
+            'card_number' => 'required|string|size:16',
+            'card_name' => 'required|string',
+            'expiry_date' => 'required|string',
+            'cvv' => 'required|string|size:3',
+        ]);
+
+        // Here you would integrate with payment gateway
+        // For demo purposes, we'll simulate success
+
+        $finalOrderData = [
+            'order_id' => 'PF' . date('Ymd') . rand(1000, 9999),
+            'customer' => $orderData['customer'],
+            'address' => $orderData['address'],
+            'items' => $orderData['cart'],
+            'total' => $orderData['total'],
+            'payment_method' => 'card',
+            'payment_details' => [
+                'card_last_four' => substr($request->card_number, -4),
+                'transaction_id' => 'CRD' . time(),
+            ],
+            'status' => 'confirmed'
+        ];
+
+        return view('checkout-success', ['orderData' => $finalOrderData]);
+    }
 }
