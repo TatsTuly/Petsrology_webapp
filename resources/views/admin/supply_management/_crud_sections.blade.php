@@ -166,7 +166,7 @@
                             <tr>
                                 <td>
                                     @if($product->image)
-                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="product-image">
+                                        <img src="{{ $product->getImageUrl() }}" alt="{{ $product->title }}" class="product-image">
                                     @else
                                         <img src="https://via.placeholder.com/60x60?text=No+Image" alt="No Image" class="product-image">
                                     @endif
@@ -273,7 +273,7 @@
                                         @if(Str::startsWith($product->image, 'http'))
                                             <img src="{{ $product->image }}" alt="{{ $product->title }}" class="product-image">
                                         @else
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="product-image">
+                                            <img src="{{ $product->getImageUrl() }}" alt="{{ $product->title }}" class="product-image">
                                         @endif
                                     @else
                                         <img src="https://via.placeholder.com/60x60?text=No+Image" alt="No Image" class="product-image">

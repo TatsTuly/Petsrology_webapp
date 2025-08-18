@@ -172,9 +172,34 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
     if ($request->hasFile('image')) {
-        if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+        if ($post->image) { 
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+            // Also delete from public/storage if exists
+            $publicStoragePath = public_path('storage/' . $post->image);
+            if (file_exists($publicStoragePath)) {
+                unlink($publicStoragePath);
+            }
+        }
         $imagePath = $request->file('image')->store('adoption_images', 'public');
         $validated['image'] = $imagePath;
+        
+        // For Windows compatibility, ensure public/storage directory exists
+        $publicStorageDir = public_path('storage');
+        if (!file_exists($publicStorageDir)) {
+            mkdir($publicStorageDir, 0755, true);
+        }
+        
+        $publicAdoptionImagesDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'adoption_images';
+        if (!file_exists($publicAdoptionImagesDir)) {
+            mkdir($publicAdoptionImagesDir, 0755, true);
+        }
+        
+        // Copy the uploaded file to public/storage as well for Windows compatibility
+        $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+        $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+        if (file_exists($sourceFile)) {
+            copy($sourceFile, $destFile);
+        }
     }
     $post->update($validated);
     return redirect()->back()->with('success', 'Adoption post updated successfully!');
@@ -183,7 +208,14 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
 // Delete adoption post
 Route::post('/admin/adoption-management/delete/{id}', function($id) {
     $post = \App\Models\AdoptionPost::findOrFail($id);
-    if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+    if ($post->image) { 
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+        // Also delete from public/storage if exists
+        $publicStoragePath = public_path('storage/' . $post->image);
+        if (file_exists($publicStoragePath)) {
+            unlink($publicStoragePath);
+        }
+    }
     $post->delete();
     return redirect()->back()->with('success', 'Adoption post deleted successfully!');
 });
@@ -281,19 +313,33 @@ Route::get('/vet-home', function () {
     return view('vet_home');
 });
 
-Route::get('/book-appointment', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('book_appointment');
-})->name('book.appointment');
+Route::get('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'index'])->name('book.appointment');
+Route::post('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'store'])->name('appointment.store');
 
-Route::get('/all-vets', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('all_vets');
-})->name('all.vets');
+// Appointment management routes
+Route::get('/appointments/user', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments'])->name('appointments.user');
+Route::get('/appointments/vet/{vetId}', [App\Http\Controllers\AppointmentController::class, 'getVetAppointments'])->name('appointments.vet');
+Route::post('/appointments/{id}/status', [App\Http\Controllers\AppointmentController::class, 'updateStatus'])->name('appointment.update.status');
+Route::post('/appointments/{id}/cancel', [App\Http\Controllers\AppointmentController::class, 'cancel'])->name('appointment.cancel');
+// Public appointment routes (no auth required for AJAX)
+Route::get('/appointments/available-slots', [App\Http\Controllers\AppointmentController::class, 'getAvailableSlots'])->name('appointment.available.slots');
+
+// Test route for debugging
+Route::get('/test/slots', function(\Illuminate\Http\Request $request) {
+    return response()->json([
+        'status' => 'working',
+        'date' => $request->get('date'),
+        'slots' => [
+            '09:00' => '9:00 AM',
+            '10:00' => '10:00 AM',
+            '14:00' => '2:00 PM'
+        ]
+    ]);
+});
+
+Route::get('/all-vets', [App\Http\Controllers\VetController::class, 'allVets'])->name('all.vets');
+
+Route::get('/vet-profile/{id}', [App\Http\Controllers\VetController::class, 'showProfile'])->name('vet.profile');
 
 Route::get('/vaccination-schedule', function () {
     if (!session('user_authenticated')) {
@@ -419,11 +465,13 @@ Route::get('/user/dashboard', function () {
     }
     $user = null;
     $adoptionRequests = collect();
+    $appointments = collect();
     if (session('user_id')) {
         $user = \App\Models\AppUser::find(session('user_id'));
         $adoptionRequests = \App\Models\AdoptionRequest::with('adoptionPost')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $appointments = \App\Models\Appointment::with('vet')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
     }
-    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests]);
+    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests, 'appointments' => $appointments]);
 })->name('user.dashboard');
 
 // Admin Routes

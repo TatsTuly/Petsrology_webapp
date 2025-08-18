@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>User Dashboard - PETSROLOGY</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -1090,10 +1091,77 @@
                 History & Details
             </h3>
             <div class="history-tabs">
-                <button class="tab-btn active" onclick="showTab('adoptions')">Adoption Requests</button>
+                <button class="tab-btn active" onclick="showTab('appointments')">My Appointments</button>
+                <button class="tab-btn" onclick="showTab('adoptions')">Adoption Requests</button>
                 <button class="tab-btn" onclick="showTab('purchases')">Purchase History</button>
             </div>
-            <div id="adoptions" class="tab-content active">
+            <div id="appointments" class="tab-content active">
+                @forelse($appointments as $appointment)
+                <div class="history-item appointment">
+                    <div class="history-icon">
+                        <i class="fas fa-calendar-medical"></i>
+                    </div>
+                    <div class="history-details">
+                        <div class="history-title">{{ $appointment->service_type_display ?? ucfirst(str_replace('-', ' ', $appointment->service_type)) }} - {{ $appointment->pet_name }}</div>
+                        <div class="history-desc">
+                            <strong>Pet:</strong> {{ $appointment->pet_name }} ({{ ucfirst($appointment->pet_type) }})
+                            @if($appointment->vet)
+                                <br><strong>Vet:</strong> Dr. {{ $appointment->vet->name }}
+                            @endif
+                            <br><strong>Date & Time:</strong> {{ $appointment->preferred_date->format('M d, Y') }} at {{ \Carbon\Carbon::parse($appointment->preferred_time)->format('g:i A') }}
+                            @if($appointment->symptoms)
+                                <br><strong>Symptoms:</strong> {{ $appointment->symptoms }}
+                            @endif
+                            @if($appointment->additional_notes)
+                                <br><strong>Notes:</strong> {{ $appointment->additional_notes }}
+                            @endif
+                        </div>
+                        <div class="history-meta">
+                            <span class="history-date">Appointment #{{ $appointment->appointment_number }}</span>
+                            @if($appointment->status == 'pending')
+                                <span class="history-status status-pending">Pending Confirmation</span>
+                            @elseif($appointment->status == 'confirmed')
+                                <span class="history-status status-completed">Confirmed</span>
+                            @elseif($appointment->status == 'cancelled')
+                                <span class="history-status status-cancelled">Cancelled</span>
+                            @elseif($appointment->status == 'completed')
+                                <span class="history-status status-completed">Completed</span>
+                            @elseif($appointment->status == 'no_show')
+                                <span class="history-status status-cancelled">No Show</span>
+                            @else
+                                <span class="history-status">{{ ucfirst($appointment->status) }}</span>
+                            @endif
+                            @if($appointment->estimated_cost)
+                                <span class="appointment-cost" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); color: white; padding: 4px 8px; border-radius: 12px; font-weight: 600; margin-left: 8px;">৳{{ number_format($appointment->estimated_cost, 0) }}</span>
+                            @endif
+                        </div>
+                        @if(in_array($appointment->status, ['pending', 'confirmed']) && $appointment->preferred_date > now()->startOfDay())
+                            <div class="appointment-actions" style="margin-top: 12px;">
+                                <button class="btn-cancel" onclick="cancelAppointment('{{ $appointment->id }}')" style="background: linear-gradient(45deg, #ff4757, #ff3742); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85em; cursor: pointer; transition: all 0.3s ease;">
+                                    <i class="fas fa-times"></i> Cancel Appointment
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                @empty
+                <div class="history-item appointment">
+                    <div class="history-icon">
+                        <i class="fas fa-calendar-medical"></i>
+                    </div>
+                    <div class="history-details">
+                        <div class="history-title">No appointments yet</div>
+                        <div class="history-desc">You haven't booked any appointments yet. Book your first appointment to get started!</div>
+                        <div class="history-meta">
+                            <a href="{{ route('book.appointment') }}" class="btn-book-appointment" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                                <i class="fas fa-calendar-plus"></i> Book Your First Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforelse
+            </div>
+            <div id="adoptions" class="tab-content">
                 @if(session('success'))
                 <div style="background:linear-gradient(135deg,#d4fc79 0%,#96e6a1 100%);color:#155724;padding:18px 24px;border-radius:12px;margin-bottom:22px;font-weight:700;box-shadow:0 2px 10px rgba(76,175,80,0.08);display:flex;align-items:center;gap:12px;">
                     <i class="fas fa-check-circle" style="font-size:1.5rem;"></i>
@@ -1310,6 +1378,34 @@
                 });
             }
         });
+        
+        function cancelAppointment(appointmentId) {
+            if (confirm('Are you sure you want to cancel this appointment? This action cannot be undone.')) {
+                fetch(`/appointments/${appointmentId}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Appointment cancelled successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to cancel appointment. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        }
     </script>
 </body>
 </html>

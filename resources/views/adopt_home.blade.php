@@ -1155,7 +1155,7 @@
                             data-name="{{ strtolower($post->pet_name) }}"
                             data-breed="{{ strtolower($post->title) ?? 'unknown' }}">
                             <div class="pet-image">
-                                <img src="{{ $post->image ? asset('storage/'.$post->image) : 'https://placehold.co/160x160?text=No+Image' }}" alt="{{ $post->pet_name }}" />
+                                <img src="{{ $post->image ? $post->getImageUrl() : 'https://placehold.co/160x160?text=No+Image' }}" alt="{{ $post->pet_name }}" />
                             </div>
                             <div class="pet-info">
                                 <h3>{{ $post->pet_name }}</h3>

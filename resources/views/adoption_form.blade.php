@@ -774,7 +774,7 @@
             <p class="page-subtitle">All information is confidential and will be used solely for the purpose of pet placement.</p>
             
             <div class="pet-info-banner">
-                <img src="{{ isset($adoptionPost) && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format' }}" alt="Pet">
+                <img src="{{ isset($adoptionPost) && $adoptionPost->image ? $adoptionPost->getImageUrl() : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=80&h=80&fit=crop&auto=format' }}" alt="Pet">
                 <div class="pet-banner-content">
                     <h3>{{ $adoptionPost->pet_name ?? 'Unknown' }}</h3>
                     <p>

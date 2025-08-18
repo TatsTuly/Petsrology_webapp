@@ -46,7 +46,7 @@
             <label for="image">Image</label>
             <input type="file" name="image" id="image" class="form-control">
             @if($post->image)
-                <img src="{{ asset('storage/' . $post->image) }}" alt="Pet Image" style="max-width:150px;margin-top:10px;">
+                <img src="{{ $post->getImageUrl() }}" alt="Pet Image" style="max-width:150px;margin-top:10px;">
             @endif
         </div>
         <button type="submit" class="btn btn-primary">Update Post</button>
