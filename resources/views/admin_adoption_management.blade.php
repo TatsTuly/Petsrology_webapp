@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Adoption Management | PETSROLOGY Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,171 +15,142 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            --secondary-gradient: linear-gradient(135deg, #6b7280 0%, #374151 100%);
-            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            --bg-primary: #f9fafb;
-            --bg-card: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border-color: #d1d5db;
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --border-radius-sm: 6px;
-            --border-radius-md: 10px;
-            --border-radius-lg: 16px;
-            --border-radius-xl: 20px;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            font-feature-settings: 'kern' 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Enhanced Header */
         .admin-header {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 0;
-            box-shadow: var(--shadow-xl);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
         }
 
         .header-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 2rem;
+            padding: 0 20px;
         }
 
         .admin-brand {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 15px;
         }
 
         .admin-logo {
-            width: 56px;
-            height: 56px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .admin-logo:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         .brand-text h1 {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin: 0;
-            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            margin-bottom: 2px;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.025em;
         }
 
-        .brand-subtitle {
-            font-size: 0.75rem;
+        .brand-text p {
+            font-size: 1rem;
             opacity: 0.9;
+            margin: 0;
             font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: -2px;
         }
 
         .admin-nav {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 20px;
         }
 
-        .nav-link {
+        .admin-user {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--border-radius-md);
-            font-weight: 500;
-            font-size: 0.875rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.1);
+            gap: 12px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(255,255,255,0.25);
             transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .logout-btn {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-md);
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.875rem;
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-md);
+            gap: 8px;
         }
 
         .logout-btn:hover {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
 
         /* Main Container */
         .admin-container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         /* Page Header */
         .page-header {
-            background: var(--bg-card);
-            border-radius: var(--border-radius-xl);
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
             position: relative;
             overflow: hidden;
         }
@@ -191,24 +162,23 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--primary-gradient);
+            background: linear-gradient(90deg, #3498db, #2980b9, #e74c3c, #f39c12);
         }
 
         .page-title {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            background: var(--primary-gradient);
+            color: #2c3e50;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.025em;
-            font-family: 'Poppins', sans-serif;
         }
 
         .page-subtitle {
-            color: var(--text-secondary);
+            color: #5a6c7d;
             font-size: 1.125rem;
             font-weight: 400;
             line-height: 1.6;
@@ -247,42 +217,43 @@
         /* Enhanced Tab System */
         .admin-tabs {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: var(--bg-card);
-            border-radius: var(--border-radius-xl);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
             flex-wrap: wrap;
         }
 
         .admin-tab-btn {
             background: transparent;
             border: 2px solid transparent;
-            color: var(--text-secondary);
-            padding: 0.875rem 1.5rem;
-            border-radius: var(--border-radius-lg);
-            font-weight: 600;
-            font-size: 0.875rem;
+            color: #5a6c7d;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             outline: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            min-width: 120px;
+            gap: 8px;
+            min-width: 140px;
             justify-content: center;
             position: relative;
+            font-family: 'Nunito', sans-serif;
         }
 
         .admin-tab-btn::before {
             content: '';
             position: absolute;
             inset: 0;
-            border-radius: var(--border-radius-lg);
+            border-radius: 15px;
             padding: 2px;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -292,16 +263,16 @@
         }
 
         .admin-tab-btn:hover {
-            background: rgba(102, 126, 234, 0.05);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-            border-color: rgba(102, 126, 234, 0.2);
+            background: rgba(52, 152, 219, 0.1);
+            color: #2c3e50;
+            transform: translateY(-2px);
+            border-color: rgba(52, 152, 219, 0.3);
         }
 
         .admin-tab-btn.active {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
             transform: translateY(-2px);
         }
 
@@ -315,11 +286,11 @@
 
         /* Enhanced Tab Content */
         .admin-tab-content {
-            background: var(--bg-card);
-            border-radius: var(--border-radius-xl);
-            padding: 2.5rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
             min-height: 600px;
             position: relative;
         }
@@ -338,47 +309,45 @@
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 25px;
         }
 
         .form-label {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
+            gap: 8px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1rem;
         }
 
         .form-control, .form-select {
             width: 100%;
-            padding: 0.875rem 1.125rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            font-size: 0.875rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-card);
-            color: var(--text-primary);
-            font-family: inherit;
+            padding: 15px 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #2c3e50;
+            font-family: 'Nunito', sans-serif;
         }
 
         .form-control:focus, .form-select:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
             transform: translateY(-1px);
         }
 
         .form-control::placeholder {
-            color: var(--text-secondary);
+            color: #5a6c7d;
             opacity: 0.8;
         }
 
@@ -393,19 +362,21 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
+            gap: 8px;
+            padding: 15px 25px;
             border: none;
-            border-radius: var(--border-radius-md);
-            font-weight: 600;
-            font-size: 0.875rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1rem;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-align: center;
             min-width: 140px;
             position: relative;
             overflow: hidden;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .btn::before {
@@ -424,18 +395,18 @@
         }
 
         .btn-primary {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
             box-shadow: var(--shadow-md);
         }
@@ -626,12 +597,12 @@
 
         /* Enhanced Card Styles */
         .pet-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
+            margin-bottom: 25px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -644,14 +615,14 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--primary-gradient);
+            background: linear-gradient(90deg, #3498db, #2980b9);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease;
         }
 
         .pet-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
         .pet-card:hover::before {
@@ -662,15 +633,15 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1.5rem;
+            margin-bottom: 25px;
         }
 
         .pet-name {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-family: 'Nunito', sans-serif;
         }
 
         .pet-details {
@@ -772,9 +743,20 @@
                 font-size: 2rem;
             }
 
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
             .admin-tabs {
                 flex-direction: column;
-                gap: 0.75rem;
+                gap: 12px;
             }
 
             .admin-tab-btn {
@@ -796,16 +778,20 @@
             }
 
             .data-table {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
             }
 
             .data-table th,
             .data-table td {
-                padding: 0.75rem;
+                padding: 12px;
             }
 
             .pet-card {
-                padding: 1.5rem;
+                padding: 25px;
+            }
+
+            .admin-container {
+                padding: 0 20px;
             }
         }
 
@@ -829,20 +815,35 @@
         <div class="header-container">
             <div class="admin-brand">
                 <div class="admin-logo">
-                    <i class="fas fa-heart"></i>
+                    <svg width="30" height="30" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="22" cy="30" rx="11" ry="8" fill="#fff"/>
+                        <ellipse cx="12" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="32" cy="18" rx="4" ry="5" fill="#fff"/>
+                        <ellipse cx="17" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                        <ellipse cx="27" cy="11" rx="2.2" ry="2.8" fill="#fff"/>
+                    </svg>
                 </div>
                 <div class="brand-text">
-                    <h1>Admin Panel</h1>
+                    <h1>PETSROLOGY</h1>
+                    <p>Administrator Dashboard</p>
                 </div>
             </div>
-            <div class="admin-nav">
-                <a href="{{ url('/admin/adoption-management') }}" class="btn btn-light" style="color:#fff;font-weight:700;">Adoption Management</a>
-                <a href="{{ url('/admin/dashboard') }}" class="btn btn-light" style="color:#fff;font-weight:700;">Dashboard</a>
-                <a href="#" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+            <nav class="admin-nav">
+                <div class="admin-user">
+                    <i class="fas fa-user-shield"></i>
+                    <span>{{ session('admin_email', 'Admin User') }}</span>
+                </div>
+                <a href="{{ url('/admin/dashboard') }}" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <form action="{{ route('admin.logout') }}" method="POST" style="margin: 0;">
                     @csrf
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
-            </div>
+            </nav>
         </div>
     </header>
     <div class="admin-container">
@@ -1115,8 +1116,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @php $requests = \App\Models\AdoptionRequest::with('adoptionPost')->orderBy('created_at','desc')->get(); @endphp
-                    @forelse($requests as $req)
+                    @forelse($adoptionRequests as $req)
                         <tr>
                             <td><strong>{{ $req->id }}</strong></td>
                             <td>{{ optional($req->adoptionPost)->pet_name ?? '-' }}</td>

@@ -231,6 +231,14 @@
             font-size: 1.1rem;
         }
         
+        .stat-detail {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+        
         .quick-actions {
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             padding: 35px;
@@ -423,39 +431,51 @@
                 <div class="stat-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="stat-number">1,247</div>
+                <div class="stat-number" data-count="{{ $allUsers }}">0</div>
                 <div class="stat-label">Total Users</div>
+                @if($allUsers > 0)
+                    <div class="stat-detail">{{ number_format($allUsers) }} registered</div>
+                @endif
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-paw"></i>
                 </div>
-                <div class="stat-number">2,580</div>
+                <div class="stat-number" data-count="{{ $totalPets }}">0</div>
                 <div class="stat-label">Pets Listed</div>
+                @if(isset($activeAdoptionPosts) && $activeAdoptionPosts > 0)
+                    <div class="stat-detail">{{ number_format($activeAdoptionPosts) }} available</div>
+                @endif
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-heart"></i>
                 </div>
-                <div class="stat-number">892</div>
+                <div class="stat-number" data-count="{{ $successfulAdoptions }}">0</div>
                 <div class="stat-label">Successful Adoptions</div>
+                @if(isset($pendingAdoptions) && $pendingAdoptions > 0)
+                    <div class="stat-detail">{{ number_format($pendingAdoptions) }} pending</div>
+                @endif
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-stethoscope"></i>
                 </div>
-                <div class="stat-number">156</div>
+                <div class="stat-number" data-count="{{ $totalVets }}">0</div>
                 <div class="stat-label">Veterinarians</div>
+                @if($totalVets > 0)
+                    <div class="stat-detail">{{ number_format($totalVets) }} registered</div>
+                @endif
             </div>
         </section>
         
         <section class="quick-actions">
             <h3>Quick Actions</h3>
             <div class="actions-grid">
-                <a href="#" class="action-btn user-management">
+                <a href="{{ route('admin.user.management') }}" class="action-btn user-management">
                     <div class="action-icon">
                         <i class="fas fa-users-cog"></i>
                     </div>
@@ -494,5 +514,55 @@
             </div>
         </section>
     </main>
+
+    <script>
+        // Animated counter function
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                // Format number with commas
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+        }
+        
+        // Start animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add a small delay to make the effect more noticeable
+            setTimeout(() => {
+                const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+                statNumbers.forEach(element => {
+                    animateCounter(element);
+                });
+            }, 500);
+            
+            // Add loading effect to stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100 + 200);
+            });
+        });
+        
+        // Refresh stats every 5 minutes
+        setInterval(() => {
+            location.reload();
+        }, 300000); // 5 minutes
+    </script>
 </body>
 </html>

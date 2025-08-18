@@ -353,43 +353,7 @@
             font-weight: 600;
         }
 
-        .selected-vet {
-            background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
-            border: 2px solid #3498db;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .selected-vet-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 8px 25px rgba(52,152,219,0.3);
-        }
-
-        .selected-vet-info h3 {
-            color: #3498db;
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .selected-vet-info p {
-            color: #5a6c7d;
-            margin: 0;
-            font-weight: 600;
-        }
+        /* Selected vet CSS removed since vet appointment section is removed */
 
         .submit-btn {
             background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
@@ -571,49 +535,7 @@
             color: white;
         }
 
-        .vet-selection-item .vet-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            margin: 0 auto 15px;
-            box-shadow: 0 8px 25px rgba(52,152,219,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .vet-selection-item h3 {
-            color: #2c3e50;
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-            transition: color 0.3s ease;
-        }
-
-        .vet-selection-item p {
-            color: #5a6c7d;
-            font-size: 0.9rem;
-            margin: 0;
-            transition: color 0.3s ease;
-        }
-
-        .vet-selection-item:hover h3,
-        .vet-selection-item.selected h3,
-        .vet-selection-item:hover p,
-        .vet-selection-item.selected p {
-            color: white;
-        }
-
-        .vet-selection-item:hover .vet-avatar,
-        .vet-selection-item.selected .vet-avatar {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(255,255,255,0.3);
-        }
+        /* Vet selection item CSS removed since vet modal is removed */
 
         .change-selection-btn {
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
@@ -885,13 +807,6 @@
                     <h3>Package Booking</h3>
                     <p>Book a complete vaccination package</p>
                 </div>
-                <div class="booking-tab" data-type="vet">
-                    <div class="booking-tab-icon">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <h3>Vet Appointment</h3>
-                    <p>Book with a specific veterinarian</p>
-                </div>
             </div>
         </section>
 
@@ -1002,107 +917,7 @@
         </div>
 
         <!-- Vet Appointment Form -->
-        <div class="booking-content" id="vet-booking">
-            <div class="booking-form-section">
-                <div class="section-header">
-                    <h2>Vet Appointment</h2>
-                    <p class="section-subtitle">Book an appointment with a vaccination expert</p>
-                </div>
-
-                <!-- Selected Vet Display -->
-                <div class="selected-vet" id="vetDisplay">
-                    <div class="selected-vet-avatar" id="vetAvatar">AI</div>
-                    <div class="selected-vet-info">
-                        <h3 id="vetName">Dr. Aminul Islam</h3>
-                        <p id="vetSpecialty">Vaccination Specialist</p>
-                        <p id="vetExperience">12 years experience</p>
-                        <button class="change-selection-btn" onclick="openVetModal()">
-                            <i class="fas fa-edit"></i>
-                            Change Vet
-                        </button>
-                    </div>
-                </div>
-
-                <form class="booking-form" id="vetForm">
-                    <div class="form-group">
-                        <label class="form-label" for="vetOwnerName">Pet Owner Name *</label>
-                        <input type="text" id="vetOwnerName" name="vetOwnerName" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetPhone">Phone Number *</label>
-                        <input type="tel" id="vetPhone" name="vetPhone" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetEmail">Email Address *</label>
-                        <input type="email" id="vetEmail" name="vetEmail" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetPetName">Pet Name *</label>
-                        <input type="text" id="vetPetName" name="vetPetName" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetPetType">Pet Type *</label>
-                        <select id="vetPetType" name="vetPetType" class="form-select" required>
-                            <option value="">Select Pet Type</option>
-                            <option value="dog">Dog</option>
-                            <option value="cat">Cat</option>
-                            <option value="rabbit">Rabbit</option>
-                            <option value="bird">Bird</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="visitType">Visit Type *</label>
-                        <select id="visitType" name="visitType" class="form-select" required>
-                            <option value="">Select Visit Type</option>
-                            <option value="routine">Routine Vaccination</option>
-                            <option value="booster">Booster Shot</option>
-                            <option value="consultation">Vaccination Consultation</option>
-                            <option value="emergency">Emergency Vaccination</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetPreferredDate">Preferred Date *</label>
-                        <input type="date" id="vetPreferredDate" name="vetPreferredDate" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="vetPreferredTime">Preferred Time *</label>
-                        <select id="vetPreferredTime" name="vetPreferredTime" class="form-select" required>
-                            <option value="">Select Time</option>
-                            <option value="09:00">9:00 AM</option>
-                            <option value="10:00">10:00 AM</option>
-                            <option value="11:00">11:00 AM</option>
-                            <option value="14:00">2:00 PM</option>
-                            <option value="15:00">3:00 PM</option>
-                            <option value="16:00">4:00 PM</option>
-                            <option value="17:00">5:00 PM</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label class="form-label" for="vetAddress">Address *</label>
-                        <textarea id="vetAddress" name="vetAddress" class="form-textarea" placeholder="Please provide your complete address" required></textarea>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label class="form-label" for="vetNotes">Additional Notes</label>
-                        <textarea id="vetNotes" name="vetNotes" class="form-textarea" placeholder="Any specific concerns or requirements for the appointment..."></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-stethoscope"></i>
-                        Confirm Vet Appointment
-                    </button>
-                </form>
-            </div>
-        </div>
+        <!-- REMOVED: Vet Appointment section has been removed -->
     </div>
 
     <!-- Package Selection Modal -->
@@ -1156,70 +971,7 @@
     </div>
 
     <!-- Vet Selection Modal -->
-    <div class="selection-modal" id="vetModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeVetModal()">×</button>
-            <div class="modal-header">
-                <h2>Select Vaccination Expert</h2>
-                <p>Choose from our team of specialized vaccination veterinarians</p>
-            </div>
-            <div class="selection-grid">
-                <div class="selection-item vet-selection-item" data-vet="Dr. Aminul Islam">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">AI</div>
-                    <h3>Dr. Aminul Islam</h3>
-                    <p>Vaccination Specialist</p>
-                    <p>12 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.9/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Sultana Razia">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">SR</div>
-                    <h3>Dr. Sultana Razia</h3>
-                    <p>Immunology Expert</p>
-                    <p>15 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.8/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Karim Ahmed">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">KA</div>
-                    <h3>Dr. Karim Ahmed</h3>
-                    <p>Preventive Medicine</p>
-                    <p>10 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.7/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Fatema Begum">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">FB</div>
-                    <h3>Dr. Fatema Begum</h3>
-                    <p>Pet Wellness Expert</p>
-                    <p>8 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.9/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Mohammad Hassan">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);">MH</div>
-                    <h3>Dr. Mohammad Hassan</h3>
-                    <p>Vaccine Research Specialist</p>
-                    <p>18 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.9/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Nasreen Akter">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);">NA</div>
-                    <h3>Dr. Nasreen Akter</h3>
-                    <p>Senior Immunologist</p>
-                    <p>14 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.8/5 Rating</p>
-                </div>
-                <div class="selection-item vet-selection-item" data-vet="Dr. Rafiqul Islam">
-                    <div class="vet-avatar" style="background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);">RI</div>
-                    <h3>Dr. Rafiqul Islam</h3>
-                    <p>Exotic Pet Vaccination</p>
-                    <p>11 years experience</p>
-                    <p style="font-size: 0.8rem; color: #27ae60; font-weight: 600;">⭐ 4.7/5 Rating</p>
-                </div>
-            </div>
-            <button class="confirm-selection-btn" onclick="confirmVetSelection()">
-                <i class="fas fa-check"></i>
-                Confirm Selection
-            </button>
-        </div>
-    </div>
+    <!-- REMOVED: Vet selection modal has been removed -->
 
     <script>
         // Get URL parameters
@@ -1244,32 +996,11 @@
             }
         }
 
-        // Tab switching functionality
-        document.querySelectorAll('.booking-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const type = this.dataset.type;
-                
-                // Update active tab
-                document.querySelectorAll('.booking-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Show appropriate booking form
-                if (type === 'package') {
-                    showPackageBooking();
-                } else {
-                    showVetBooking();
-                }
-            });
-        });
+        // No need for tab switching since there's only package booking now
 
         function showPackageBooking() {
             document.getElementById('package-booking').classList.add('active');
-            document.getElementById('vet-booking').classList.remove('active');
-        }
-
-        function showVetBooking() {
-            document.getElementById('vet-booking').classList.add('active');
-            document.getElementById('package-booking').classList.remove('active');
+            // No need for vet-booking since it's removed
         }
 
         // Update package display based on selection
@@ -1300,65 +1031,8 @@
             ).join('');
         }
 
-        // Update vet display based on selection
-        function updateVetDisplay(vetName) {
-            const vets = {
-                'Dr. Aminul Islam': {
-                    avatar: 'AI',
-                    specialty: 'Vaccination Specialist',
-                    experience: '12 years experience',
-                    color: '#3498db'
-                },
-                'Dr. Sultana Razia': {
-                    avatar: 'SR',
-                    specialty: 'Immunology Expert',
-                    experience: '15 years experience',
-                    color: '#e74c3c'
-                },
-                'Dr. Karim Ahmed': {
-                    avatar: 'KA',
-                    specialty: 'Preventive Medicine',
-                    experience: '10 years experience',
-                    color: '#9b59b6'
-                },
-                'Dr. Fatema Begum': {
-                    avatar: 'FB',
-                    specialty: 'Pet Wellness Expert',
-                    experience: '8 years experience',
-                    color: '#f39c12'
-                },
-                'Dr. Mohammad Hassan': {
-                    avatar: 'MH',
-                    specialty: 'Vaccine Research Specialist',
-                    experience: '18 years experience',
-                    color: '#1abc9c'
-                },
-                'Dr. Nasreen Akter': {
-                    avatar: 'NA',
-                    specialty: 'Senior Immunologist',
-                    experience: '14 years experience',
-                    color: '#e67e22'
-                },
-                'Dr. Rafiqul Islam': {
-                    avatar: 'RI',
-                    specialty: 'Exotic Pet Vaccination',
-                    experience: '11 years experience',
-                    color: '#8e44ad'
-                }
-            };
-
-            const selectedVet = vets[vetName] || vets['Dr. Aminul Islam'];
-            
-            document.getElementById('vetName').textContent = vetName || 'Dr. Aminul Islam';
-            document.getElementById('vetSpecialty').textContent = selectedVet.specialty;
-            document.getElementById('vetExperience').textContent = selectedVet.experience;
-            document.getElementById('vetAvatar').textContent = selectedVet.avatar;
-            document.getElementById('vetAvatar').style.background = `linear-gradient(135deg, ${selectedVet.color} 0%, ${selectedVet.color}dd 100%)`;
-        }
-
         // Modal functionality
         let selectedPackage = 'Premium Protection';
-        let selectedVet = 'Dr. Aminul Islam';
 
         function openPackageModal() {
             document.getElementById('packageModal').classList.add('active');
@@ -1375,21 +1049,6 @@
             document.getElementById('packageModal').classList.remove('active');
         }
 
-        function openVetModal() {
-            document.getElementById('vetModal').classList.add('active');
-            // Highlight current selection
-            document.querySelectorAll('.vet-selection-item').forEach(item => {
-                item.classList.remove('selected');
-                if (item.dataset.vet === selectedVet) {
-                    item.classList.add('selected');
-                }
-            });
-        }
-
-        function closeVetModal() {
-            document.getElementById('vetModal').classList.remove('active');
-        }
-
         function confirmPackageSelection() {
             const selected = document.querySelector('.package-selection-item.selected');
             if (selected) {
@@ -1399,29 +1058,12 @@
             closePackageModal();
         }
 
-        function confirmVetSelection() {
-            const selected = document.querySelector('.vet-selection-item.selected');
-            if (selected) {
-                selectedVet = selected.dataset.vet;
-                updateVetDisplay(selectedVet);
-            }
-            closeVetModal();
-        }
-
         // Add click handlers for modal items
         document.addEventListener('DOMContentLoaded', function() {
             // Package selection
             document.querySelectorAll('.package-selection-item').forEach(item => {
                 item.addEventListener('click', function() {
                     document.querySelectorAll('.package-selection-item').forEach(i => i.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
-            });
-
-            // Vet selection
-            document.querySelectorAll('.vet-selection-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.vet-selection-item').forEach(i => i.classList.remove('selected'));
                     this.classList.add('selected');
                 });
             });
@@ -1455,33 +1097,15 @@
             this.reset();
         });
 
-        document.getElementById('vetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const vetName = document.getElementById('vetName').textContent;
-            
-            // In a real application, you would send this data to your backend
-            alert(`Vet appointment submitted!\n\nVet: ${vetName}\nOwner: ${formData.get('vetOwnerName')}\nPet: ${formData.get('vetPetName')}\nDate: ${formData.get('vetPreferredDate')}\nTime: ${formData.get('vetPreferredTime')}`);
-            
-            // Reset form
-            this.reset();
-        });
-
         // Set minimum date to today
         function setMinDate() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('preferredDate').setAttribute('min', today);
-            document.getElementById('vetPreferredDate').setAttribute('min', today);
         }
-
-        // Initialize page
-        // Removed DOMContentLoaded as it's now handled above
 
         // Add animation on scroll
         function animateOnScroll() {
-            const sections = document.querySelectorAll('.booking-form-section, .selected-package, .selected-vet');
+            const sections = document.querySelectorAll('.booking-form-section, .selected-package');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {

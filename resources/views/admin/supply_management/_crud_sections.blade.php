@@ -2,28 +2,48 @@
 <div class="crud-section" id="food-products-section" style="display: none;">
     <style>
         .products-table {
-            background: white;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
             margin-bottom: 30px;
+            position: relative;
         }
+        
+        .products-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #27ae60, #229954);
+        }
+        
         .table-header {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 20px;
+            padding: 25px 30px;
             border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        
         .table-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #2c3e50;
             margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        
         .add-product-btn {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 25px;
             font-weight: 600;
@@ -33,117 +53,197 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(39, 174, 96, 0.3);
         }
+        
         .add-product-btn:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e7e44 100%);
+            color: white;
+            text-decoration: none;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
         }
         .table-container {
             overflow-x: auto;
         }
+        
         table {
             width: 100%;
             border-collapse: collapse;
         }
+        
         th, td {
-            padding: 15px 20px;
+            padding: 18px 20px;
             text-align: left;
             border-bottom: 1px solid #dee2e6;
         }
+        
         th {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             font-weight: 600;
             color: #495057;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
         }
+        
         td {
             color: #333;
+            font-size: 0.95rem;
         }
+        
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
         .product-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
+            width: 65px;
+            height: 65px;
+            border-radius: 12px;
             object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
+        
+        .product-image:hover {
+            transform: scale(1.1);
+        }
+        
         .product-title {
-            font-weight: 600;
+            font-weight: 700;
             color: #2c3e50;
             margin-bottom: 5px;
+            font-size: 1rem;
         }
+        
         .product-brand {
-            color: #666;
+            color: #7f8c8d;
             font-size: 0.9rem;
+            font-weight: 600;
         }
+        
         .price {
-            font-weight: 700;
+            font-weight: 800;
             color: #27ae60;
+            font-size: 1.1rem;
         }
+        
         .old-price {
             text-decoration: line-through;
-            color: #999;
-            margin-left: 5px;
+            color: #95a5a6;
+            margin-left: 8px;
+            font-size: 0.9rem;
         }
         .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 25px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.5px;
         }
+        
         .status-active {
-            background: #d4edda;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             color: #155724;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
         }
+        
         .status-inactive {
-            background: #f8d7da;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             color: #721c24;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
         }
+        
         .action-buttons {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
+        
         .btn {
-            padding: 8px 12px;
+            padding: 10px 14px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.8rem;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .btn-view { background: #3498db; color: white; }
-        .btn-edit { background: #f39c12; color: white; }
-        .btn-delete { background: #e74c3c; color: white; }
-        .btn-toggle { background: #6c757d; color: white; }
+        
+        .btn-view { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
+            color: white; 
+        }
+        
+        .btn-edit { 
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); 
+            color: white; 
+        }
+        
+        .btn-delete { 
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); 
+            color: white; 
+        }
+        
+        .btn-toggle { 
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); 
+            color: white; 
+        }
+        
         .btn:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+        
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #666;
+            padding: 80px 20px;
+            color: #7f8c8d;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
+        
         .empty-state i {
-            font-size: 4rem;
-            color: #ddd;
-            margin-bottom: 20px;
+            font-size: 4.5rem;
+            color: #bdc3c7;
+            margin-bottom: 25px;
         }
+        
         .empty-state h3 {
-            margin-bottom: 10px;
-            color: #333;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #5a6c7d;
         }
     </style>
+    
     <div class="products-table">
         <div class="table-header">
-            <h3 class="table-title">All Food Products</h3>
-            <a href="{{ route('admin.food.products.create') }}" class="add-product-btn" style="float:right; margin-top:-35px;">
+            <h3 class="table-title">
+                <i class="fas fa-bone" style="color: #27ae60;"></i>
+                All Food Products
+            </h3>
+            <a href="{{ route('admin.food.products.create') }}" class="add-product-btn">
                 <i class="fas fa-plus"></i> Add New Product
             </a>
         </div>
@@ -230,12 +330,12 @@
                 </table>
             @else
                 <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
+                    <i class="fas fa-bone"></i>
                     <h3>No Food Products Found</h3>
-                    <p>Start by adding your first food product to the catalog.</p>
-                    <a href="{{ route('admin.food.products.create') }}" class="add-product-btn" style="margin-top: 20px;">
+                    <p>Start building your pet food catalog by adding your first product.</p>
+                    <a href="{{ route('admin.food.products.create') }}" class="add-product-btn">
                         <i class="fas fa-plus"></i>
-                        Add First Product
+                        Add First Food Product
                     </a>
                 </div>
             @endif
@@ -246,8 +346,11 @@
 <div class="crud-section" id="toy-products-section" style="display: none;">
     <div class="products-table">
         <div class="table-header">
-            <h3 class="table-title">All Toy Products</h3>
-            <a href="{{ route('admin.toy.products.create') }}" class="add-product-btn" style="float:right; margin-top:-35px;">
+            <h3 class="table-title">
+                <i class="fas fa-gamepad" style="color: #3498db;"></i>
+                All Toy Products
+            </h3>
+            <a href="{{ route('admin.toy.products.create') }}" class="add-product-btn" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
                 <i class="fas fa-plus"></i> Add New Toy Product
             </a>
         </div>
@@ -337,12 +440,12 @@
                 </table>
             @else
                 <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
+                    <i class="fas fa-gamepad"></i>
                     <h3>No Toy Products Found</h3>
-                    <p>Start by adding your first toy product to the catalog.</p>
-                    <a href="{{ route('admin.toy.products.create') }}" class="add-product-btn" style="margin-top: 20px;">
+                    <p>Start building your pet toy catalog by adding your first product.</p>
+                    <a href="{{ route('admin.toy.products.create') }}" class="add-product-btn" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
                         <i class="fas fa-plus"></i>
-                        Add First Product
+                        Add First Toy Product
                     </a>
                 </div>
             @endif

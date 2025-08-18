@@ -3,6 +3,7 @@ use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\VetDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\VetManagementController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CheckoutController;
 
@@ -26,7 +27,13 @@ Route::get('/vet-join', [VetJoinController::class, 'show'])->name('vet.join');
 Route::post('/vet-join', [VetJoinController::class, 'store'])->name('vet.join.submit');
 
 // Admin Vet Management Routes
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
+    // User Management Routes
+    Route::get('/user-management', [UserManagementController::class, 'index'])->name('admin.user.management');
+    Route::post('/users/store', [UserManagementController::class, 'store'])->name('admin.users.store');
+    Route::put('/users/update/{id}', [UserManagementController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/delete/{id}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
+
     // Main vet management page
     Route::get('/vet-management', [VetManagementController::class, 'index'])->name('admin.vet.management');
     
@@ -499,8 +506,50 @@ Route::get('/admin/dashboard', function () {
     if (!session('admin_authenticated')) {
         return redirect('/admin/login');
     }
-    $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
-    return view('admin_dashboard', compact('adoptionPosts'));
+    
+    try {
+        // Get dynamic counts from database
+        $totalUsers = \App\Models\User::count();
+        $totalAppUsers = \App\Models\AppUser::count();
+        $totalPets = \App\Models\AdoptionPost::count();
+        $successfulAdoptions = \App\Models\AdoptionRequest::where('status', 1)->count();
+        $totalVets = \App\Models\VetDetails::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        
+        // Additional statistics
+        $pendingAdoptions = \App\Models\AdoptionRequest::where('status', 0)->count();
+        $activeAdoptionPosts = \App\Models\AdoptionPost::where('status', 'active')->count();
+        
+        // Combine regular users and app users for total user count
+        $allUsers = $totalUsers + $totalAppUsers;
+        
+        $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
+        
+    } catch (\Exception $e) {
+        // Fallback values if database queries fail
+        $allUsers = 0;
+        $totalPets = 0;
+        $successfulAdoptions = 0;
+        $totalVets = 0;
+        $totalAppointments = 0;
+        $pendingAdoptions = 0;
+        $activeAdoptionPosts = 0;
+        $adoptionPosts = collect([]);
+        
+        // Log the error for debugging
+        \Log::error('Admin Dashboard Stats Error: ' . $e->getMessage());
+    }
+    
+    return view('admin_dashboard', compact(
+        'adoptionPosts', 
+        'allUsers', 
+        'totalPets', 
+        'successfulAdoptions', 
+        'totalVets',
+        'totalAppointments',
+        'pendingAdoptions',
+        'activeAdoptionPosts'
+    ));
 })->name('admin.dashboard');
 
 // Admin Food Products Management Routes

@@ -825,12 +825,64 @@
     let isSubmitting = false;
     let vetAvailabilityData = null;
 
+    // Check for URL parameters (from vaccination booking page)
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselectedVetId = urlParams.get('vet_id');
+    const preselectedVetName = urlParams.get('vet_name');
+    const preselectedSpecialization = urlParams.get('specialization');
+    const preselectedServiceType = urlParams.get('service_type');
+    const fromPage = urlParams.get('from');
+
     // Initialize form functionality
     document.addEventListener('DOMContentLoaded', function() {
         initializeFormHandlers();
+        
+        // Pre-fill form if coming from vaccination booking
+        if (fromPage === 'vaccination_booking') {
+            preSelectVetFromBooking();
+            
+            // Show a welcome message
+            showAlert(`Welcome! You've selected ${preselectedVetName || 'a veterinarian'} for vaccination services. Please complete the appointment details below.`, 'success', true);
+        }
+        
         updateCostEstimate();
         loadVetAvailabilityData();
     });
+
+    function preSelectVetFromBooking() {
+        // Pre-select service type
+        if (preselectedServiceType) {
+            const serviceSelect = document.getElementById('serviceType');
+            serviceSelect.value = preselectedServiceType;
+            filterVetsByService();
+        }
+
+        // Pre-select vet if available in our vet list
+        if (preselectedVetId) {
+            const vetSelect = document.getElementById('vetId');
+            // Check if this vet ID exists in our options
+            const vetOption = vetSelect.querySelector(`option[value="${preselectedVetId}"]`);
+            if (vetOption) {
+                vetSelect.value = preselectedVetId;
+            } else if (preselectedVetName) {
+                // If exact ID doesn't match, try to find by name
+                const options = vetSelect.querySelectorAll('option');
+                for (let option of options) {
+                    if (option.textContent.includes(preselectedVetName.replace('Dr. ', ''))) {
+                        vetSelect.value = option.value;
+                        break;
+                    }
+                }
+            }
+            
+            // Update form based on vet selection
+            updateDateRestrictions();
+            displayVetAvailabilityInfo();
+        }
+
+        // Update cost estimate with pre-selected values
+        updateCostEstimate();
+    }
 
     function loadVetAvailabilityData() {
         fetch('http://localhost/Petsrology_webapp/public/api/vet-availability.php')

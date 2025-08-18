@@ -727,177 +727,22 @@
         <section class="experts-section">
             <div class="section-header">
                 <h2>Our Vaccination Experts</h2>
-                <p class="section-subtitle">Specialized veterinarians with expertise in pet immunization</p>
+                <p class="section-subtitle">Professional veterinarians are available for consultation and vaccination services</p>
             </div>
 
-            <div class="experts-grid">
-                <!-- Dr. Aminul Islam -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
-                        AI
-                    </div>
-                    <h3 class="expert-name">Dr. Aminul Islam</h3>
-                    <p class="expert-specialty">Vaccination Specialist</p>
-                    <p class="expert-experience">12 years experience in pet immunization</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.9/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Aminul Islam']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Aminul
-                    </a>
+            <div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 30px rgba(255,111,97,0.08);">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 2rem; color: white; box-shadow: 0 8px 25px rgba(255,111,97,0.3);">
+                    <i class="fas fa-user-md"></i>
                 </div>
-
-                <!-- Dr. Sultana Razia -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
-                        SR
-                    </div>
-                    <h3 class="expert-name">Dr. Sultana Razia</h3>
-                    <p class="expert-specialty">Immunology Expert</p>
-                    <p class="expert-experience">15 years experience in vaccine development</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.8/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Sultana Razia']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Sultana
-                    </a>
-                </div>
-
-                <!-- Dr. Karim Ahmed -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
-                        KA
-                    </div>
-                    <h3 class="expert-name">Dr. Karim Ahmed</h3>
-                    <p class="expert-specialty">Preventive Medicine</p>
-                    <p class="expert-experience">10 years experience in disease prevention</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.7/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Karim Ahmed']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Karim
-                    </a>
-                </div>
-
-                <!-- Dr. Fatema Begum -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
-                        FB
-                    </div>
-                    <h3 class="expert-name">Dr. Fatema Begum</h3>
-                    <p class="expert-specialty">Pet Wellness Expert</p>
-                    <p class="expert-experience">8 years experience in comprehensive pet care</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.9/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Fatema Begum']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Fatema
-                    </a>
-                </div>
-
-                <!-- Dr. Mohammad Hassan -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);">
-                        MH
-                    </div>
-                    <h3 class="expert-name">Dr. Mohammad Hassan</h3>
-                    <p class="expert-specialty">Vaccine Research Specialist</p>
-                    <p class="expert-experience">18 years experience in vaccine research</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.9/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Mohammad Hassan']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Hassan
-                    </a>
-                </div>
-
-                <!-- Dr. Nasreen Akter -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);">
-                        NA
-                    </div>
-                    <h3 class="expert-name">Dr. Nasreen Akter</h3>
-                    <p class="expert-specialty">Senior Immunologist</p>
-                    <p class="expert-experience">14 years experience in pet immunology</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.8/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Nasreen Akter']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Nasreen
-                    </a>
-                </div>
-
-                <!-- Dr. Rafiqul Islam -->
-                <div class="expert-card">
-                    <div class="expert-avatar" style="background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);">
-                        RI
-                    </div>
-                    <h3 class="expert-name">Dr. Rafiqul Islam</h3>
-                    <p class="expert-specialty">Exotic Pet Vaccination</p>
-                    <p class="expert-experience">11 years experience with exotic pets</p>
-                    <div class="expert-rating">
-                        <div class="expert-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="expert-rating-text">(4.7/5)</span>
-                    </div>
-                    <a href="{{ route('vaccination.booking', ['vet' => 'Dr. Rafiqul Islam']) }}" class="expert-btn">
-                        <i class="fas fa-user-md"></i>
-                        Book with Dr. Rafiqul
-                    </a>
-                </div>
+                <h3 style="font-size: 1.8rem; color: #2c3e50; font-weight: 800; margin-bottom: 15px;">Expert Veterinarians Available</h3>
+                <p style="color: #5a6c7d; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin: 0 auto 30px;">
+                    Our qualified veterinarians are ready to provide professional vaccination services for your pets. 
+                    Contact us to schedule an appointment with one of our certified specialists.
+                </p>
+                <a href="{{ route('vaccination.booking') }}" style="background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; cursor: pointer; font-weight: 700; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255,111,97,0.3); letter-spacing: 0.5px; transition: all 0.3s ease;">
+                    <i class="fas fa-calendar-plus"></i>
+                    Schedule Consultation
+                </a>
             </div>
         </section>
 

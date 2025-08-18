@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdoptionPost;
+use App\Models\AdoptionRequest;
 
 class AdoptionManagementController extends Controller
 {
@@ -16,7 +17,8 @@ class AdoptionManagementController extends Controller
     public function index(Request $request)
     {
         $adoptionPosts = AdoptionPost::orderBy('created_at', 'desc')->get();
-        return view('admin_adoption_management', compact('adoptionPosts'));
+        $adoptionRequests = AdoptionRequest::with('adoptionPost')->orderBy('created_at', 'desc')->get();
+        return view('admin_adoption_management', compact('adoptionPosts', 'adoptionRequests'));
     }
 
     public function store(Request $request)
