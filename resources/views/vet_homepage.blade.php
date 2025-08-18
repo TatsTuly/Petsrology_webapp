@@ -329,20 +329,20 @@
 <!-- Statistics Section -->
 <div class="stats-section">
     <div class="stat-card">
-        <div class="stat-number">500+</div>
+        <div class="stat-number" data-target="{{ $totalVets }}">0</div>
         <div class="stat-label">Registered Vets</div>
     </div>
     <div class="stat-card">
-        <div class="stat-number">2K+</div>
-        <div class="stat-label">Appointments</div>
+        <div class="stat-number" data-target="{{ $totalAppointments }}">0</div>
+        <div class="stat-label">Total Appointments</div>
     </div>
     <div class="stat-card">
-        <div class="stat-number">1.5K+</div>
-        <div class="stat-label">Happy Pets</div>
+        <div class="stat-number" data-target="{{ $totalPetOwners }}">0</div>
+        <div class="stat-label">Pet Owners</div>
     </div>
     <div class="stat-card">
-        <div class="stat-number">24/7</div>
-        <div class="stat-label">Support</div>
+        <div class="stat-number" data-target="{{ $completedAppointments }}">0</div>
+        <div class="stat-label">Completed Cases</div>
     </div>
 </div>
 
@@ -363,7 +363,7 @@
         </div>
         <div class="vet-card-title">Manage Appointments</div>
         <div class="vet-card-desc">Access your comprehensive dashboard to view, schedule, and manage appointments efficiently. Stay organized and provide seamless care for all your patients.</div>
-        <a href="{{ url('/vet-appointments') }}" class="vet-card-btn">View Dashboard</a>
+        <a href="{{ url('/vet-dashboard') }}" class="vet-card-btn">View Dashboard</a>
     </div>
 </div>
 
@@ -401,4 +401,57 @@
         </div>
     </div>
 </div>
+
+<script>
+// Counter Animation
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            // Format large numbers with + suffix
+            if (target >= 1000) {
+                const displayValue = Math.floor(current / 100) / 10;
+                counter.textContent = displayValue.toFixed(1) + 'K+';
+            } else if (target >= 100) {
+                counter.textContent = Math.floor(current) + '+';
+            } else {
+                counter.textContent = Math.floor(current);
+            }
+        }, 16);
+    });
+}
+
+// Trigger animation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Delay animation slightly for better visual effect
+    setTimeout(animateCounters, 500);
+});
+
+// Trigger animation when statistics section comes into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounters();
+            observer.unobserve(entry.target);
+        }
+    });
+});
+
+const statsSection = document.querySelector('.stats-section');
+if (statsSection) {
+    observer.observe(statsSection);
+}
+</script>
 @endsection

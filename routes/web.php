@@ -251,7 +251,26 @@ Route::get('/welcome', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');
     }
-    return view('welcome');
+    
+    try {
+        // Fetch dynamic statistics from database
+        $petsAdopted = \App\Models\AdoptionRequest::where('status', 1)->count(); // 1 = confirmed/approved
+        $verifiedVets = \App\Models\VetDetails::count();
+        $totalCustomers = \App\Models\AppUser::count();
+        
+        return view('welcome', compact(
+            'petsAdopted',
+            'verifiedVets', 
+            'totalCustomers'
+        ));
+    } catch (Exception $e) {
+        // Fallback to default values in case of database error
+        return view('welcome', [
+            'petsAdopted' => 0,
+            'verifiedVets' => 0,
+            'totalCustomers' => 0
+        ]);
+    }
 });
 
 // Vet Home (for support button)
@@ -264,6 +283,14 @@ Route::get('/vet-home', function () {
 
 // Vet Dashboard (main vet page after login)
 Route::get('/vet-dashboard', [VetDashboardController::class, 'index'])->name('vet.dashboard');
+
+// Vet Contact Page (uses vet layout)
+Route::get('/vet/contact', function () {
+    if (!session('user_authenticated') || session('user_role') !== 'vet') {
+        return redirect('/landing');
+    }
+    return view('vet_contact');
+})->name('vet.contact');
 
 // Login route with error handling
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
@@ -303,7 +330,29 @@ Route::get('/vet-homepage', function () {
     if (session('user_role') !== 'vet') {
         return redirect('/welcome');
     }
-    return view('vet_homepage');
+    
+    try {
+        // Fetch dynamic statistics from database
+        $totalVets = \App\Models\VetDetails::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        $totalPetOwners = \App\Models\AppUser::count();
+        $completedAppointments = \App\Models\Appointment::where('status', 'completed')->count();
+        
+        return view('vet_homepage', compact(
+            'totalVets', 
+            'totalAppointments', 
+            'totalPetOwners',
+            'completedAppointments'
+        ));
+    } catch (Exception $e) {
+        // Fallback to default values in case of database error
+        return view('vet_homepage', [
+            'totalVets' => 0,
+            'totalAppointments' => 0,
+            'totalPetOwners' => 0,
+            'completedAppointments' => 0
+        ]);
+    }
 });
 
 Route::post('/logout', function () {

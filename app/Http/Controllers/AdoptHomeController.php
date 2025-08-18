@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AdoptionPost;
+use App\Models\AdoptionRequest;
+use App\Models\AppUser;
 
 class AdoptHomeController extends Controller
 {
@@ -49,6 +51,17 @@ class AdoptHomeController extends Controller
         }
 
         $adoptionPosts = $query->orderBy('created_at', 'desc')->get();
-        return view('adopt_home', compact('adoptionPosts'));
+        
+        // Calculate dynamic statistics
+        $totalAvailablePets = AdoptionPost::where('status', '!=', 'adopted')->count();
+        $totalHappyAdoptions = AdoptionRequest::where('status', 1)->count(); // 1 = approved/confirmed
+        
+        // Get current user information
+        $currentUser = null;
+        if (session('user_id')) {
+            $currentUser = AppUser::find(session('user_id'));
+        }
+        
+        return view('adopt_home', compact('adoptionPosts', 'totalAvailablePets', 'totalHappyAdoptions', 'currentUser'));
     }
 }

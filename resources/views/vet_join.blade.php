@@ -496,7 +496,7 @@
                             <span>{{ $existingApplication->updated_at->format('M d, Y h:i A') }}</span>
                         </div>
                     </div>
-                    <a href="{{ route('contact') }}" class="btn-dashboard">
+                    <a href="{{ route('vet.contact') }}" class="btn-dashboard">
                         <i class="fas fa-envelope"></i> Contact Support
                     </a>
                 </div>
