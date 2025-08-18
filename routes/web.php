@@ -154,9 +154,34 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
     if ($request->hasFile('image')) {
-        if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+        if ($post->image) { 
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+            // Also delete from public/storage if exists
+            $publicStoragePath = public_path('storage/' . $post->image);
+            if (file_exists($publicStoragePath)) {
+                unlink($publicStoragePath);
+            }
+        }
         $imagePath = $request->file('image')->store('adoption_images', 'public');
         $validated['image'] = $imagePath;
+        
+        // For Windows compatibility, ensure public/storage directory exists
+        $publicStorageDir = public_path('storage');
+        if (!file_exists($publicStorageDir)) {
+            mkdir($publicStorageDir, 0755, true);
+        }
+        
+        $publicAdoptionImagesDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'adoption_images';
+        if (!file_exists($publicAdoptionImagesDir)) {
+            mkdir($publicAdoptionImagesDir, 0755, true);
+        }
+        
+        // Copy the uploaded file to public/storage as well for Windows compatibility
+        $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+        $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+        if (file_exists($sourceFile)) {
+            copy($sourceFile, $destFile);
+        }
     }
     $post->update($validated);
     return redirect()->back()->with('success', 'Adoption post updated successfully!');
@@ -165,7 +190,14 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
 // Delete adoption post
 Route::post('/admin/adoption-management/delete/{id}', function($id) {
     $post = \App\Models\AdoptionPost::findOrFail($id);
-    if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+    if ($post->image) { 
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+        // Also delete from public/storage if exists
+        $publicStoragePath = public_path('storage/' . $post->image);
+        if (file_exists($publicStoragePath)) {
+            unlink($publicStoragePath);
+        }
+    }
     $post->delete();
     return redirect()->back()->with('success', 'Adoption post deleted successfully!');
 });
@@ -270,12 +302,9 @@ Route::get('/book-appointment', function () {
     return view('book_appointment');
 })->name('book.appointment');
 
-Route::get('/all-vets', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('all_vets');
-})->name('all.vets');
+Route::get('/all-vets', [App\Http\Controllers\VetController::class, 'allVets'])->name('all.vets');
+
+Route::get('/vet-profile/{id}', [App\Http\Controllers\VetController::class, 'showProfile'])->name('vet.profile');
 
 Route::get('/vaccination-schedule', function () {
     if (!session('user_authenticated')) {

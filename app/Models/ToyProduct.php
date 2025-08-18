@@ -58,4 +58,40 @@ class ToyProduct extends Model
               ->orWhere('description', 'like', "%{$searchTerm}%");
         });
     }
+
+    /**
+     * Get the product image URL that works on Windows
+     */
+    public function getImageUrl()
+    {
+        if (!$this->image) {
+            return 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=300&fit=crop&auto=format';
+        }
+
+        // First try the standard Laravel storage URL
+        $storageUrl = asset('storage/' . $this->image);
+        $storagePath = public_path('storage/' . $this->image);
+        
+        // If file exists in public/storage, use it
+        if (file_exists($storagePath)) {
+            return $storageUrl;
+        }
+        
+        // Otherwise, create a custom route or use direct file access
+        $directPath = storage_path('app/public/' . $this->image);
+        if (file_exists($directPath)) {
+            // Copy file to public directory if needed
+            $publicPath = public_path('storage/' . $this->image);
+            $publicDir = dirname($publicPath);
+            
+            if (!file_exists($publicDir)) {
+                mkdir($publicDir, 0755, true);
+            }
+            
+            copy($directPath, $publicPath);
+            return $storageUrl;
+        }
+        
+        return 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=300&fit=crop&auto=format';
+    }
 }

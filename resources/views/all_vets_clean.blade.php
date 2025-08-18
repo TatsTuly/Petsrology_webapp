@@ -571,6 +571,14 @@
             line-height: 1.6;
         }
 
+        /* No vets available styling */
+        .no-vets-available {
+            text-align: center;
+            padding: 80px 20px;
+            color: #5a6c7d;
+            grid-column: 1 / -1;
+        }
+
         /* Footer Styles */
         footer {
             background-color: #333;
@@ -633,164 +641,6 @@
             color: #ccc;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .hero-section {
-                padding: 100px 0 60px;
-                background-attachment: scroll;
-            }
-
-            .hero-text h1 {
-                font-size: 2.8rem;
-                letter-spacing: 1.5px;
-            }
-
-            .vets-grid {
-                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-                gap: 30px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .hero-text h1 {
-                font-size: 2.5rem;
-                letter-spacing: 1px;
-            }
-
-            .hero-text p {
-                font-size: 1.1rem;
-            }
-
-            .hero-content {
-                padding: 0 15px;
-            }
-
-            .vets-section {
-                padding: 40px 20px;
-            }
-            
-            .section-header h2 {
-                font-size: 2.2rem;
-            }
-            
-            .vets-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            
-            .search-filter-section {
-                margin: -10px 15px 0;
-                padding: 25px 15px;
-            }
-            
-            .filters-row {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-
-        @media (max-width: 700px) {
-            .navbar-container {
-                padding: 0 15px;
-                height: 60px;
-            }
-            
-            .brand-logo {
-                width: 35px;
-                height: 35px;
-                margin-right: 8px;
-            }
-            
-            .brand-text {
-                font-size: 1.2rem;
-            }
-            
-            .navbar-nav {
-                flex-wrap: wrap;
-                gap: 2px;
-            }
-            
-            .nav-link {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
-            
-            .header {
-                padding: 40px 20px 30px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .vet-card {
-                padding: 25px 20px 20px;
-            }
-            
-            .vet-actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .vet-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .back-btn {
-                top: 15px;
-                right: 15px;
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-            
-            .search-filter-section {
-                margin: -10px 10px 0;
-                padding: 20px 15px;
-            }
-            
-            .search-bar {
-                padding: 6px 15px;
-            }
-            
-            .search-input {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .filter-select {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .clear-filters-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .navbar-container {
-                padding: 0 10px;
-                height: auto;
-                min-height: 60px;
-                flex-wrap: wrap;
-            }
-            
-            .navbar-nav {
-                width: 100%;
-                justify-content: center;
-                margin-top: 10px;
-                flex-wrap: wrap;
-                gap: 2px;
-                margin-right: 0;
-            }
-            
-            .nav-link {
-                padding: 8px 10px;
-                font-size: 0.8rem;
-            }
-
         /* Page Container for content after header */
         .page-container {
             max-width: 1200px;
@@ -804,6 +654,11 @@
             .page-container {
                 max-width: 1000px;
                 padding: 30px 20px;
+            }
+            
+            .vets-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 30px;
             }
         }
 
@@ -838,11 +693,35 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+            
+            .search-filter-section {
+                margin: -10px 15px 0;
+                padding: 25px 15px;
+            }
+            
+            .filters-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
 
         @media (max-width: 600px) {
             .page-container {
                 padding: 20px 10px;
+            }
+            
+            .vet-card {
+                padding: 25px 20px 20px;
+            }
+            
+            .vet-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .vet-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -876,15 +755,26 @@
                 <div class="filter-group">
                     <select class="filter-select" id="specialtyFilter">
                         <option value="">All Specialties</option>
-                        <option value="general_checkup">General Practice</option>
+                        <option value="general">General Practice</option>
                         <option value="surgery">Surgery</option>
-                        <option value="both">General & Surgery</option>
+                        <option value="dermatology">Dermatology</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="emergency">Emergency Medicine</option>
+                        <option value="exotic">Exotic Animals</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select" id="availabilityFilter">
+                        <option value="">All Availability</option>
+                        <option value="available">Available Today</option>
+                        <option value="busy">Busy</option>
+                        <option value="unavailable">Unavailable</option>
                     </select>
                 </div>
                 <div class="filter-group">
                     <select class="filter-select" id="experienceFilter">
                         <option value="">All Experience</option>
-                        <option value="junior">Under 10 years</option>
+                        <option value="junior">5-10 years</option>
                         <option value="senior">10-15 years</option>
                         <option value="expert">15+ years</option>
                     </select>
@@ -897,7 +787,9 @@
             </div>
 
             <div class="results-info">
-                <div class="results-count" id="resultsCount">Showing {{ $vets->count() }} of {{ $vets->count() }} veterinarians</div>
+                <div class="results-count" id="resultsCount">
+                    Showing {{ $vets->count() }} of {{ $vets->count() }} veterinarians
+                </div>
             </div>
         </div>
     </section>
@@ -915,9 +807,7 @@
                          data-name="Dr. {{ $vet->name }}" 
                          data-specialty="{{ $vet->role }}" 
                          data-availability="available" 
-                         data-experience="{{ $vet->experience >= 15 ? 'expert' : ($vet->experience >= 10 ? 'senior' : 'junior') }}"
-                         data-location="{{ $vet->location }}"
-                         data-phone="{{ $vet->phone }}">
+                         data-experience="senior">
                         <div class="vet-avatar">
                             @if($vet->profile_image)
                                 <img src="{{ $vet->getProfileImageUrl() }}" alt="Dr. {{ $vet->name }}">
@@ -944,7 +834,7 @@
                         <div class="rating">
                             <div class="stars">
                                 @php
-                                    $rating = $vet->getRating();
+                                    $rating = $vet->rating ?? 4.5;
                                     $fullStars = floor($rating);
                                     $hasHalfStar = ($rating - $fullStars) >= 0.5;
                                 @endphp
@@ -958,7 +848,7 @@
                                     @endif
                                 @endfor
                             </div>
-                            <span class="rating-text">({{ number_format($rating, 1) }}/5)</span>
+                            <span class="rating-text">({{ number_format($vet->rating ?? 4.5, 1) }}/5)</span>
                         </div>
                         <div class="vet-info">
                             <div class="vet-info-item">
@@ -982,7 +872,7 @@
                                 <i class="fas fa-calendar-plus"></i>
                                 Book Appointment
                             </a>
-                            <a href="{{ route('vet.profile', $vet->id) }}" class="vet-btn secondary">
+                            <a href="#" class="vet-btn secondary">
                                 <i class="fas fa-user"></i>
                                 View Profile
                             </a>
@@ -1013,39 +903,34 @@
         function initializeFilters() {
             const searchInput = document.getElementById('searchInput');
             const specialtyFilter = document.getElementById('specialtyFilter');
+            const availabilityFilter = document.getElementById('availabilityFilter');
             const experienceFilter = document.getElementById('experienceFilter');
             const vetCards = document.querySelectorAll('.vet-card');
             const noVetsMessage = document.getElementById('noVetsMessage');
             const resultsCount = document.getElementById('resultsCount');
 
             function filterVets() {
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                const specialtyValue = specialtyFilter ? specialtyFilter.value : '';
-                const experienceValue = experienceFilter ? experienceFilter.value : '';
+                const searchTerm = searchInput.value.toLowerCase();
+                const specialty = specialtyFilter.value;
+                const availability = availabilityFilter.value;
+                const experience = experienceFilter.value;
 
                 let visibleCount = 0;
 
                 vetCards.forEach(card => {
-                    const vetName = card.dataset.name ? card.dataset.name.toLowerCase() : '';
-                    const vetSpecialty = card.dataset.specialty || '';
-                    const vetExperience = card.dataset.experience || '';
-                    const vetLocation = card.dataset.location ? card.dataset.location.toLowerCase() : '';
-                    const vetPhone = card.dataset.phone || '';
+                    const vetName = card.dataset.name.toLowerCase();
+                    const vetSpecialty = card.dataset.specialty;
+                    const vetAvailability = card.dataset.availability;
+                    const vetExperience = card.dataset.experience;
 
-                    // Enhanced search - matches name, specialty text, location, or phone
-                    const specialtyText = card.querySelector('.vet-specialty') ? 
-                        card.querySelector('.vet-specialty').textContent.toLowerCase() : '';
-                    
-                    const matchesSearch = !searchTerm || 
-                        vetName.includes(searchTerm) || 
-                        specialtyText.includes(searchTerm) ||
-                        vetLocation.includes(searchTerm) ||
-                        vetPhone.includes(searchTerm);
-                        
-                    const matchesSpecialty = !specialtyValue || vetSpecialty === specialtyValue;
-                    const matchesExperience = !experienceValue || vetExperience === experienceValue;
+                    const matchesSearch = !searchTerm || vetName.includes(searchTerm);
+                    const matchesSpecialty = !specialty || vetSpecialty === specialty;
+                    const matchesAvailability = !availability || vetAvailability === availability;
+                    const matchesExperience = !experience || vetExperience === experience;
 
-                    if (matchesSearch && matchesSpecialty && matchesExperience) {
+                    const isVisible = matchesSearch && matchesSpecialty && matchesAvailability && matchesExperience;
+
+                    if (isVisible) {
                         card.style.display = 'block';
                         visibleCount++;
                     } else {
@@ -1054,71 +939,36 @@
                 });
 
                 // Update results count
-                if (resultsCount) {
-                    const totalVets = {{ $vets->count() }};
-                    resultsCount.textContent = `Showing ${visibleCount} of ${totalVets} veterinarians`;
-                }
+                const totalVets = {{ $vets->count() }};
+                resultsCount.textContent = `Showing ${visibleCount} of ${totalVets} veterinarians`;
 
-                // Show/hide no vets message
-                if (noVetsMessage) {
-                    if (visibleCount === 0) {
-                        noVetsMessage.style.display = 'block';
-                    } else {
-                        noVetsMessage.style.display = 'none';
-                    }
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    noVetsMessage.style.display = 'block';
+                } else {
+                    noVetsMessage.style.display = 'none';
                 }
             }
 
-            // Add event listeners with safety checks
-            if (searchInput) searchInput.addEventListener('input', filterVets);
-            if (specialtyFilter) specialtyFilter.addEventListener('change', filterVets);
-            if (experienceFilter) experienceFilter.addEventListener('change', filterVets);
+            // Attach event listeners
+            searchInput.addEventListener('input', filterVets);
+            specialtyFilter.addEventListener('change', filterVets);
+            availabilityFilter.addEventListener('change', filterVets);
+            experienceFilter.addEventListener('change', filterVets);
         }
 
-        // Clear all filters function
         function clearAllFilters() {
-            const searchInput = document.getElementById('searchInput');
-            const specialtyFilter = document.getElementById('specialtyFilter');
-            const experienceFilter = document.getElementById('experienceFilter');
-
-            if (searchInput) searchInput.value = '';
-            if (specialtyFilter) specialtyFilter.value = '';
-            if (experienceFilter) experienceFilter.value = '';
-
-            // Trigger filter update
-            if (searchInput) searchInput.dispatchEvent(new Event('input'));
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeFilters();
+            document.getElementById('searchInput').value = '';
+            document.getElementById('specialtyFilter').value = '';
+            document.getElementById('availabilityFilter').value = '';
+            document.getElementById('experienceFilter').value = '';
             
-            // Debug: Log the number of vet cards found
-            const totalCards = document.querySelectorAll('.vet-card').length;
-            console.log(`Total vet cards loaded: ${totalCards}`);
-        });
-
-        // Add animation on scroll
-        function animateOnScroll() {
-            const cards = document.querySelectorAll('.vet-card');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
-            });
+            // Re-run the filter function to show all vets
+            const event = new Event('input');
+            document.getElementById('searchInput').dispatchEvent(event);
         }
 
-        // Initialize animations
-        window.addEventListener('load', animateOnScroll);
+        // Initialize filters when page loads
+        document.addEventListener('DOMContentLoaded', initializeFilters);
     </script>
 @endsection

@@ -24,7 +24,8 @@ class VetDetails extends Model
         'status',
         'visit_start_time',
         'visit_end_time',
-        'available_days'
+        'available_days',
+        'rating'
     ];
     
     protected $casts = [
@@ -116,5 +117,50 @@ class VetDetails extends Model
         }
         
         return 'https://placehold.co/40x40?text=No+Image';
+    }
+
+    /**
+     * Get a default rating for the vet
+     */
+    public function getRating()
+    {
+        // If rating exists, use it, otherwise generate a default based on experience
+        if ($this->rating) {
+            return $this->rating;
+        }
+        
+        // Generate rating based on experience: 4.2 - 4.8 range
+        $baseRating = 4.2;
+        $experienceBonus = min($this->experience * 0.02, 0.6); // Max 0.6 bonus for 30+ years
+        return round($baseRating + $experienceBonus, 1);
+    }
+
+    /**
+     * Get available days formatted properly
+     */
+    public function getAvailableDaysFormatted()
+    {
+        if (!$this->available_days) {
+            return 'Contact for availability';
+        }
+
+        $days = $this->available_days;
+        
+        // Handle if it's stored as JSON string
+        if (is_string($days)) {
+            $decoded = json_decode($days, true);
+            if (is_array($decoded)) {
+                $days = $decoded;
+            } else {
+                return 'Contact for availability';
+            }
+        }
+
+        // Handle if it's already an array
+        if (is_array($days) && count($days) > 0) {
+            return implode(', ', array_map('ucfirst', $days));
+        }
+
+        return 'Contact for availability';
     }
 }

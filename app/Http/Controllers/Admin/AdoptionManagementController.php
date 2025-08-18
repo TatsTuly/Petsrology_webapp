@@ -43,6 +43,24 @@ class AdoptionManagementController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('adoption_images', 'public');
             $validated['image'] = $imagePath;
+            
+            // For Windows compatibility, ensure public/storage directory exists
+            $publicStorageDir = public_path('storage');
+            if (!file_exists($publicStorageDir)) {
+                mkdir($publicStorageDir, 0755, true);
+            }
+            
+            $publicAdoptionImagesDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'adoption_images';
+            if (!file_exists($publicAdoptionImagesDir)) {
+                mkdir($publicAdoptionImagesDir, 0755, true);
+            }
+            
+            // Copy the uploaded file to public/storage as well for Windows compatibility
+            $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+            $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+            if (file_exists($sourceFile)) {
+                copy($sourceFile, $destFile);
+            }
         }
 
         try {

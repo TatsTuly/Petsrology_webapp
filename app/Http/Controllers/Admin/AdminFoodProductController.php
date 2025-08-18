@@ -46,6 +46,24 @@ class AdminFoodProductController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('food_products', 'public');
             $data['image'] = $imagePath;
+            
+            // For Windows compatibility, ensure public/storage directory exists
+            $publicStorageDir = public_path('storage');
+            if (!file_exists($publicStorageDir)) {
+                mkdir($publicStorageDir, 0755, true);
+            }
+            
+            $publicFoodProductsDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'food_products';
+            if (!file_exists($publicFoodProductsDir)) {
+                mkdir($publicFoodProductsDir, 0755, true);
+            }
+            
+            // Copy the uploaded file to public/storage as well for Windows compatibility
+            $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+            $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+            if (file_exists($sourceFile)) {
+                copy($sourceFile, $destFile);
+            }
         }
 
         FoodProduct::create($data);
@@ -90,9 +108,32 @@ class AdminFoodProductController extends Controller
             // Delete old image if exists
             if ($product->image && Storage::disk('public')->exists($product->image)) {
                 Storage::disk('public')->delete($product->image);
+                // Also delete from public/storage if exists
+                $publicStoragePath = public_path('storage/' . $product->image);
+                if (file_exists($publicStoragePath)) {
+                    unlink($publicStoragePath);
+                }
             }
             $imagePath = $request->file('image')->store('food_products', 'public');
             $data['image'] = $imagePath;
+            
+            // For Windows compatibility, ensure public/storage directory exists
+            $publicStorageDir = public_path('storage');
+            if (!file_exists($publicStorageDir)) {
+                mkdir($publicStorageDir, 0755, true);
+            }
+            
+            $publicFoodProductsDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'food_products';
+            if (!file_exists($publicFoodProductsDir)) {
+                mkdir($publicFoodProductsDir, 0755, true);
+            }
+            
+            // Copy the uploaded file to public/storage as well for Windows compatibility
+            $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+            $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+            if (file_exists($sourceFile)) {
+                copy($sourceFile, $destFile);
+            }
         }
 
         $product->update($data);
@@ -106,6 +147,11 @@ class AdminFoodProductController extends Controller
         // Delete image if exists
         if ($product->image && Storage::disk('public')->exists($product->image)) {
             Storage::disk('public')->delete($product->image);
+            // Also delete from public/storage if exists
+            $publicStoragePath = public_path('storage/' . $product->image);
+            if (file_exists($publicStoragePath)) {
+                unlink($publicStoragePath);
+            }
         }
 
         $product->delete();

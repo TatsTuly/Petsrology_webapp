@@ -755,7 +755,7 @@
         <!-- Pet Details Section -->
         <div class="pet-details">
             <div class="pet-header">
-                <img src="{{ $adoptionPost && $adoptionPost->image ? asset('storage/' . $adoptionPost->image) : '' }}" alt="{{ $adoptionPost->pet_name ?? '' }}" class="pet-image-large">
+                <img src="{{ $adoptionPost && $adoptionPost->image ? $adoptionPost->getImageUrl() : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&h=300&fit=crop&auto=format' }}" alt="{{ $adoptionPost->pet_name ?? '' }}" class="pet-image-large">
                 <div class="pet-info-main">
                     <h1 class="pet-name">{{ $adoptionPost->pet_name ?? '' }}</h1>
                     @if(!empty($adoptionPost->breed))
