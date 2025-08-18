@@ -11,11 +11,12 @@
     }
 
     .admin-header {
-        background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
         color: white;
         padding: 30px;
         border-radius: 15px;
         margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     .admin-header h1 {
@@ -30,11 +31,12 @@
     }
 
     .filters-section {
-        background: white;
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
         padding: 25px;
         border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         margin-bottom: 25px;
+        border: 1px solid rgba(255,255,255,0.8);
     }
 
     .filter-row {
@@ -70,25 +72,30 @@
     }
 
     .filter-btn {
-        background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
         color: white;
         border: none;
         padding: 12px 25px;
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(52, 152, 219, 0.15);
     }
 
     .filter-btn:hover {
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        color: white;
         transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
     }
 
     .orders-table-container {
-        background: white;
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
         border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.8);
     }
 
     .orders-table {
@@ -104,13 +111,14 @@
     }
 
     .orders-table th {
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
         font-weight: 600;
-        color: #333;
+        color: #fff;
+        border-bottom: 2px solid #3498db;
     }
 
     .orders-table tbody tr:hover {
-        background: #f8f9fa;
+        background: #eaf1fb;
     }
 
     .order-status {
@@ -147,20 +155,22 @@
     }
 
     .btn-view {
-        background: #17a2b8;
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
         color: white;
         padding: 8px 15px;
         border: none;
         border-radius: 5px;
         text-decoration: none;
         font-size: 0.85rem;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(52, 152, 219, 0.15);
     }
 
     .btn-view:hover {
-        background: #138496;
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
         color: white;
         text-decoration: none;
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
     }
 
     .stats-grid {
@@ -171,18 +181,23 @@
     }
 
     .stat-card {
-        background: white;
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
         padding: 25px;
         border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         text-align: center;
+        border: 1px solid rgba(255,255,255,0.8);
     }
 
     .stat-number {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #ff6f61;
+        color: #3498db;
         margin-bottom: 10px;
+        background: linear-gradient(45deg, #2c3e50, #3498db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .stat-label {
@@ -383,4 +398,14 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    // Optionally, you can add a script to hide the navbar if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        var navbar = document.querySelector('.navbar');
+        if (navbar) navbar.style.display = 'none';
+    });
+</script>
 @endsection

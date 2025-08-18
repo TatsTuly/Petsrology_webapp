@@ -11,7 +11,7 @@
     }
 
     .order-header {
-        background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
         color: white;
         padding: 30px;
         border-radius: 15px;
@@ -19,6 +19,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     .order-header h1 {
@@ -82,7 +83,7 @@
     }
 
     .info-section h4 {
-        color: #ff6f61;
+        color: #3498db;
         margin-bottom: 15px;
         font-size: 1.1rem;
         font-weight: 600;
@@ -146,7 +147,7 @@
     }
 
     .item-brand {
-        color: #ff6f61;
+        color: #3498db;
         font-size: 0.85rem;
         font-weight: 500;
     }
@@ -224,19 +225,23 @@
     }
 
     .update-btn {
-        background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
         color: white;
         border: none;
         padding: 12px 25px;
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
         width: 100%;
+        box-shadow: 0 3px 10px rgba(52, 152, 219, 0.15);
     }
 
     .update-btn:hover {
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        color: white;
         transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
     }
 
     .alert {
@@ -469,4 +474,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var navbar = document.querySelector('.navbar');
+        if (navbar) navbar.style.display = 'none';
+    });
+</script>
 @endsection
