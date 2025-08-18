@@ -252,7 +252,7 @@
                     <a href="{{ route('contact') }}" class="nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/welcome') }}" class="nav-link">About Us</a>
+                    <a href="{{ route('about') }}" class="nav-link {{ request()->is('about') ? 'active' : '' }}">About Us</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/user/dashboard') }}" class="nav-link {{ request()->is('user/dashboard') ? 'active' : '' }}">
