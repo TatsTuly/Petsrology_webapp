@@ -159,7 +159,7 @@
                                             @if(Str::startsWith($product->image, 'http'))
                                                 <img src="{{ $product->image }}" alt="{{ $product->title }}" class="product-image">
                                             @else
-                                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="product-image">
+                                                <img src="{{ $product->getImageUrl() }}" alt="{{ $product->title }}" class="product-image">
                                             @endif
                                         @else
                                             <div style="width: 60px; height: 60px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">

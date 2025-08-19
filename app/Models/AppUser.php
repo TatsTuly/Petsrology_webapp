@@ -15,7 +15,7 @@ class AppUser extends Model
         'name',
         'email',
         'password',
-        'confirmed_password',
+        // 'confirmed_password', // Removed - only used for validation, not storage
         'role',
         'registration_time',
         'google_id',

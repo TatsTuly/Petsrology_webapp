@@ -378,7 +378,7 @@
                                     <td style="padding: 15px; font-weight: 600; color: #2c3e50;">{{ $vet->id }}</td>
                                     <td style="padding: 15px;">
                                         @if($vet->profile_image)
-                                            <img src="{{ asset('storage/' . $vet->profile_image) }}" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #3498db; object-fit: cover;">
+                                            <img src="{{ $vet->getProfileImageUrl() }}" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #3498db; object-fit: cover;">
                                         @else
                                             <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #3498db, #2980b9); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
                                                 {{ strtoupper(substr($vet->name, 0, 1)) }}

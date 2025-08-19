@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdoptionPost;
+use App\Models\AdoptionRequest;
 
 class AdoptionManagementController extends Controller
 {
@@ -16,7 +17,8 @@ class AdoptionManagementController extends Controller
     public function index(Request $request)
     {
         $adoptionPosts = AdoptionPost::orderBy('created_at', 'desc')->get();
-        return view('admin_adoption_management', compact('adoptionPosts'));
+        $adoptionRequests = AdoptionRequest::with('adoptionPost')->orderBy('created_at', 'desc')->get();
+        return view('admin_adoption_management', compact('adoptionPosts', 'adoptionRequests'));
     }
 
     public function store(Request $request)
@@ -43,6 +45,24 @@ class AdoptionManagementController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('adoption_images', 'public');
             $validated['image'] = $imagePath;
+            
+            // For Windows compatibility, ensure public/storage directory exists
+            $publicStorageDir = public_path('storage');
+            if (!file_exists($publicStorageDir)) {
+                mkdir($publicStorageDir, 0755, true);
+            }
+            
+            $publicAdoptionImagesDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'adoption_images';
+            if (!file_exists($publicAdoptionImagesDir)) {
+                mkdir($publicAdoptionImagesDir, 0755, true);
+            }
+            
+            // Copy the uploaded file to public/storage as well for Windows compatibility
+            $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+            $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+            if (file_exists($sourceFile)) {
+                copy($sourceFile, $destFile);
+            }
         }
 
         try {

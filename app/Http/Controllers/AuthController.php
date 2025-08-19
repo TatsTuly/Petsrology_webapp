@@ -32,8 +32,8 @@ class AuthController extends Controller
         $user = new AppUser();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
-        $user->confirmed_password = $request->confirmed_password;
+        $user->password = bcrypt($request->password); // Hash the password
+        // Don't store confirmed_password - it's only for validation
         $user->role = $request->role;
         $user->save();
 
@@ -49,11 +49,10 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = AppUser::where('email', $request->email)
-            ->where('password', $request->password)
-            ->first();
+        $user = AppUser::where('email', $request->email)->first();
 
-        if ($user) {
+        // Use bcrypt verification instead of plain text comparison
+        if ($user && password_verify($request->password, $user->password)) {
             session([
                 'user_authenticated' => true,
                 'user_id' => $user->id,
@@ -129,8 +128,8 @@ class AuthController extends Controller
                 'google_id' => $googleUser->id,
                 'avatar' => $googleUser->avatar,
                 'role' => $role,
-                'password' => null,
-                'confirmed_password' => null,
+                'password' => null, // Google users don't have passwords
+                // confirmed_password removed - not needed
             ]);
             
             $this->loginUser($newUser);

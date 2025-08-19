@@ -876,26 +876,15 @@
                 <div class="filter-group">
                     <select class="filter-select" id="specialtyFilter">
                         <option value="">All Specialties</option>
-                        <option value="general">General Practice</option>
+                        <option value="general_checkup">General Practice</option>
                         <option value="surgery">Surgery</option>
-                        <option value="dermatology">Dermatology</option>
-                        <option value="cardiology">Cardiology</option>
-                        <option value="emergency">Emergency Medicine</option>
-                        <option value="exotic">Exotic Animals</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <select class="filter-select" id="availabilityFilter">
-                        <option value="">All Availability</option>
-                        <option value="available">Available Today</option>
-                        <option value="busy">Busy</option>
-                        <option value="unavailable">Unavailable</option>
+                        <option value="both">General & Surgery</option>
                     </select>
                 </div>
                 <div class="filter-group">
                     <select class="filter-select" id="experienceFilter">
                         <option value="">All Experience</option>
-                        <option value="junior">5-10 years</option>
+                        <option value="junior">Under 10 years</option>
                         <option value="senior">10-15 years</option>
                         <option value="expert">15+ years</option>
                     </select>
@@ -908,7 +897,7 @@
             </div>
 
             <div class="results-info">
-                <div class="results-count" id="resultsCount">Showing 6 of 6 veterinarians</div>
+                <div class="results-count" id="resultsCount">Showing {{ $vets->count() }} of {{ $vets->count() }} veterinarians</div>
             </div>
         </div>
     </section>
@@ -920,293 +909,93 @@
         </div>
 
         <div class="vets-grid" id="vetsGrid">
-            <!-- Dr. Rashida Rahman -->
-            <div class="vet-card" data-name="Dr. Rashida Rahman" data-specialty="general" data-availability="available" data-experience="senior">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);">
-                    RR
-                </div>
-                <h3 class="vet-name">Dr. Rashida Rahman</h3>
-                <p class="vet-specialty">General Practice</p>
-                <div class="availability available">
-                    <i class="fas fa-circle"></i>
-                    Available Today
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+            @if($vets->count() > 0)
+                @foreach($vets as $vet)
+                    <div class="vet-card" 
+                         data-name="Dr. {{ $vet->name }}" 
+                         data-specialty="{{ $vet->role }}" 
+                         data-availability="available" 
+                         data-experience="{{ $vet->experience >= 15 ? 'expert' : ($vet->experience >= 10 ? 'senior' : 'junior') }}"
+                         data-location="{{ $vet->location }}"
+                         data-phone="{{ $vet->phone }}">
+                        <div class="vet-avatar">
+                            @if($vet->profile_image)
+                                <img src="{{ $vet->getProfileImageUrl() }}" alt="Dr. {{ $vet->name }}">
+                            @else
+                                <div class="initials" style="background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);">
+                                    {{ strtoupper(substr($vet->name, 0, 2)) }}
+                                </div>
+                            @endif
+                        </div>
+                        <h3 class="vet-name">Dr. {{ $vet->name }}</h3>
+                        <p class="vet-specialty">
+                            @if($vet->role == 'general_checkup')
+                                General Practice
+                            @elseif($vet->role == 'surgery')
+                                Surgical Specialist
+                            @elseif($vet->role == 'both')
+                                General & Surgical
+                            @endif
+                        </p>
+                        <div class="availability available">
+                            <i class="fas fa-circle"></i>
+                            Available Today
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                @php
+                                    $rating = $vet->getRating();
+                                    $fullStars = floor($rating);
+                                    $hasHalfStar = ($rating - $fullStars) >= 0.5;
+                                @endphp
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $fullStars)
+                                        <i class="fas fa-star"></i>
+                                    @elseif($i == $fullStars + 1 && $hasHalfStar)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
+                            <span class="rating-text">({{ number_format($rating, 1) }}/5)</span>
+                        </div>
+                        <div class="vet-info">
+                            <div class="vet-info-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>{{ $vet->experience }} years experience</span>
+                            </div>
+                            <div class="vet-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ \Carbon\Carbon::parse($vet->visit_start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($vet->visit_end_time)->format('g:i A') }}</span>
+                            </div>
+                            <div class="vet-info-item">
+                                <i class="fas fa-phone"></i>
+                                <span>{{ $vet->phone }}</span>
+                            </div>
+                        </div>
+                        <p class="vet-description">
+                            Specialized in {{ $vet->role == 'general_checkup' ? 'comprehensive pet care and general health checkups' : ($vet->role == 'surgery' ? 'surgical procedures and specialized treatments' : 'comprehensive care and surgical procedures') }}.
+                        </p>
+                        <div class="vet-actions">
+                            <a href="{{ route('book.appointment') }}" class="vet-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                                Book Appointment
+                            </a>
+                            <a href="{{ route('vet.profile', $vet->id) }}" class="vet-btn secondary">
+                                <i class="fas fa-user"></i>
+                                View Profile
+                            </a>
+                        </div>
                     </div>
-                    <span class="rating-text">(4.9/5)</span>
+                @endforeach
+            @else
+                <div class="no-vets-available">
+                    <i class="fas fa-user-md" style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3 style="color: #666; margin-bottom: 10px;">No Veterinarians Available</h3>
+                    <p style="color: #999;">We don't have any approved veterinarians at the moment. Please check back later.</p>
                 </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>15 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>9:00 AM - 6:00 PM</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1711-234567</span>
-                    </div>
-                </div>
-                <p class="vet-description">Specialized in comprehensive pet care with expertise in preventive medicine and general health checkups.</p>
-                <div class="vet-actions">
-                    <a href="{{ route('book.appointment') }}" class="vet-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        Book Appointment
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Dr. Mohammad Karim -->
-            <div class="vet-card" data-name="Dr. Mohammad Karim" data-specialty="surgery" data-availability="busy" data-experience="senior">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #4a90e2 0%, #6bb6ff 100%);">
-                    MK
-                </div>
-                <h3 class="vet-name">Dr. Mohammad Karim</h3>
-                <p class="vet-specialty">Veterinary Surgeon</p>
-                <div class="availability busy">
-                    <i class="fas fa-circle"></i>
-                    Busy Today
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="rating-text">(4.8/5)</span>
-                </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>12 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>8:00 AM - 4:00 PM</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1711-234568</span>
-                    </div>
-                </div>
-                <p class="vet-description">Expert veterinary surgeon specializing in complex surgical procedures and emergency operations.</p>
-                <div class="vet-actions">
-                    <a href="{{ route('book.appointment') }}" class="vet-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        Book Appointment
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Dr. Fatima Sultana -->
-            <div class="vet-card" data-name="Dr. Fatima Sultana" data-specialty="dermatology" data-availability="available" data-experience="junior">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);">
-                    FS
-                </div>
-                <h3 class="vet-name">Dr. Fatima Sultana</h3>
-                <p class="vet-specialty">Veterinary Dermatologist</p>
-                <div class="availability available">
-                    <i class="fas fa-circle"></i>
-                    Available Today
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="rating-text">(4.7/5)</span>
-                </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>10 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>10:00 AM - 7:00 PM</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1711-234569</span>
-                    </div>
-                </div>
-                <p class="vet-description">Specialized in treating skin conditions, allergies, and dermatological issues in pets.</p>
-                <div class="vet-actions">
-                    <a href="{{ route('book.appointment') }}" class="vet-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        Book Appointment
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Dr. Abdul Hamid -->
-            <div class="vet-card" data-name="Dr. Abdul Hamid" data-specialty="cardiology" data-availability="available" data-experience="expert">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">
-                    AH
-                </div>
-                <h3 class="vet-name">Dr. Abdul Hamid</h3>
-                <p class="vet-specialty">Veterinary Cardiologist</p>
-                <div class="availability available">
-                    <i class="fas fa-circle"></i>
-                    Available Today
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="rating-text">(4.9/5)</span>
-                </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>18 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>9:00 AM - 5:00 PM</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1711-234570</span>
-                    </div>
-                </div>
-                <p class="vet-description">Expert in cardiovascular health, heart disease diagnosis and treatment for pets.</p>
-                <div class="vet-actions">
-                    <a href="{{ route('book.appointment') }}" class="vet-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        Book Appointment
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Dr. Nasreen Akter -->
-            <div class="vet-card" data-name="Dr. Nasreen Akter" data-specialty="emergency" data-availability="available" data-experience="senior">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
-                    NA
-                </div>
-                <h3 class="vet-name">Dr. Nasreen Akter</h3>
-                <p class="vet-specialty">Emergency Medicine</p>
-                <div class="availability available">
-                    <i class="fas fa-circle"></i>
-                    Available 24/7
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="rating-text">(4.8/5)</span>
-                </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>13 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>24/7 Emergency</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1777-987654</span>
-                    </div>
-                </div>
-                <p class="vet-description">Specialized in emergency and critical care medicine, available for urgent pet health situations.</p>
-                <div class="vet-actions">
-                    <a href="{{ route('book.appointment') }}" class="vet-btn">
-                        <i class="fas fa-ambulance"></i>
-                        Emergency Call
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Dr. Mizanur Rahman -->
-            <div class="vet-card" data-name="Dr. Mizanur Rahman" data-specialty="exotic" data-availability="unavailable" data-experience="junior">
-                <div class="vet-avatar initials" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
-                    MR
-                </div>
-                <h3 class="vet-name">Dr. Mizanur Rahman</h3>
-                <p class="vet-specialty">Exotic Animal Specialist</p>
-                <div class="availability unavailable">
-                    <i class="fas fa-circle"></i>
-                    On Leave
-                </div>
-                <div class="rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="rating-text">(4.6/5)</span>
-                </div>
-                <div class="vet-info">
-                    <div class="vet-info-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>8 years experience</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span>Currently Unavailable</span>
-                    </div>
-                    <div class="vet-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+880 1711-234571</span>
-                    </div>
-                </div>
-                <p class="vet-description">Expert in treating exotic pets including birds, reptiles, and small mammals.</p>
-                <div class="vet-actions">
-                    <a href="#" class="vet-btn" style="opacity: 0.6; cursor: not-allowed;">
-                        <i class="fas fa-calendar-times"></i>
-                        Currently Unavailable
-                    </a>
-                    <a href="#" class="vet-btn secondary">
-                        <i class="fas fa-user"></i>
-                        View Profile
-                    </a>
-                </div>
-            </div>
+            @endif
         </div>
 
         <div class="no-results" id="noVetsMessage" style="display: none;">
@@ -1220,11 +1009,10 @@
 
 @section('scripts')
     <script>
-        // Search and Filter Functionality - adapted from adopt_home.blade.php
+        // Search and Filter Functionality
         function initializeFilters() {
             const searchInput = document.getElementById('searchInput');
             const specialtyFilter = document.getElementById('specialtyFilter');
-            const availabilityFilter = document.getElementById('availabilityFilter');
             const experienceFilter = document.getElementById('experienceFilter');
             const vetCards = document.querySelectorAll('.vet-card');
             const noVetsMessage = document.getElementById('noVetsMessage');
@@ -1233,7 +1021,6 @@
             function filterVets() {
                 const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
                 const specialtyValue = specialtyFilter ? specialtyFilter.value : '';
-                const availabilityValue = availabilityFilter ? availabilityFilter.value : '';
                 const experienceValue = experienceFilter ? experienceFilter.value : '';
 
                 let visibleCount = 0;
@@ -1241,16 +1028,24 @@
                 vetCards.forEach(card => {
                     const vetName = card.dataset.name ? card.dataset.name.toLowerCase() : '';
                     const vetSpecialty = card.dataset.specialty || '';
-                    const vetAvailability = card.dataset.availability || '';
                     const vetExperience = card.dataset.experience || '';
+                    const vetLocation = card.dataset.location ? card.dataset.location.toLowerCase() : '';
+                    const vetPhone = card.dataset.phone || '';
 
-                    const matchesSearch = !searchTerm || vetName.includes(searchTerm) || 
-                        card.querySelector('.vet-specialty').textContent.toLowerCase().includes(searchTerm);
+                    // Enhanced search - matches name, specialty text, location, or phone
+                    const specialtyText = card.querySelector('.vet-specialty') ? 
+                        card.querySelector('.vet-specialty').textContent.toLowerCase() : '';
+                    
+                    const matchesSearch = !searchTerm || 
+                        vetName.includes(searchTerm) || 
+                        specialtyText.includes(searchTerm) ||
+                        vetLocation.includes(searchTerm) ||
+                        vetPhone.includes(searchTerm);
+                        
                     const matchesSpecialty = !specialtyValue || vetSpecialty === specialtyValue;
-                    const matchesAvailability = !availabilityValue || vetAvailability === availabilityValue;
                     const matchesExperience = !experienceValue || vetExperience === experienceValue;
 
-                    if (matchesSearch && matchesSpecialty && matchesAvailability && matchesExperience) {
+                    if (matchesSearch && matchesSpecialty && matchesExperience) {
                         card.style.display = 'block';
                         visibleCount++;
                     } else {
@@ -1260,7 +1055,8 @@
 
                 // Update results count
                 if (resultsCount) {
-                    resultsCount.textContent = `Showing ${visibleCount} of ${vetCards.length} veterinarians`;
+                    const totalVets = {{ $vets->count() }};
+                    resultsCount.textContent = `Showing ${visibleCount} of ${totalVets} veterinarians`;
                 }
 
                 // Show/hide no vets message
@@ -1276,7 +1072,6 @@
             // Add event listeners with safety checks
             if (searchInput) searchInput.addEventListener('input', filterVets);
             if (specialtyFilter) specialtyFilter.addEventListener('change', filterVets);
-            if (availabilityFilter) availabilityFilter.addEventListener('change', filterVets);
             if (experienceFilter) experienceFilter.addEventListener('change', filterVets);
         }
 
@@ -1284,12 +1079,10 @@
         function clearAllFilters() {
             const searchInput = document.getElementById('searchInput');
             const specialtyFilter = document.getElementById('specialtyFilter');
-            const availabilityFilter = document.getElementById('availabilityFilter');
             const experienceFilter = document.getElementById('experienceFilter');
 
             if (searchInput) searchInput.value = '';
             if (specialtyFilter) specialtyFilter.value = '';
-            if (availabilityFilter) availabilityFilter.value = '';
             if (experienceFilter) experienceFilter.value = '';
 
             // Trigger filter update
@@ -1299,13 +1092,10 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
-
-            // Initialize results count
-            const resultsCount = document.getElementById('resultsCount');
-            const vetCards = document.querySelectorAll('.vet-card');
-            if (resultsCount) {
-                resultsCount.textContent = `Showing ${vetCards.length} of ${vetCards.length} veterinarians`;
-            }
+            
+            // Debug: Log the number of vet cards found
+            const totalCards = document.querySelectorAll('.vet-card').length;
+            console.log(`Total vet cards loaded: ${totalCards}`);
         });
 
         // Add animation on scroll

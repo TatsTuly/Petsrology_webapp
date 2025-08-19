@@ -1,7 +1,32 @@
 
 <?php
 use App\Http\Controllers\VetJoinController;
+use App\Http\Controllers\Admin\OrderManagementController;
+use App\Http\Controllers\VetDashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\VetManagementController;
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\CheckoutController;
+
+// Contact Message Route
+Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
+
+// About Us route
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+// Checkout Routes
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Payment Routes
+Route::get('/payment/bkash', [CheckoutController::class, 'bkashPayment'])->name('payment.bkash');
+Route::get('/payment/nagad', [CheckoutController::class, 'nagadPayment'])->name('payment.nagad');
+Route::get('/payment/card', [CheckoutController::class, 'cardPayment'])->name('payment.card');
+Route::post('/payment/process', [CheckoutController::class, 'processPayment'])->name('payment.process');
 
 // Shop Beds Page
 Route::get('/shop-beds', function () {
@@ -9,15 +34,19 @@ Route::get('/shop-beds', function () {
 });
 
 // Vet Join Page
-Route::get('/vet-join', function () {
-    return view('vet_join');
-})->name('vet.join');
+Route::get('/vet-join', [VetJoinController::class, 'show'])->name('vet.join');
 
 // Vet Join Form Submission
 Route::post('/vet-join', [VetJoinController::class, 'store'])->name('vet.join.submit');
 
 // Admin Vet Management Routes
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
+    // User Management Routes
+    Route::get('/user-management', [UserManagementController::class, 'index'])->name('admin.user.management');
+    Route::post('/users/store', [UserManagementController::class, 'store'])->name('admin.users.store');
+    Route::put('/users/update/{id}', [UserManagementController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/delete/{id}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
+
     // Main vet management page
     Route::get('/vet-management', [VetManagementController::class, 'index'])->name('admin.vet.management');
     
@@ -41,6 +70,16 @@ Route::prefix('admin')->group(function () {
     
     // Show all vets with pagination and filters
     Route::get('/vet-management/show-all', [VetManagementController::class, 'showAll'])->name('admin.vet.showAll');
+
+    // Order Management Routes
+    Route::prefix('order-management')->group(function () {
+        Route::get('/', [OrderManagementController::class, 'index'])->name('admin.orders.index');
+        Route::get('/show/{id}', [OrderManagementController::class, 'show'])->name('admin.orders.show');
+        Route::put('/update-status/{id}', [OrderManagementController::class, 'updateStatus'])->name('admin.orders.update-status');
+        Route::put('/update-payment-status/{id}', [OrderManagementController::class, 'updatePaymentStatus'])->name('admin.orders.update-payment-status');
+        Route::delete('/delete/{id}', [OrderManagementController::class, 'destroy'])->name('admin.orders.destroy');
+        Route::get('/stats', [OrderManagementController::class, 'stats'])->name('admin.orders.stats');
+    });
 });
 // Search adoption post by ID for admin update/delete
 Route::get('/admin/adoption-management/search-by-id/{id}', function($id) {
@@ -151,9 +190,34 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
     if ($request->hasFile('image')) {
-        if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+        if ($post->image) { 
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+            // Also delete from public/storage if exists
+            $publicStoragePath = public_path('storage/' . $post->image);
+            if (file_exists($publicStoragePath)) {
+                unlink($publicStoragePath);
+            }
+        }
         $imagePath = $request->file('image')->store('adoption_images', 'public');
         $validated['image'] = $imagePath;
+        
+        // For Windows compatibility, ensure public/storage directory exists
+        $publicStorageDir = public_path('storage');
+        if (!file_exists($publicStorageDir)) {
+            mkdir($publicStorageDir, 0755, true);
+        }
+        
+        $publicAdoptionImagesDir = $publicStorageDir . DIRECTORY_SEPARATOR . 'adoption_images';
+        if (!file_exists($publicAdoptionImagesDir)) {
+            mkdir($publicAdoptionImagesDir, 0755, true);
+        }
+        
+        // Copy the uploaded file to public/storage as well for Windows compatibility
+        $sourceFile = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath);
+        $destFile = $publicStorageDir . DIRECTORY_SEPARATOR . $imagePath;
+        if (file_exists($sourceFile)) {
+            copy($sourceFile, $destFile);
+        }
     }
     $post->update($validated);
     return redirect()->back()->with('success', 'Adoption post updated successfully!');
@@ -162,7 +226,14 @@ Route::post('/admin/adoption-management/update/{id}', function(\Illuminate\Http\
 // Delete adoption post
 Route::post('/admin/adoption-management/delete/{id}', function($id) {
     $post = \App\Models\AdoptionPost::findOrFail($id);
-    if ($post->image) { \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image); }
+    if ($post->image) { 
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($post->image);
+        // Also delete from public/storage if exists
+        $publicStoragePath = public_path('storage/' . $post->image);
+        if (file_exists($publicStoragePath)) {
+            unlink($publicStoragePath);
+        }
+    }
     $post->delete();
     return redirect()->back()->with('success', 'Adoption post deleted successfully!');
 });
@@ -193,7 +264,26 @@ Route::get('/welcome', function () {
     if (!session('user_authenticated')) {
         return redirect('/landing');
     }
-    return view('welcome');
+    
+    try {
+        // Fetch dynamic statistics from database
+        $petsAdopted = \App\Models\AdoptionRequest::where('status', 1)->count(); // 1 = confirmed/approved
+        $verifiedVets = \App\Models\VetDetails::count();
+        $totalCustomers = \App\Models\AppUser::count();
+        
+        return view('welcome', compact(
+            'petsAdopted',
+            'verifiedVets', 
+            'totalCustomers'
+        ));
+    } catch (Exception $e) {
+        // Fallback to default values in case of database error
+        return view('welcome', [
+            'petsAdopted' => 0,
+            'verifiedVets' => 0,
+            'totalCustomers' => 0
+        ]);
+    }
 });
 
 // Vet Home (for support button)
@@ -205,14 +295,16 @@ Route::get('/vet-home', function () {
 })->name('vet.home');
 
 // Vet Dashboard (main vet page after login)
-Route::get('/vet-dashboard', function () {
+Route::get('/vet-dashboard', [VetDashboardController::class, 'index'])->name('vet.dashboard');
+
+// Vet Contact Page (uses vet layout)
+Route::get('/vet/contact', function () {
     if (!session('user_authenticated') || session('user_role') !== 'vet') {
         return redirect('/landing');
     }
-    return view('vet_dashboard');
-})->name('vet.dashboard');
+    return view('vet_contact');
+})->name('vet.contact');
 
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 // Login route with error handling
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
@@ -233,10 +325,6 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-use App\Http\Controllers\AuthController;
-
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-
 Route::post('/signup', [AuthController::class, 'register'])->name('signup.submit');
 
 // Google Authentication Routes
@@ -255,7 +343,29 @@ Route::get('/vet-homepage', function () {
     if (session('user_role') !== 'vet') {
         return redirect('/welcome');
     }
-    return view('vet_homepage');
+    
+    try {
+        // Fetch dynamic statistics from database
+        $totalVets = \App\Models\VetDetails::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        $totalPetOwners = \App\Models\AppUser::count();
+        $completedAppointments = \App\Models\Appointment::where('status', 'completed')->count();
+        
+        return view('vet_homepage', compact(
+            'totalVets', 
+            'totalAppointments', 
+            'totalPetOwners',
+            'completedAppointments'
+        ));
+    } catch (Exception $e) {
+        // Fallback to default values in case of database error
+        return view('vet_homepage', [
+            'totalVets' => 0,
+            'totalAppointments' => 0,
+            'totalPetOwners' => 0,
+            'completedAppointments' => 0
+        ]);
+    }
 });
 
 Route::post('/logout', function () {
@@ -270,26 +380,33 @@ Route::get('/vet-home', function () {
     return view('vet_home');
 });
 
-Route::get('/vet-dashboard', function () {
-    if (!session('user_authenticated') || session('user_role') !== 'vet') {
-        return redirect('/landing');
-    }
-    return view('vet_dashboard');
+Route::get('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'index'])->name('book.appointment');
+Route::post('/book-appointment', [App\Http\Controllers\AppointmentController::class, 'store'])->name('appointment.store');
+
+// Appointment management routes
+Route::get('/appointments/user', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments'])->name('appointments.user');
+Route::get('/appointments/vet/{vetId}', [App\Http\Controllers\AppointmentController::class, 'getVetAppointments'])->name('appointments.vet');
+Route::post('/appointments/{id}/status', [App\Http\Controllers\AppointmentController::class, 'updateStatus'])->name('appointment.update.status');
+Route::post('/appointments/{id}/cancel', [App\Http\Controllers\AppointmentController::class, 'cancel'])->name('appointment.cancel');
+// Public appointment routes (no auth required for AJAX)
+Route::get('/appointments/available-slots', [App\Http\Controllers\AppointmentController::class, 'getAvailableSlots'])->name('appointment.available.slots');
+
+// Test route for debugging
+Route::get('/test/slots', function(\Illuminate\Http\Request $request) {
+    return response()->json([
+        'status' => 'working',
+        'date' => $request->get('date'),
+        'slots' => [
+            '09:00' => '9:00 AM',
+            '10:00' => '10:00 AM',
+            '14:00' => '2:00 PM'
+        ]
+    ]);
 });
 
-Route::get('/book-appointment', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('book_appointment');
-})->name('book.appointment');
+Route::get('/all-vets', [App\Http\Controllers\VetController::class, 'allVets'])->name('all.vets');
 
-Route::get('/all-vets', function () {
-    if (!session('user_authenticated')) {
-        return redirect('/landing');
-    }
-    return view('all_vets');
-})->name('all.vets');
+Route::get('/vet-profile/{id}', [App\Http\Controllers\VetController::class, 'showProfile'])->name('vet.profile');
 
 Route::get('/vaccination-schedule', function () {
     if (!session('user_authenticated')) {
@@ -415,11 +532,13 @@ Route::get('/user/dashboard', function () {
     }
     $user = null;
     $adoptionRequests = collect();
+    $appointments = collect();
     if (session('user_id')) {
         $user = \App\Models\AppUser::find(session('user_id'));
         $adoptionRequests = \App\Models\AdoptionRequest::with('adoptionPost')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $appointments = \App\Models\Appointment::with('vet')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
     }
-    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests]);
+    return view('user_dashboard', ['user' => $user, 'adoptionRequests' => $adoptionRequests, 'appointments' => $appointments]);
 })->name('user.dashboard');
 
 // Admin Routes
@@ -459,8 +578,50 @@ Route::get('/admin/dashboard', function () {
     if (!session('admin_authenticated')) {
         return redirect('/admin/login');
     }
-    $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
-    return view('admin_dashboard', compact('adoptionPosts'));
+    
+    try {
+        // Get dynamic counts from database
+        $totalUsers = \App\Models\User::count();
+        $totalAppUsers = \App\Models\AppUser::count();
+        $totalPets = \App\Models\AdoptionPost::count();
+        $successfulAdoptions = \App\Models\AdoptionRequest::where('status', 1)->count();
+        $totalVets = \App\Models\VetDetails::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        
+        // Additional statistics
+        $pendingAdoptions = \App\Models\AdoptionRequest::where('status', 0)->count();
+        $activeAdoptionPosts = \App\Models\AdoptionPost::where('status', 'active')->count();
+        
+        // Combine regular users and app users for total user count
+        $allUsers = $totalUsers + $totalAppUsers;
+        
+        $adoptionPosts = AdoptionPost::with('requests')->orderBy('id','desc')->get();
+        
+    } catch (\Exception $e) {
+        // Fallback values if database queries fail
+        $allUsers = 0;
+        $totalPets = 0;
+        $successfulAdoptions = 0;
+        $totalVets = 0;
+        $totalAppointments = 0;
+        $pendingAdoptions = 0;
+        $activeAdoptionPosts = 0;
+        $adoptionPosts = collect([]);
+        
+        // Log the error for debugging
+        \Log::error('Admin Dashboard Stats Error: ' . $e->getMessage());
+    }
+    
+    return view('admin_dashboard', compact(
+        'adoptionPosts', 
+        'allUsers', 
+        'totalPets', 
+        'successfulAdoptions', 
+        'totalVets',
+        'totalAppointments',
+        'pendingAdoptions',
+        'activeAdoptionPosts'
+    ));
 })->name('admin.dashboard');
 
 // Admin Food Products Management Routes

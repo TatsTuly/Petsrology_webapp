@@ -519,6 +519,31 @@
             font-size: 1.3rem;
             font-weight: 700;
         }
+
+        .cart-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clear-cart-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clear-cart-btn:hover {
+            background: rgba(220,53,69,0.8);
+            transform: translateY(-1px);
+        }
         
         .close-cart {
             background: none;
@@ -547,6 +572,11 @@
             padding: 15px 20px;
             border-bottom: 1px solid #eee;
             gap: 15px;
+            transition: background 0.2s ease;
+        }
+
+        .cart-item:hover {
+            background: #f8f9fa;
         }
         
         .cart-item:last-child {
@@ -559,6 +589,7 @@
             border-radius: 8px;
             overflow: hidden;
             flex-shrink: 0;
+            border: 1px solid #eee;
         }
         
         .cart-item-image img {
@@ -604,6 +635,7 @@
             background: #f8f9fa;
             border-radius: 20px;
             padding: 5px 10px;
+            border: 1px solid #e9ecef;
         }
         
         .quantity-btn {
@@ -611,9 +643,9 @@
             border: none;
             color: #666;
             cursor: pointer;
-            font-size: 1rem;
-            width: 24px;
-            height: 24px;
+            font-size: 0.9rem;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -624,13 +656,15 @@
         .quantity-btn:hover {
             background: #ff6f61;
             color: white;
+            transform: scale(1.1);
         }
         
         .quantity-display {
             font-weight: 600;
-            min-width: 20px;
+            min-width: 25px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            color: #333;
         }
         
         .remove-item {
@@ -638,15 +672,17 @@
             border: none;
             color: #dc3545;
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 5px;
+            font-size: 1rem;
+            padding: 8px;
             border-radius: 50%;
             transition: all 0.2s ease;
+            margin-left: 10px;
         }
         
         .remove-item:hover {
             background: #dc3545;
             color: white;
+            transform: scale(1.1);
         }
         
         .cart-footer {
@@ -654,15 +690,27 @@
             border-top: 2px solid #f8f9fa;
             background: #fff;
         }
+
+        .cart-summary {
+            margin-bottom: 20px;
+        }
+
+        .cart-item-count {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: center;
+        }
         
         .cart-total {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #333;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
         }
         
         .checkout-btn {
@@ -703,6 +751,33 @@
             margin-bottom: 10px;
             color: #333;
         }
+
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(40,167,69,0.3);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .cart-notification.show {
+            transform: translateX(0);
+        }
+
+        .cart-notification i {
+            font-size: 1.2rem;
+        }
         
         @media (max-width: 768px) {
             .floating-cart {
@@ -715,6 +790,7 @@
             .cart-panel {
                 width: 95%;
                 max-height: 85vh;
+                margin: 0 10px;
             }
             
             .cart-item {
@@ -724,6 +800,41 @@
             .cart-item-image {
                 width: 50px;
                 height: 50px;
+            }
+
+            .cart-header {
+                padding: 15px 20px;
+            }
+
+            .cart-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .cart-item-details {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .cart-item-title {
+                font-size: 0.9rem;
+                line-height: 1.2;
+            }
+
+            .cart-item-controls {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-end;
+            }
+
+            .quantity-control {
+                padding: 3px 8px;
+            }
+
+            .cart-notification {
+                bottom: 80px;
+                right: 20px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
             }
         }
 
@@ -934,7 +1045,7 @@
                                 @if(Str::startsWith($product->image, 'http'))
                                     <img src="{{ $product->image }}" alt="{{ $product->title }}">
                                 @else
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}">
+                                    <img src="{{ $product->getImageUrl() }}" alt="{{ $product->title }}">
                                 @endif
                             @else
                                 <div style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #999;">
@@ -952,9 +1063,9 @@
 
                             <div class="product-price">
                                 <div>
-                                    <span class="price">৳{{ number_format($product->price, 0) }}</span>
+                                    <span class="price">৳{{ number_format((float)$product->price, 0) }}</span>
                                     @if($product->old_price)
-                                        <span class="old-price">৳{{ number_format($product->old_price, 0) }}</span>
+                                        <span class="old-price">৳{{ number_format((float)$product->old_price, 0) }}</span>
                                     @endif
                                 </div>
                                 <div class="rating">
@@ -985,14 +1096,25 @@
         <span class="cart-count" id="cartCount">0</span>
     </button>
 
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cartNotification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Item added to cart!</span>
+    </div>
+
     <!-- Cart Overlay -->
     <div class="cart-overlay" id="cartOverlay" onclick="closeCart()">
         <div class="cart-panel" onclick="event.stopPropagation()">
             <div class="cart-header">
                 <h3><i class="fas fa-shopping-cart"></i> Shopping Cart</h3>
-                <button class="close-cart" onclick="closeCart()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="cart-header-actions">
+                    <button class="clear-cart-btn" onclick="clearCart()" title="Clear Cart">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="close-cart" onclick="closeCart()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="cart-items" id="cartItems">
                 <div class="empty-cart">
@@ -1002,9 +1124,14 @@
                 </div>
             </div>
             <div class="cart-footer" id="cartFooter" style="display: none;">
-                <div class="cart-total">
-                    <span>Total: </span>
-                    <span id="cartTotal">৳0</span>
+                <div class="cart-summary">
+                    <div class="cart-item-count">
+                        <span id="cartItemCount">0</span> items in cart
+                    </div>
+                    <div class="cart-total">
+                        <span>Total: </span>
+                        <span id="cartTotal">৳0</span>
+                    </div>
                 </div>
                 <button class="checkout-btn" onclick="checkout()">
                     <i class="fas fa-credit-card"></i>
@@ -1020,23 +1147,84 @@
 
 @section('scripts')
     <script>
-        // Cart functionality
-        let cart = [];
-        
-        function updateCartCount() {
-            const cartCount = document.getElementById('cartCount');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+        // Cart management
+        let cart = JSON.parse(localStorage.getItem('petFoodCart')) || [];
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            displayCartItems();
+        });
+
+        // Add to cart function
+        function addToCart(productCard) {
+            const product = {
+                id: Date.now(), // Simple ID generation
+                image: productCard.querySelector('.product-image img')?.src || '',
+                title: productCard.querySelector('.product-title').textContent,
+                brand: productCard.querySelector('.product-brand').textContent,
+                price: parseInt(productCard.dataset.price),
+                quantity: 1
+            };
+
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => item.title === product.title && item.brand === product.brand);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+                showNotification(`${product.title} quantity updated!`);
+            } else {
+                cart.push(product);
+                showNotification(`${product.title} added to cart!`);
+            }
+
+            saveCart();
+            updateCartCount();
+            displayCartItems();
         }
-        
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cartItems');
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('cartNotification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('petFoodCart', JSON.stringify(cart));
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // Open cart modal
+        function openCart() {
+            document.getElementById('cartOverlay').classList.add('show');
+            displayCartItems();
+        }
+
+        // Close cart modal
+        function closeCart() {
+            document.getElementById('cartOverlay').classList.remove('show');
+        }
+
+        // Display cart items
+        function displayCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
             const cartFooter = document.getElementById('cartFooter');
-            const cartTotal = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
-                cartItems.innerHTML = `
+                cartItemsContainer.innerHTML = `
                     <div class="empty-cart">
                         <i class="fas fa-shopping-cart"></i>
                         <h4>Your cart is empty</h4>
@@ -1044,148 +1232,113 @@
                     </div>
                 `;
                 cartFooter.style.display = 'none';
-            } else {
-                let total = 0;
-                cartItems.innerHTML = cart.map(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    return `
-                        <div class="cart-item">
-                            <div class="cart-item-image">
-                                <img src="${item.image}" alt="${item.title}">
-                            </div>
-                            <div class="cart-item-details">
-                                <div class="cart-item-title">${item.title}</div>
-                                <div class="cart-item-brand">${item.brand}</div>
-                                <div class="cart-item-price">৳${itemTotal}</div>
-                            </div>
-                            <div class="cart-item-controls">
-                                <div class="quantity-control">
-                                    <button class="quantity-btn" onclick="changeQuantity('${item.id}', -1)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span class="quantity-display">${item.quantity}</span>
-                                    <button class="quantity-btn" onclick="changeQuantity('${item.id}', 1)">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <button class="remove-item" onclick="removeFromCart('${item.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                return;
+            }
+
+            cartFooter.style.display = 'block';
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-image">
+                        ${item.image ? `<img src="${item.image}" alt="${item.title}">` : 
+                          `<div style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #999;">
+                             <i class="fas fa-image"></i>
+                           </div>`
+                        }
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-brand">${item.brand}</div>
+                        <div class="cart-item-price">৳${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
-                    `;
-                }).join('');
-                
-                cartTotal.textContent = `৳${total}`;
-                cartFooter.style.display = 'block';
-            }
-            
-            updateCartCount();
+                        <button class="remove-item" onclick="removeFromCart(${item.id})" title="Remove item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateCartTotal();
         }
-        
-        function addToCart(productCard) {
-            const title = productCard.querySelector('.product-title').textContent;
-            const brand = productCard.querySelector('.product-brand').textContent;
-            const priceText = productCard.querySelector('.price').textContent;
-            const price = parseInt(priceText.replace('৳', ''));
-            const image = productCard.querySelector('.product-image img').src;
-            const id = `${brand}-${title}`.replace(/\s+/g, '-').toLowerCase();
-            
-            const existingItem = cart.find(item => item.id === id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id,
-                    title,
-                    brand,
-                    price,
-                    image,
-                    quantity: 1
-                });
-            }
-            
-            updateCartDisplay();
-            
-            // Show success message
-            showCartMessage(`${title} added to cart!`);
-        }
-        
-        function changeQuantity(itemId, change) {
+
+        // Update item quantity
+        function updateQuantity(itemId, change) {
             const item = cart.find(item => item.id === itemId);
             if (item) {
                 item.quantity += change;
                 if (item.quantity <= 0) {
                     removeFromCart(itemId);
                 } else {
-                    updateCartDisplay();
+                    saveCart();
+                    updateCartCount();
+                    displayCartItems();
                 }
             }
         }
-        
+
+        // Remove item from cart
         function removeFromCart(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartDisplay();
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                const itemName = item.title;
+                cart = cart.filter(item => item.id !== itemId);
+                saveCart();
+                updateCartCount();
+                displayCartItems();
+                showNotification(`${itemName} removed from cart!`);
+            }
         }
-        
-        function openCart() {
-            document.getElementById('cartOverlay').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeCart() {
-            document.getElementById('cartOverlay').classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-        
-        function checkout() {
-            if (cart.length === 0) return;
-            
+
+        // Update cart total
+        function updateCartTotal() {
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
             
-            alert(`Checkout Summary:\n\nItems: ${itemCount}\nTotal: ৳${total}\n\nThank you for shopping with PETSROLOGY!\nRedirecting to payment...`);
-            
-            // Clear cart after checkout
-            cart = [];
-            updateCartDisplay();
-            closeCart();
+            document.getElementById('cartTotal').textContent = `৳${total.toLocaleString()}`;
+            const cartItemCountElement = document.getElementById('cartItemCount');
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = itemCount;
+            }
         }
-        
-        function showCartMessage(message) {
-            // Create temporary message
-            const messageDiv = document.createElement('div');
-            messageDiv.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 30px;
-                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-                color: white;
-                padding: 15px 20px;
-                border-radius: 25px;
-                font-weight: 600;
-                z-index: 3000;
-                box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
-                transform: translateX(400px);
-                transition: transform 0.3s ease;
-            `;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Store cart data in session storage for checkout page
+            sessionStorage.setItem('checkoutCart', JSON.stringify(cart));
             
-            // Animate in
-            setTimeout(() => {
-                messageDiv.style.transform = 'translateX(0)';
-            }, 100);
+            // Redirect to checkout page
+            window.location.href = '/checkout';
+        }
+
+        // Clear entire cart
+        function clearCart() {
+            if (cart.length === 0) {
+                showNotification('Cart is already empty!');
+                return;
+            }
             
-            // Animate out and remove
-            setTimeout(() => {
-                messageDiv.style.transform = 'translateX(400px)';
-                setTimeout(() => {
-                    document.body.removeChild(messageDiv);
-                }, 300);
-            }, 3000);
+            if (confirm('Are you sure you want to clear your cart?')) {
+                cart = [];
+                saveCart();
+                updateCartCount();
+                displayCartItems();
+                showNotification('Cart cleared successfully!');
+            }
         }
 
         // Filter functionality

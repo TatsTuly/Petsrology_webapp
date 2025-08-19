@@ -489,6 +489,150 @@
                 width: 90vw;
                 min-width: 0;
             }
+        }
+
+        /* Coming Soon Modal Styles */
+        .coming-soon-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            margin: 10% auto;
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background-size: 1000px 100px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-body {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .coming-soon-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        .modal-body h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .modal-body p {
+            color: #5a6c7d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,111,97,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,111,97,0.4);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
     </style>
 @endsection
 
@@ -534,7 +678,7 @@
                     <span class="service-icon">✂️</span>
                     <h3>Pet Grooming</h3>
                     <p>Professional grooming services including bathing, nail trimming, hair cutting, and overall hygiene care for your beloved pet.</p>
-                    <a href="{{ route('book.appointment') }}" class="service-btn">Book Grooming</a>
+                    <button onclick="showComingSoon('Pet Grooming')" class="service-btn">Book Grooming</button>
                 </div>
             </div>
         </section>
@@ -577,7 +721,70 @@
         </section>
     </div>
 
+    <!-- Coming Soon Modal -->
+    <div id="comingSoonModal" class="coming-soon-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeComingSoon()">&times;</span>
+                <h2>🚧 Coming Soon!</h2>
+            </div>
+            <div class="modal-body">
+                <span class="coming-soon-icon">🔜</span>
+                <h3 id="modalServiceName">Pet Grooming Service</h3>
+                <p>We're working hard to bring you this amazing feature! Our <strong id="modalServiceType">Pet Grooming</strong> service will be available very soon. Stay tuned for updates!</p>
+                <button class="modal-close-btn" onclick="closeComingSoon()">Got It!</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Add any additional JavaScript functionality here if needed
+        // Coming Soon Modal Functions
+        function showComingSoon(serviceName) {
+            const modal = document.getElementById('comingSoonModal');
+            const serviceNameElement = document.getElementById('modalServiceName');
+            const serviceTypeElement = document.getElementById('modalServiceType');
+            
+            serviceNameElement.textContent = serviceName + ' Service';
+            serviceTypeElement.textContent = serviceName;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Add animation class
+            setTimeout(() => {
+                modal.querySelector('.modal-content').style.animation = 'modalSlideIn 0.3s ease-out';
+            }, 10);
+        }
+
+        function closeComingSoon() {
+            const modal = document.getElementById('comingSoonModal');
+            const modalContent = modal.querySelector('.modal-content');
+            
+            // Add slide out animation
+            modalContent.style.animation = 'modalSlideIn 0.3s ease-out reverse';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 300);
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('comingSoonModal');
+            if (event.target === modal) {
+                closeComingSoon();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('comingSoonModal');
+                if (modal.style.display === 'block') {
+                    closeComingSoon();
+                }
+            }
+        });
     </script>
 @endsection
