@@ -1,3 +1,4 @@
+
 <?php
 use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\Admin\OrderManagementController;
@@ -26,6 +27,11 @@ Route::get('/payment/bkash', [CheckoutController::class, 'bkashPayment'])->name(
 Route::get('/payment/nagad', [CheckoutController::class, 'nagadPayment'])->name('payment.nagad');
 Route::get('/payment/card', [CheckoutController::class, 'cardPayment'])->name('payment.card');
 Route::post('/payment/process', [CheckoutController::class, 'processPayment'])->name('payment.process');
+
+// Shop Beds Page
+Route::get('/shop-beds', function () {
+    return view('shop_beds');
+});
 
 // Vet Join Page
 Route::get('/vet-join', [VetJoinController::class, 'show'])->name('vet.join');

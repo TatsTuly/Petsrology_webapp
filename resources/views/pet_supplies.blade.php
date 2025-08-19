@@ -257,7 +257,7 @@
                 <div class="supply-icon">🛏️</div>
                 <div class="supply-title">Beds & Comfort</div>
                 <div class="supply-desc">Soft beds, cozy blankets, and comfort items for restful naps and sweet dreams.</div>
-                <a href="#" class="supply-link">See Beds</a>
+                <a href="/shop-beds" class="supply-link">See Beds</a>
             </div>
             <div class="supply-card">
                 <div class="supply-icon">🧼</div>
