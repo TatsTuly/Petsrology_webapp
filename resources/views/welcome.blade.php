@@ -375,6 +375,434 @@
                 margin: 0;
             }
         }
+
+        /* Floating Chatbot Button Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 111, 97, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(255, 111, 97, 0.4);
+        }
+
+        .chatbot-button i {
+            font-size: 24px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover i {
+            transform: scale(1.1);
+        }
+
+        .chatbot-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .chatbot-button:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chat-popup {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 280px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .chat-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .chat-info h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-info p {
+            margin: 2px 0 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chat-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-message {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .chat-button {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .chat-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.3);
+        }
+
+        .chat-iframe-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 420px;
+            height: 550px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-iframe-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff6f61, #ff9472, #ffb347);
+            border-radius: 20px;
+            z-index: -1;
+            margin: -3px;
+        }
+
+        .chat-iframe-container.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .iframe-header {
+            background: linear-gradient(135deg, #ff6f61 0%, #ff9472 50%, #ffb347 100%);
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .iframe-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: headerFloat 15s linear infinite;
+        }
+
+        @keyframes headerFloat {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-20px, -20px); }
+        }
+
+        .iframe-header-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .iframe-avatar {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: avatarPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .iframe-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .iframe-title h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .iframe-title p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .iframe-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 2;
+            position: relative;
+        }
+
+        .iframe-close:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .chatbot-iframe {
+            width: 100%;
+            height: calc(100% - 68px);
+            border: none;
+            background: white;
+            border-radius: 0 0 17px 17px;
+        }
+
+        /* Enhanced loading animation */
+        .iframe-loading {
+            position: absolute;
+            top: 68px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: 0 0 17px 17px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e9ecef;
+            border-top: 3px solid #ff6f61;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Enhance mobile design */
+
+        .close-chat {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .close-chat:hover {
+            opacity: 1;
+        }
+
+        /* Pulse animation for attention */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 20px rgba(255, 111, 97, 0.3);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 111, 97, 0.6);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(255, 111, 97, 0.3);
+            }
+        }
+
+        .chatbot-button.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .chatbot-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .chatbot-button {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .chatbot-button i {
+                font-size: 22px;
+            }
+            
+            .chat-popup {
+                width: 260px;
+                bottom: 75px;
+            }
+
+            .chat-iframe-container {
+                width: calc(100vw - 30px);
+                height: 450px;
+                right: -15px;
+                bottom: 75px;
+                border-radius: 18px;
+            }
+
+            .iframe-header {
+                padding: 15px 18px;
+                font-size: 15px;
+            }
+
+            .iframe-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .iframe-title h4 {
+                font-size: 15px;
+            }
+
+            .iframe-close {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .chatbot-iframe {
+                height: calc(100% - 64px);
+                border-radius: 0 0 15px 15px;
+            }
+
+            .iframe-loading {
+                top: 64px;
+                border-radius: 0 0 15px 15px;
+            }
+        }
     </style>
 @endsection
 
@@ -451,6 +879,63 @@
             </div>
         </section>
 
+<!-- Floating Chatbot -->
+<div class="chatbot-container">
+    <button class="chatbot-button pulse" id="chatbotBtn">
+        <i class="fas fa-comments"></i>
+    </button>
+    
+    <div class="chat-popup" id="chatPopup">
+        <button class="close-chat" id="closeChat">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="chat-header">
+            <div class="chat-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="chat-info">
+                <h4>Petsrology Assistant</h4>
+                <p>Online now</p>
+            </div>
+        </div>
+        
+        <div class="chat-body">
+            <div class="chat-message">
+                Hi! I am Petsrology Assistant. 🐾<br>
+                How can I help you today with your pet care needs?
+            </div>
+            <button class="chat-button" id="startChatBtn">
+                <i class="fas fa-paper-plane"></i>
+                Start Chatting
+            </button>
+        </div>
+    </div>
+    
+    <!-- Chatbot iframe container -->
+    <div class="chat-iframe-container" id="chatIframe">
+        <div class="iframe-header">
+            <div class="iframe-header-content">
+                <div class="iframe-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="iframe-title">
+                    <h4>Petsrology Assistant</h4>
+                    <p>AI-Powered Pet Care Support</p>
+                </div>
+            </div>
+            <button class="iframe-close" id="closeIframe">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="iframe-loading" id="iframeLoading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Connecting to Petsrology Assistant...</div>
+        </div>
+        <iframe class="chatbot-iframe" id="chatbotFrame" src="" style="display: none;"></iframe>
+    </div>
+</div>
+
 <script>
 // Counter Animation for Welcome Page
 function animateCounters() {
@@ -515,6 +1000,86 @@ document.addEventListener('DOMContentLoaded', function() {
     if (statsSection) {
         observer.observe(statsSection);
     }
+});
+
+// Chatbot functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const chatbotBtn = document.getElementById('chatbotBtn');
+    const chatPopup = document.getElementById('chatPopup');
+    const closeChat = document.getElementById('closeChat');
+    const startChatBtn = document.getElementById('startChatBtn');
+    const chatIframe = document.getElementById('chatIframe');
+    const closeIframe = document.getElementById('closeIframe');
+    const chatbotFrame = document.getElementById('chatbotFrame');
+    
+    // Toggle chat popup
+    chatbotBtn.addEventListener('click', function() {
+        chatPopup.classList.toggle('show');
+        // Remove pulse animation when clicked
+        chatbotBtn.classList.remove('pulse');
+        // Hide iframe if open
+        chatIframe.classList.remove('show');
+    });
+    
+    // Close chat popup
+    closeChat.addEventListener('click', function() {
+        chatPopup.classList.remove('show');
+    });
+    
+    // Start chat - show iframe with chatbot
+    startChatBtn.addEventListener('click', function() {
+        const chatbotUrl = 'http://localhost:3000/chatbot';
+        const iframeLoading = document.getElementById('iframeLoading');
+        
+        // Show iframe container and loading animation
+        chatPopup.classList.remove('show');
+        chatIframe.classList.add('show');
+        iframeLoading.style.display = 'flex';
+        chatbotFrame.style.display = 'none';
+        
+        // Load the chatbot
+        chatbotFrame.src = chatbotUrl;
+        
+        // Hide loading and show iframe after a delay (simulating load time)
+        setTimeout(() => {
+            iframeLoading.style.display = 'none';
+            chatbotFrame.style.display = 'block';
+        }, 2000);
+        
+        // Also handle actual iframe load event
+        chatbotFrame.onload = function() {
+            setTimeout(() => {
+                iframeLoading.style.display = 'none';
+                chatbotFrame.style.display = 'block';
+            }, 500);
+        };
+    });
+    
+    // Close iframe
+    closeIframe.addEventListener('click', function() {
+        chatIframe.classList.remove('show');
+        // Reset iframe after animation completes
+        setTimeout(() => {
+            chatbotFrame.src = '';
+            chatbotFrame.style.display = 'none';
+            document.getElementById('iframeLoading').style.display = 'flex';
+        }, 400);
+    });
+    
+    // Close popup and iframe when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!chatbotBtn.contains(event.target) && 
+            !chatPopup.contains(event.target) && 
+            !chatIframe.contains(event.target)) {
+            chatPopup.classList.remove('show');
+            chatIframe.classList.remove('show');
+        }
+    });
+    
+    // Add pulse animation after page loads (for attention)
+    setTimeout(() => {
+        chatbotBtn.classList.add('pulse');
+    }, 3000);
 });
 </script>
 @endsection
