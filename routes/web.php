@@ -1,6 +1,12 @@
+
 <?php
 use App\Http\Controllers\VetJoinController;
 use App\Http\Controllers\Admin\VetManagementController;
+
+// Shop Beds Page
+Route::get('/shop-beds', function () {
+    return view('shop_beds');
+});
 
 // Vet Join Page
 Route::get('/vet-join', function () {
